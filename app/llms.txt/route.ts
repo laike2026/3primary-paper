@@ -1,0 +1,2 @@
+import {site} from '@/lib/site';
+export function GET(){const text=`# 3PRIMARY\n\nZhejiang Three Primary Colors Paper Co., Ltd.\n\nPublic content: ${site.origin}/en\nProducts: ${site.origin}/en/products\nApplications: ${site.origin}/en/applications\nGuides: ${site.origin}/en/blog\nContact: ${site.origin}/en/contact\n\nThis file describes public pages only. Product specifications and commercial terms require written confirmation.\n`;return new Response(text,{headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public, max-age=3600'}});}
