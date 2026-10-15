@@ -9,9 +9,9 @@ The future admin dashboard will read Google Search Console search performance fo
 
 The service account is listed as a **Full** user of the Search Console Domain property. The source JSON file stays outside Git; never copy its private key into a public environment variable, a client component, or a committed file. When rotating the key, update the Vercel Secret and redeploy the consuming application.
 
-## Remaining activation
+## Activation and verification
 
-The service account can obtain an OAuth token, but as of October 15, 2026 the Google Search Console API is disabled in Google Cloud project `formal-outpost-511601-m4`. Enable `searchconsole.googleapis.com` in that project, then confirm that `GET https://www.googleapis.com/webmasters/v3/sites` lists `sc-domain:tpc-paper.com`. The Search Console UI may show “Processing data” until Google has collected search activity.
+On October 15, 2026, `searchconsole.googleapis.com` was enabled in Google Cloud project `formal-outpost-511601-m4`. A read-only service account test obtained an OAuth token, returned HTTP 200 from `GET https://www.googleapis.com/webmasters/v3/sites`, and listed `sc-domain:tpc-paper.com` with `siteFullUser` permission. A Search Analytics query for October 1–14 returned HTTP 200 with zero rows. The Search Console UI still showed “Processing data”; wait for Google to collect search activity before expecting nonempty reports.
 
 ## Admin implementation contract
 
