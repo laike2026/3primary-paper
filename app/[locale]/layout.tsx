@@ -9,7 +9,17 @@ import {WhatsAppFloat} from '@/components/WhatsAppFloat';
 import {site} from '@/lib/site';
 import '../globals.css';
 
-export const metadata: Metadata = {metadataBase: new URL(site.origin), icons: {icon: {url: site.logo, type: 'image/jpeg'}}};
+export const metadata: Metadata = {
+  metadataBase: new URL(site.origin),
+  icons: {
+    icon: [
+      {url: '/favicon.ico', sizes: 'any', type: 'image/x-icon'},
+      {url: '/images/brand/icon-64.png', sizes: '64x64', type: 'image/png'}
+    ],
+    apple: [{url: '/images/brand/apple-touch-icon.png', sizes: '180x180', type: 'image/png'}]
+  },
+  manifest: '/manifest.webmanifest'
+};
 export const dynamicParams = false;
 export function generateStaticParams() {return locales.map(locale => ({locale}));}
 

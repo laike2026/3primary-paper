@@ -7,7 +7,9 @@ export const site = {
   // The supplied address differs from the address on the legacy site; keep it out of public pages until reconciled.
   address: null as string | null,
   logo: '/images/brand/official-logo.jpg',
+  organizationLogo: '/images/brand/organization-logo.png',
+  socialImage: '/images/brand/social-preview.jpg',
   origin: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 };
 
-export const isProduction = process.env.VERCEL_ENV === 'production' && Boolean(process.env.NEXT_PUBLIC_SITE_URL);
+export const isIndexingEnabled = process.env.VERCEL_ENV === 'production' && process.env.INDEXING_ENABLED === 'true' && Boolean(process.env.NEXT_PUBLIC_SITE_URL);

@@ -8,7 +8,7 @@ import {copy} from '@/lib/copy';
 import {categories, applications, local} from '@/lib/content';
 import {CategoryCard} from '@/components/CategoryCard';
 import {InquiryForm} from '@/components/InquiryForm';
-import {pageMetadata} from '@/lib/seo';
+import {organizationJsonLd, pageMetadata} from '@/lib/seo';
 import {site} from '@/lib/site';
 import {isLocale, type Locale} from '@/i18n/routing';
 
@@ -25,6 +25,7 @@ export default async function Home({params}: {params: Promise<{locale: Locale}>}
   const c = copy[locale];const t = await getTranslations('common');
   const featured = [categories[0],categories[2],categories[1],categories[3],categories[5]];
   return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(organizationJsonLd()).replace(/</g, '\\u003c')}}/>
     <section className="hero"><Image className="hero-backdrop" src="/images/sections/hero-paper-studio.webp" alt="" fill priority sizes="(max-width: 700px) 1200px, 100vw"/><div className="container hero-content"><p className="eyebrow">{c.heroKicker}</p><h1>{locale==='en'?<>Reliable Paper<br/>for a Smarter World</>:c.heroTitle}</h1><span className="accent-line"/><p>{c.heroBody}</p><div className="hero-actions"><Link href={`/${locale}/products`} className="button">{t('explore')} <ArrowRight size={16}/></Link><Link href={`/${locale}/contact#inquiry`} className="button button-outline">{t('request')}</Link></div><div className="hero-scribble" aria-hidden="true">{c.scribble.split('\n').map(line => <div key={line}>{line}</div>)}</div></div><div className="hero-side-note" aria-hidden="true">Quality<br/>Efficiency<br/>Partnership</div></section>
     <section className="benefits"><div className="container benefits-grid">{c.benefits.map(([title,sub],index) => {const Icon=benefitIcons[index];return <div className="benefit" key={title}><div className="benefit-icon"><Icon size={37} weight="thin"/></div><div><strong>{title}</strong><small>{sub}</small></div></div>;})}</div></section>
     <section className="products-home section-shell"><div className="container"><div className="section-topline"><div><h2 className="section-heading">{c.productsTitle}</h2><span className="accent-line"/></div><p>{c.productsBody} &nbsp; <Link href={`/${locale}/products`} className="text-link">{t('viewAll')} <ArrowRight size={14}/></Link></p></div><div className="product-grid">{featured.map(item => <CategoryCard key={item.slug} category={item} locale={locale} compact label={t('learn')}/>)}</div></div></section>

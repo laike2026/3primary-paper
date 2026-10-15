@@ -1,3 +1,5 @@
+<img src="public/images/brand/official-logo.jpg" alt="3PRIMARY official logo" width="166" height="50" />
+
 # 3PRIMARY global B2B website
 
 Next.js website for Zhejiang Three Primary Colors Paper Co., Ltd., with English, Arabic, Russian and Spanish pages. The visual direction follows the supplied homepage reference while product records and company claims are limited to traceable sources.
@@ -39,6 +41,7 @@ Playwright starts a local server on port 3100 when none is already running. In C
 See [deployment instructions](docs/deployment.md), [source and claim register](docs/content-evidence.md), [design notes](docs/design-system.md) and [QA report](docs/qa-report.md).
 The [maintenance guide](docs/maintenance.md) covers product publication, translations, inquiry records and release updates.
 The [Search Console sync setup](docs/search-console-sync.md) records the server credential and property configuration for the future admin dashboard.
+The [brand asset guide](docs/brand-assets.md) records the official logo source, derived icon sizes, social preview and platform placements.
 
 ## Release and rollback
 
