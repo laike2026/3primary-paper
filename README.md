@@ -2,7 +2,7 @@
 
 # 3PRIMARY global B2B website
 
-Next.js website for Zhejiang Three Primary Colors Paper Co., Ltd., with English, Arabic, Russian and Spanish pages. The visual direction follows the supplied homepage reference while product records and company claims are limited to traceable sources.
+Next.js website and Chinese management dashboard for Zhejiang Three Primary Colors Paper Co., Ltd., with English, Arabic, Russian and Spanish public pages. The visual direction follows the supplied homepage reference while product records and company claims are limited to traceable sources.
 
 ## Run locally
 
@@ -13,7 +13,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `http://localhost:3000/en`. The site can be browsed without service credentials. The online inquiry endpoint returns a visible unavailable response until its database and email variables are configured; direct email and WhatsApp links remain usable.
+Open `http://localhost:3000/en` for the public site and `/admin` for the dashboard. Copy `.env.example` to `.env.local` and configure Neon, Blob and server secrets. Apply `pnpm db:migrate`; use `pnpm db:seed` once on a new database to migrate the original site content. Public browsing works without service credentials, but online inquiry and admin features require the database.
 
 ## Quality checks
 
@@ -33,7 +33,10 @@ Playwright starts a local server on port 3100 when none is already running. In C
 - `lib/content.ts`: categories, products, applications and source URLs
 - `lib/articles.ts`, `lib/copy.ts`, `messages/`: localized editorial and interface copy
 - `app/api/inquiry/route.ts`: validated inquiry intake and email notification
-- `db/001_inquiries.sql`: dedicated inquiry table
+- `app/admin`, `app/api/admin`: Chinese dashboard and permission-checked API
+- `app/api/events`: consent-based interaction events for address, WhatsApp and forms
+- `db/001_inquiries.sql`–`003_extended_workflows.sql`: versioned database schema
+- `scripts/backup-data.mjs`: encrypted application-data backup and restore to an empty separate database
 - `public/images`: original logo, sourced product photos and generated illustrative art
 - `public/downloads`: localized RFQ checklists
 - `tests`: content invariants and browser flows
@@ -42,6 +45,7 @@ See [deployment instructions](docs/deployment.md), [source and claim register](d
 The [maintenance guide](docs/maintenance.md) covers product publication, translations, inquiry records and release updates.
 The [Search Console sync setup](docs/search-console-sync.md) records the server credential and property configuration for the future admin dashboard.
 The [brand asset guide](docs/brand-assets.md) records the official logo source, derived icon sizes, social preview and platform placements.
+The [admin operations guide](docs/admin-operations.md) covers setup, roles, content and inquiries, analytics, backups, external dependencies and release checks.
 
 ## Release and rollback
 

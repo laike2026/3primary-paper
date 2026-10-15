@@ -1,37 +1,31 @@
-# Deployment and inquiry setup
+# 3PRIMARY deployment and release
 
-## 1. Accounts and repository
+## Current resources
 
-The source is in the private GitHub repository `laike2026/3primary-paper`. Its default branch is `codex/website-build`, and the connected Vercel project is `laike2026/3primary-paper`. Pushes to the default branch should create Production deployments; other branches should create Preview deployments. Verify a new commit appears in Vercel after a push before relying on automatic deployment.
+- Public GitHub repository: `laike2026/3primary-paper`.
+- Vercel project: `laike2026/3primary-paper`, Production branch `codex/website-build`, domain `tpc-paper.com`.
+- Vercel-managed Neon database `3primary-paper-admin`, connected to Production and Preview with Preview branching. `DATABASE_URL` is for runtime; `DATABASE_URL_UNPOOLED` is for migrations.
+- Public Vercel Blob store `3primary-media`, connected to Production and Preview. Only public website assets belong there.
+- Google Search Console domain property `sc-domain:tpc-paper.com`; service account and API access are configured for Production. OAuth and Search Analytics returned HTTP 200 in a local credential test on 15 Oct 2026. The tested day had zero rows; the dashboard must show this honestly.
+- `INQUIRY_HASH_SECRET`, `CRON_SECRET`, `ADMIN_BOOTSTRAP_TOKEN` are server-side Vercel Secrets for Production and Preview. They require a fresh deployment to take effect.
 
-The Vercel project currently uses deployment protection. Its generated `vercel.app` URLs are review links, not the approved public site. Do not remove protection or enable indexing until the production domain and inquiry service are ready.
+Never commit credentials, database URLs, exported inquiry records or local `.env.local`. Use a Git author identity linked to `laike2026` so Vercel accepts Git deployments.
 
-Git commits pushed to this repository must use an author email linked to the `laike2026` GitHub account. Vercel blocks deployments from unrecognized local machine email addresses. Set the identity in this repository before committing; avoid changing the machine-wide Git identity.
+## Preview workflow
 
-Use `pnpm install --frozen-lockfile` and `pnpm build`. The application deliberately uses webpack for Next 16 builds in the current runtime.
+1. Push a feature branch. Vercel builds a Preview deployment using the Preview Neon branch and Blob connection.
+2. Apply database migrations to the Preview branch if the integration has not applied them automatically; seed its content once when empty. This must precede admin API testing.
+3. Test `/admin/login`, `/admin/setup` if no initial account exists, role permissions, product edit and public page, inquiry submission, the tracking funnel, media upload, health check, all four locales, robots and sitemap.
+4. Preview remains `noindex`; it does not change DNS or the Production branch. Do not use its hostname as canonical metadata.
 
-## 2. Preview
+## Production launch
 
-Deploy the branch to Vercel Preview. Preview pages send `noindex, nofollow`, `robots.txt` disallows crawlers and `sitemap.xml` is empty. Validate the generated URL across all four locales before promotion.
+After the one-time acceptance of the Preview, merge/promote the reviewed commit to `codex/website-build`. Verify the new Vercel deployment, `/api/health`, the domain certificate, products and content, form storage, WhatsApp and address links, mobile layout and four languages. Keep `INDEXING_ENABLED=false` until the official street address, claims, metadata, canonical, sitemap, robots and notification delivery have been checked.
 
-Set `NEXT_PUBLIC_SITE_URL` to `https://tpc-paper.com` for correct canonical and brand-image URLs. Keep `INDEXING_ENABLED=false` until the public launch checklist is complete; the domain variable alone no longer opens the site to crawlers. Do not use a Preview hostname as the production canonical origin. There is no automatic DNS change.
+The initial admin activates their own account at `/admin/setup` with the initialization token and their chosen email/password. The setup API closes after the first user is created. The agent does not enter or store the owner's password.
 
-## 3. Inquiry database and mail
+Inquiry storage works with Neon even when mail is unavailable. To enable notifications and password reset, verify a sending domain and set `RESEND_API_KEY`, `INQUIRY_FROM_EMAIL` and `INQUIRY_NOTIFY_EMAIL` in Vercel, then perform one authorized inbox delivery test. Notification jobs retry without discarding stored inquiries. The official English address and HTTPS map link must be confirmed before they can be saved to public contact settings.
 
-Create a **dedicated** Neon Postgres project. Apply `db/001_inquiries.sql` with its direct connection string. Configure these Vercel environment variables separately for Preview and Production:
+## Rollback and recovery
 
-| Variable | Purpose |
-| --- | --- |
-| `DATABASE_URL` | Pooled Neon URL for serverless inquiry traffic |
-| `RESEND_API_KEY` | Email API credential |
-| `INQUIRY_FROM_EMAIL` | Verified sender address on an authorized domain |
-| `INQUIRY_NOTIFY_EMAIL` | Destination, default `alex.chen@3primary.com` |
-| `INQUIRY_HASH_SECRET` | Random server secret for hashed request IP rate limiting |
-| `NEXT_PUBLIC_SITE_URL` | Canonical public origin for metadata and structured data |
-| `INDEXING_ENABLED` | Server-side launch gate; `false` keeps `noindex`, blocked robots and an empty sitemap |
-
-Never commit real values. An unconfigured endpoint responds with HTTP 503 and the form directs the visitor to email; it does not fake success. With credentials configured, the endpoint validates fields, rejects a honeypot, limits repeated requests by hashed IP, stores the inquiry, sends a notification and returns an ID. Complete one authorized end to end test using a real receiving mailbox before considering the form live.
-
-## 4. Production and rollback
-
-Confirm the public hostname, correct company address, approved claim wording and successful inquiry notification. Then promote the tested commit. Verify canonical and `hreflang`, nonempty `sitemap.xml`, production `robots.txt`, every locale, the product path, search and a real inquiry. To roll back, restore the previous Vercel deployment or revert the Git commit. If the inquiry service fails, keep direct email and WhatsApp visible and repair the credentials or database separately.
+Roll back the Vercel deployment or revert the Git commit for application changes. Database schema changes are forward migrations; do not assume a code rollback reverses data changes. Use a Neon recovery point or the encrypted backup procedure in [admin operations](admin-operations.md), restore into an empty separate database and verify counts and pages before cutover. Application-data backups do not contain Blob file bytes.

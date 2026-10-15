@@ -6,7 +6,7 @@ import {usePathname} from 'next/navigation';
 import {useTranslations} from 'next-intl';
 import {List, MagnifyingGlass, X, CaretDown, ArrowUpRight} from '@phosphor-icons/react';
 import {useState} from 'react';
-import {categories, local} from '@/lib/content';
+import {local, type Category} from '@/lib/content';
 import {site} from '@/lib/site';
 import type {Locale} from '@/i18n/routing';
 
@@ -16,7 +16,7 @@ const nav = [
   ['about', '/about'], ['resources', '/resources'], ['blog', '/blog'], ['contact', '/contact']
 ] as const;
 
-export function Header({locale}: {locale: Locale}) {
+export function Header({locale,categories}: {locale: Locale;categories:Category[]}) {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -32,7 +32,7 @@ export function Header({locale}: {locale: Locale}) {
             <Link href={`/${locale}${href}`} className="nav-link" onFocus={() => setProductsOpen(true)}>{t(key)} <CaretDown size={12} /></Link>
             {productsOpen && <div className="mega-menu" onKeyDown={event => {if (event.key === 'Escape') setProductsOpen(false);}}>
               <div className="mega-menu-heading">{t('products')} <Link href={`/${locale}/products`}>View all <ArrowUpRight size={15}/></Link></div>
-              <div className="mega-grid">{categories.map(item => <Link key={item.slug} href={`/${locale}/products/${item.slug}`} onClick={() => setProductsOpen(false)}><strong>{local(item.name, locale)}</strong><small>{local(item.summary, locale)}</small></Link>)}</div>
+              <div className="mega-grid">{categories.filter(item=>item.nav_visible!==false).map(item => <Link key={item.slug} href={`/${locale}/products/${item.slug}`} onClick={() => setProductsOpen(false)}><strong>{local(item.name, locale)}</strong><small>{local(item.summary, locale)}</small></Link>)}</div>
             </div>}
           </div> : <Link key={key} href={`/${locale}${href}`} className={`nav-link ${pathname === `/${locale}${href}` ? 'active' : ''}`}>{t(key)}</Link>)}
       </nav>

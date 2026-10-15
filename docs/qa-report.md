@@ -25,3 +25,16 @@ Screenshots were captured from the running local production build and saved unde
 4. Confirm a production hostname before enabling indexable metadata or changing DNS.
 
 No production deployment, DNS change or live inquiry success claim is implied by local QA.
+
+## Admin backend QA — 15 Oct 2026
+
+The Chinese admin and consent-based tracking were added after the earlier public-site report. The older static-route count above describes the preceding release.
+
+- Neon migrations `001`–`003` and original content seed completed: 6 product categories, 9 products, 3 articles.
+- Authenticated API smoke checks passed against the connected Neon database: bootstrap, login, role denial, content create/publish/version/soft delete/restore, CSV export/import validation, media upload/search/edit, inquiry storage, redirects, events, analytics and audit export. Temporary records and Blob files were removed. The final production-build smoke run also passed actual CSV import, media soft deletion, inquiry notes, bulk status changes and inquiry CSV export.
+- Google service account OAuth and Search Analytics API returned HTTP 200. The tested date had zero rows, so the dashboard displays empty real data rather than examples.
+- Encrypted backup was verified, restored into separate disposable database `qa_restore_20261015`, compared against source counts and product lookup, then the disposable database was removed.
+- ESLint, TypeScript, content tests and production build passed after the initial backend implementation. The final build completed after the last UI and tracking edits; ESLint and the two content tests passed. The production build performed its TypeScript check.
+- Browser review of the local production build confirmed the official logo on admin login and sidebar, the protected dashboard, product list and structured editor, and the tracking panel. English analytics consent was corrected from Chinese. A consented browser session produced form_view, form_open, form_start, form_field_complete and page_view as separate database events, with the expected form placement and Shanghai date. Test events were removed.
+
+Current release gates: Vercel Preview deployment and live Preview review, verified sender domain/Resend credentials for notification delivery, owner's admin account initialization, and confirmed street address/map link. `INDEXING_ENABLED=false` remains in effect.

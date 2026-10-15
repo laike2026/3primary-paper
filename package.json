@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:seed": "node scripts/seed-content.mjs",
     "assets:brand": "node scripts/generate-brand-assets.mjs",
     "dev": "next dev --webpack",
     "build": "next build --webpack",
@@ -15,6 +17,9 @@
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
     "@phosphor-icons/react": "^2.1.10",
+    "@vercel/blob": "^2.8.1",
+    "csv-parse": "^7.0.3",
+    "csv-stringify": "^6.9.0",
     "next": "16.4.0",
     "next-intl": "4.14.9",
     "react": "19.3.0",
