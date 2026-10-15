@@ -1,4 +1,5 @@
 'use client';
+import {AdminIcon} from './AdminIcon';
 import {useState} from 'react';
 import {useRouter} from 'next/navigation';
 
@@ -12,10 +13,10 @@ export function AuthForm({mode}:{mode:'login'|'setup'}){
   return <form className="admin-auth-form" onSubmit={submit}>
     {mode==='setup'&&<><label>初始化口令<input name="token" required autoComplete="off"/></label><label>登录账号<input name="username" required minLength={3} maxLength={32} autoComplete="username" pattern="[a-z][a-z0-9_-]{2,31}"/></label><label>管理员姓名<input name="name" required minLength={2} maxLength={100}/></label><label>邮箱（可稍后绑定）<input name="email" type="email" autoComplete="email"/></label></>}
     {mode==='login'&&<label>账号或邮箱<input name="identifier" required autoComplete="username"/> </label>}
-    <label>密码<span className="admin-password"><input name="password" type={visible?'text':'password'} required minLength={mode==='setup'?12:1} autoComplete={mode==='setup'?'new-password':'current-password'}/><button type="button" onClick={()=>setVisible(!visible)}>{visible?'隐藏':'显示'}</button></span></label>
+    <label>密码<span className="admin-password"><input name="password" type={visible?'text':'password'} required minLength={mode==='setup'?12:1} autoComplete={mode==='setup'?'new-password':'current-password'}/><button type="button" aria-label={visible?'隐藏密码':'显示密码'} onClick={()=>setVisible(!visible)}><AdminIcon name={visible?'eyeOff':'eye'}/></button></span></label>
     {mode==='setup'&&<label>再次输入密码<input name="confirmPassword" type={visible?'text':'password'} required minLength={12} autoComplete="new-password"/></label>}
     {mode==='login'&&<label className="admin-check"><input name="remember" type="checkbox"/> 记住我（30 天）</label>}
     {error&&<p className="admin-error" role="alert">{error}</p>}
-    <button type="submit" className="admin-primary" disabled={busy}>{busy?'请稍候…':mode==='setup'?'创建管理员':'登录后台'}</button>
+    <button type="submit" className="admin-primary" disabled={busy}><AdminIcon name="lock"/>{busy?'请稍候…':mode==='setup'?'创建管理员':'登录后台'}</button>
   </form>;
 }
