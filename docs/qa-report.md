@@ -45,4 +45,10 @@ The Chinese admin and consent-based tracking were added after the earlier public
 - In the authenticated Preview browser session, English and Arabic public home pages rendered with published products. The Chinese admin login and first-admin setup pages rendered with the official logo.
 - Admin login metadata returned `noindex, nofollow`; the official logo asset was served from the deployment.
 - Direct unauthenticated HTTP requests reached Vercel Authentication. The connected Vercel API credential returned `403` for the protected-deployment fetch, so the live Preview health API was not verified through that route. Local health/API smoke checks passed as recorded above.
-- Release gates remaining after Preview review: verified sender/notification delivery, owner's admin account, and confirmed address/map URL. Production branch and domain still point at the preceding website release.
+- At the time of this Preview review, sender/notification delivery, the owner's admin account, and confirmed address/map URL were still pending; Production still pointed to the preceding website release. The admin backend was subsequently deployed to Production in commit `9e0e25b`.
+
+## Username administration — 15 Oct 2026
+
+- Migration `004_admin_usernames.sql` was applied to the connected Neon database. It adds a unique, case-insensitive username and allows an initial account without an unverified recovery mailbox.
+- ESLint, TypeScript, production build and content tests passed. The local production-build smoke run created a temporary username-only superadmin, logged in by username, then exercised content, media, inquiries, analytics and role restrictions. All checks passed and the temporary users and other test records were removed.
+- A real recovery email remains to be bound after its mailbox is verified; password reset email requires the sender integration.

@@ -34,12 +34,12 @@ export function constantEquals(a: string, b: string) {
   const bh = createHash('sha256').update(b).digest();
   return timingSafeEqual(ah,bh);
 }
-export type AdminUser = {id:string;email:string;name:string;role:Role};
+export type AdminUser = {id:string;email:string|null;username:string|null;name:string;role:Role};
 
 export async function currentAdmin(): Promise<AdminUser|null> {
   const token = (await cookies()).get(COOKIE_NAME)?.value;
   if (!token || !process.env.DATABASE_URL) return null;
-  const rows = await db().query(`SELECT u.id,u.email,u.name,u.role FROM admin_sessions s JOIN admin_users u ON u.id=s.user_id
+  const rows = await db().query(`SELECT u.id,u.email,u.username,u.name,u.role FROM admin_sessions s JOIN admin_users u ON u.id=s.user_id
     WHERE s.token_hash=$1 AND s.revoked_at IS NULL AND s.expires_at>now() AND u.active=true LIMIT 1`,[tokenHash(token)]);
   return rows[0] as AdminUser || null;
 }
