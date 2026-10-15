@@ -2,7 +2,9 @@
 
 ## 1. Accounts and repository
 
-Confirm the intended GitHub and Vercel account pair before writing to either account. Create a private repository for this source, push the tested commit, connect it to a new Vercel project and keep its default branch protected. The repo has no existing remote and no legacy deployment is overwritten.
+The source is in the private GitHub repository `laike2026/3primary-paper`. Its default branch is `codex/website-build`, and the connected Vercel project is `laike2026/3primary-paper`. Pushes to the default branch should create Production deployments; other branches should create Preview deployments. Verify a new commit appears in Vercel after a push before relying on automatic deployment.
+
+The Vercel project currently uses deployment protection. Its generated `vercel.app` URLs are review links, not the approved public site. Do not remove protection or enable indexing until the production domain and inquiry service are ready.
 
 Use `pnpm install --frozen-lockfile` and `pnpm build`. The application deliberately uses webpack for Next 16 builds in the current runtime.
 
