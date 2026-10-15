@@ -6,6 +6,8 @@ The source is in the private GitHub repository `laike2026/3primary-paper`. Its d
 
 The Vercel project currently uses deployment protection. Its generated `vercel.app` URLs are review links, not the approved public site. Do not remove protection or enable indexing until the production domain and inquiry service are ready.
 
+Git commits pushed to this repository must use an author email linked to the `laike2026` GitHub account. Vercel blocks deployments from unrecognized local machine email addresses. Set the identity in this repository before committing; avoid changing the machine-wide Git identity.
+
 Use `pnpm install --frozen-lockfile` and `pnpm build`. The application deliberately uses webpack for Next 16 builds in the current runtime.
 
 ## 2. Preview
