@@ -7,6 +7,8 @@ import {Header} from '@/components/Header';
 import {Footer} from '@/components/Footer';
 import {WhatsAppFloat} from '@/components/WhatsAppFloat';
 import {site} from '@/lib/site';
+import {publishedCategories} from '@/lib/admin/content';
+import {AnalyticsTracker} from '@/components/AnalyticsTracker';
 import '../globals.css';
 
 export const metadata: Metadata = {
@@ -20,21 +22,25 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.webmanifest'
 };
-export const dynamicParams = false;
+export const dynamicParams = true;
+// CMS edits must appear on the public site without a new deployment.
+export const dynamic = 'force-dynamic';
 export function generateStaticParams() {return locales.map(locale => ({locale}));}
 
 export default async function LocaleLayout({children, params}: {children: React.ReactNode; params: Promise<{locale: string}>}) {
   const {locale} = await params;
   if (!isLocale(locale)) notFound();
   setRequestLocale(locale);
+  const categories=await publishedCategories();
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body>
         <NextIntlClientProvider>
-          <Header locale={locale} />
+          <Header locale={locale} categories={categories}/>
           <main id="main-content">{children}</main>
           <Footer locale={locale} />
           <WhatsAppFloat />
+          <AnalyticsTracker locale={locale}/>
         </NextIntlClientProvider>
       </body>
     </html>

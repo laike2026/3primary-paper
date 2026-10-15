@@ -9,6 +9,9 @@ export type Category = {
   summary: Localized;
   image: string;
   source: string;
+  description?:Localized;
+  nav_visible?:boolean;
+  seo?: {title?:Localized;description?:Localized;keywords?:string;canonical?:string;ogTitle?:Localized;ogDescription?:Localized;ogImage?:string;noindex?:boolean};
 };
 
 export const categories: Category[] = [
@@ -55,6 +58,20 @@ export type Product = {
   size?: string;
   source: string;
   status: 'draft' | 'published' | 'archived';
+  details?:Localized;
+  features?:Localized[];
+  specifications?:{key:Localized;value:Localized}[];
+  gallery?:string[];
+  documents?:string[];
+  video_url?:string;
+  moq?:string;
+  lead_time?:string;
+  price_mode?:string;
+  price_min?:number|null;
+  price_max?:number|null;
+  featured?:boolean;
+  pinned?:boolean;
+  seo?: {title?:Localized;description?:Localized;keywords?:string;canonical?:string;ogTitle?:Localized;ogDescription?:Localized;ogImage?:string;noindex?:boolean};
 };
 
 export const productRecords: Product[] = [

@@ -13,6 +13,7 @@ for (const locale of locales) {
     await expect(page.locator('link[hreflang="ar"]')).toHaveCount(1);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
     await expect(page.getByRole('link', {name: /products|المنتجات|продукция|productos/i}).first()).toBeVisible();
+    await expect(page.getByRole('dialog')).toContainText(({en:'Allow analytics',ar:'السماح بالتحليلات',ru:'Разрешить аналитику',es:'Permitir análisis'} as Record<string,string>)[locale]);
   });
 }
 
@@ -80,4 +81,10 @@ test('unconfigured inquiry never reports success', async ({page}) => {
   await page.locator('form#inquiry button[type="submit"]').click();
   await expect(page.getByRole('status')).toContainText(/unavailable|email/i);
   await expect(page.getByRole('status')).not.toContainText('TP-');
+});
+
+test('admin login uses the official brand asset', async ({page}) => {
+  await page.goto('/admin/login');
+  await expect(page.getByRole('heading', {name:'欢迎回来'})).toBeVisible();
+  await expect(page.getByRole('img', {name:'3PRIMARY 正式商标'})).toBeVisible();
 });
