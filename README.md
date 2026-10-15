@@ -38,6 +38,7 @@ Playwright starts a local server on port 3100 when none is already running. In C
 
 See [deployment instructions](docs/deployment.md), [source and claim register](docs/content-evidence.md), [design notes](docs/design-system.md) and [QA report](docs/qa-report.md).
 The [maintenance guide](docs/maintenance.md) covers product publication, translations, inquiry records and release updates.
+The [Search Console sync setup](docs/search-console-sync.md) records the server credential and property configuration for the future admin dashboard.
 
 ## Release and rollback
 
