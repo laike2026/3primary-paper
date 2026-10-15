@@ -37,4 +37,12 @@ The Chinese admin and consent-based tracking were added after the earlier public
 - ESLint, TypeScript, content tests and production build passed after the initial backend implementation. The final build completed after the last UI and tracking edits; ESLint and the two content tests passed. The production build performed its TypeScript check.
 - Browser review of the local production build confirmed the official logo on admin login and sidebar, the protected dashboard, product list and structured editor, and the tracking panel. English analytics consent was corrected from Chinese. A consented browser session produced form_view, form_open, form_start, form_field_complete and page_view as separate database events, with the expected form placement and Shanghai date. Test events were removed.
 
-Current release gates: Vercel Preview deployment and live Preview review, verified sender domain/Resend credentials for notification delivery, owner's admin account initialization, and confirmed street address/map link. `INDEXING_ENABLED=false` remains in effect.
+`INDEXING_ENABLED=false` remains in effect pending the remaining production release gates below.
+
+## Vercel Preview review — 15 Oct 2026
+
+- Commit `d6de65b` on `codex/admin-backend` deployed automatically to `https://3primary-paper-h3mpqi48i-laike2026.vercel.app`; Vercel reports **Ready**.
+- In the authenticated Preview browser session, English and Arabic public home pages rendered with published products. The Chinese admin login and first-admin setup pages rendered with the official logo.
+- Admin login metadata returned `noindex, nofollow`; the official logo asset was served from the deployment.
+- Direct unauthenticated HTTP requests reached Vercel Authentication. The connected Vercel API credential returned `403` for the protected-deployment fetch, so the live Preview health API was not verified through that route. Local health/API smoke checks passed as recorded above.
+- Release gates remaining after Preview review: verified sender/notification delivery, owner's admin account, and confirmed address/map URL. Production branch and domain still point at the preceding website release.
