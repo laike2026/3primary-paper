@@ -6,7 +6,7 @@ import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
 
 export const runtime='nodejs';
 const schema=z.object({email:z.email().max(254),name:z.string().trim().min(2).max(100),role:z.enum(roles),password:z.string().min(12).max(200)});
-export async function GET(request:NextRequest){const auth=await guard('users:read');if(auth.response)return auth.response;const {page,size,offset}=pagination(request.nextUrl.searchParams);const sql=db();const [items,count]=await Promise.all([sql.query('SELECT id,email,name,role,active,last_login_at,created_at FROM admin_users ORDER BY created_at DESC LIMIT $1 OFFSET $2',[size,offset]),sql.query('SELECT count(*)::int AS total FROM admin_users')]);return NextResponse.json({items,total:Number(count[0].total),page,size});}
+export async function GET(request:NextRequest){const auth=await guard('users:read');if(auth.response)return auth.response;const {page,size,offset}=pagination(request.nextUrl.searchParams);const sql=db();const [items,count]=await Promise.all([sql.query('SELECT id,username,email,name,role,active,last_login_at,created_at FROM admin_users ORDER BY created_at DESC LIMIT $1 OFFSET $2',[size,offset]),sql.query('SELECT count(*)::int AS total FROM admin_users')]);return NextResponse.json({items,total:Number(count[0].total),page,size});}
 export async function POST(request:NextRequest){
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const auth=await guard('users:write');if(auth.response)return auth.response;

@@ -9,7 +9,7 @@ if(!process.env.DATABASE_URL||!process.env.ADMIN_BOOTSTRAP_TOKEN)throw new Error
 const sql=neon(process.env.DATABASE_URL);
 const existing=await sql.query('SELECT count(*)::int AS n FROM admin_users');
 if(Number(existing[0].n)!==0)throw new Error('Smoke test only runs before the first permanent administrator is created');
-const email=`qa-${randomBytes(6).toString('hex')}@example.invalid`,password=randomBytes(24).toString('base64url');
+const username=`qa-${randomBytes(6).toString('hex')}`,password=randomBytes(24).toString('base64url');
 const qaIds=[],eventIds=[],redirects=[],blobUrls=[],importJobs=[];let leadId='',categorySlug='',productId='',mediaId='';
 async function call(path,method='GET',body,cookie=''){
   const response=await fetch(base+path,{method,headers:{origin:base,...(cookie?{cookie}:{}),...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined});
@@ -19,9 +19,10 @@ async function call(path,method='GET',body,cookie=''){
 function expect(result,status,label){if(result.status!==status)throw new Error(`${label}: expected ${status}, got ${result.status}: ${JSON.stringify(result.data).slice(0,300)}`);console.log(`${label}: ${status}`);}
 try{
   expect(await call('/api/admin/content/products'),401,'Unauthorized API');
-  const setup=await call('/api/admin/auth/setup','POST',{token:process.env.ADMIN_BOOTSTRAP_TOKEN,email,name:'QA Temporary',password});expect(setup,200,'Bootstrap');
+  const setup=await call('/api/admin/auth/setup','POST',{token:process.env.ADMIN_BOOTSTRAP_TOKEN,username,name:'QA Temporary',password});expect(setup,200,'Bootstrap username without email');
   const adminCookie=setup.cookie;if(!adminCookie)throw new Error('Session cookie missing');
-  qaIds.push(...(await sql.query('SELECT id FROM admin_users WHERE email=$1',[email])).map(row=>row.id));
+  qaIds.push(...(await sql.query('SELECT id FROM admin_users WHERE username=$1',[username])).map(row=>row.id));
+  expect(await call('/api/admin/auth/login','POST',{identifier:username,password}),200,'Username login');
   for(const path of ['/api/admin/content/categories','/api/admin/content/products','/api/admin/content/articles','/api/admin/inquiries','/api/admin/analytics','/api/admin/seo','/api/admin/media','/api/admin/users','/api/admin/settings','/api/admin/audit','/api/admin/sync','/api/admin/redirects'])expect(await call(path,'GET',null,adminCookie),200,path);
   const localized={en:'QA Category',ar:'',ru:'',es:''};
   const slug=`qa-${randomBytes(4).toString('hex')}`;categorySlug=slug;

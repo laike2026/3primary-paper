@@ -22,7 +22,7 @@ Never commit credentials, database URLs, exported inquiry records or local `.env
 
 After the one-time acceptance of the Preview, merge/promote the reviewed commit to `codex/website-build`. Verify the new Vercel deployment, `/api/health`, the domain certificate, products and content, form storage, WhatsApp and address links, mobile layout and four languages. Keep `INDEXING_ENABLED=false` until the official street address, claims, metadata, canonical, sitemap, robots and notification delivery have been checked.
 
-The initial admin activates their own account at `/admin/setup` with the initialization token and their chosen email/password. The setup API closes after the first user is created. The agent does not enter or store the owner's password.
+The initial admin can activate a username account at `/admin/setup` with the initialization token and a strong password. A verified recovery email may be bound later in account management. The setup API closes after the first user is created. Never commit a password or store its plaintext in application data.
 
 Inquiry storage works with Neon even when mail is unavailable. To enable notifications and password reset, verify a sending domain and set `RESEND_API_KEY`, `INQUIRY_FROM_EMAIL` and `INQUIRY_NOTIFY_EMAIL` in Vercel, then perform one authorized inbox delivery test. Notification jobs retry without discarding stored inquiries. The official English address and HTTPS map link must be confirmed before they can be saved to public contact settings.
 

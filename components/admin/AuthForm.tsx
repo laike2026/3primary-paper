@@ -10,8 +10,8 @@ export function AuthForm({mode}:{mode:'login'|'setup'}){
     catch(e){setError(e instanceof Error?e.message:'请求失败');}finally{setBusy(false);}
   }
   return <form className="admin-auth-form" onSubmit={submit}>
-    {mode==='setup'&&<><label>初始化口令<input name="token" required autoComplete="off"/></label><label>管理员姓名<input name="name" required minLength={2} maxLength={100}/></label></>}
-    <label>邮箱<input name="email" type="email" required autoComplete="email"/></label>
+    {mode==='setup'&&<><label>初始化口令<input name="token" required autoComplete="off"/></label><label>登录账号<input name="username" required minLength={3} maxLength={32} autoComplete="username" pattern="[a-z][a-z0-9_-]{2,31}"/></label><label>管理员姓名<input name="name" required minLength={2} maxLength={100}/></label><label>邮箱（可稍后绑定）<input name="email" type="email" autoComplete="email"/></label></>}
+    {mode==='login'&&<label>账号或邮箱<input name="identifier" required autoComplete="username"/> </label>}
     <label>密码<span className="admin-password"><input name="password" type={visible?'text':'password'} required minLength={mode==='setup'?12:1} autoComplete={mode==='setup'?'new-password':'current-password'}/><button type="button" onClick={()=>setVisible(!visible)}>{visible?'隐藏':'显示'}</button></span></label>
     {mode==='setup'&&<label>再次输入密码<input name="confirmPassword" type={visible?'text':'password'} required minLength={12} autoComplete="new-password"/></label>}
     {mode==='login'&&<label className="admin-check"><input name="remember" type="checkbox"/> 记住我（30 天）</label>}
