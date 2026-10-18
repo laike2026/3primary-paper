@@ -1,23 +1,44 @@
 import 'server-only';
 import {createSign} from 'node:crypto';
 import {db} from './db';
+import {site} from '@/lib/site';
 
 type ServiceAccount={client_email:string;private_key:string;token_uri?:string};
-let cached:{token:string;expires:number}|null=null;
+const cached=new Map<string,{token:string;expires:number}>();
 function base64url(input:string|Buffer){return Buffer.from(input).toString('base64url');}
-async function accessToken(){
-  if(cached&&cached.expires>Date.now()+60000)return cached.token;
+async function accessToken(scope='https://www.googleapis.com/auth/webmasters.readonly'){
+  const previous=cached.get(scope);
+  if(previous&&previous.expires>Date.now()+60000)return previous.token;
   if(!process.env.GOOGLE_SERVICE_ACCOUNT_JSON)throw new Error('Google service account is not configured');
   const account=JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON) as ServiceAccount;
   const now=Math.floor(Date.now()/1000),uri=account.token_uri||'https://oauth2.googleapis.com/token';
   const head=base64url(JSON.stringify({alg:'RS256',typ:'JWT'}));
-  const body=base64url(JSON.stringify({iss:account.client_email,scope:'https://www.googleapis.com/auth/webmasters.readonly',aud:uri,iat:now,exp:now+3600}));
+  const body=base64url(JSON.stringify({iss:account.client_email,scope,aud:uri,iat:now,exp:now+3600}));
   const data=`${head}.${body}`;const signer=createSign('RSA-SHA256');signer.update(data);signer.end();
   const assertion=`${data}.${signer.sign(account.private_key).toString('base64url')}`;
   const response=await fetch(uri,{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body:new URLSearchParams({grant_type:'urn:ietf:params:oauth:grant-type:jwt-bearer',assertion})});
   if(!response.ok)throw new Error(`Google OAuth ${response.status}`);
   const token=await response.json() as {access_token:string;expires_in:number};
-  cached={token:token.access_token,expires:Date.now()+token.expires_in*1000};return token.access_token;
+  cached.set(scope,{token:token.access_token,expires:Date.now()+token.expires_in*1000});return token.access_token;
+}
+export async function submitSitemap(){
+  const property=process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL;
+  if(!property)throw new Error('Search Console property is not configured');
+  if(site.origin!=='https://tpc-paper.com')throw new Error('Production site URL is not configured');
+  const sitemapUrl=new URL('/sitemap.xml',site.origin).toString();
+  const [sitemapResponse,robotsResponse]=await Promise.all([
+    fetch(sitemapUrl,{cache:'no-store'}),
+    fetch(new URL('/robots.txt',site.origin),{cache:'no-store'})
+  ]);
+  if(!sitemapResponse.ok||!robotsResponse.ok)throw new Error('Public search files are unavailable');
+  const [xml,robots]=await Promise.all([sitemapResponse.text(),robotsResponse.text()]);
+  const urlCount=(xml.match(/<url>/g)||[]).length;
+  if(!urlCount||/^Disallow:\s*\/\s*$/im.test(robots))throw new Error('Public search files are not ready');
+  const token=await accessToken('https://www.googleapis.com/auth/webmasters');
+  const endpoint=`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(property)}/sitemaps/${encodeURIComponent(sitemapUrl)}`;
+  const response=await fetch(endpoint,{method:'PUT',headers:{authorization:`Bearer ${token}`}});
+  if(!response.ok)throw new Error(`Search Console sitemap submission ${response.status}`);
+  return {urlCount,sitemapUrl,submittedAt:new Date().toISOString()};
 }
 type GscRow={keys:string[];clicks:number;impressions:number;ctr:number;position:number};
 export async function syncSearchConsoleDay(day:string){

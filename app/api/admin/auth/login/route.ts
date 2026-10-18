@@ -3,8 +3,11 @@ import {z} from 'zod';
 import {audit,issueSession,verifyPassword} from '@/lib/admin/auth';
 import {db} from '@/lib/admin/db';
 import {jsonError,sameOrigin} from '@/lib/admin/http';
+import {enqueueGsc,runJobs} from '@/lib/admin/jobs';
+import {after} from 'next/server';
 
 export const runtime='nodejs';
+export const maxDuration=60;
 const schema=z.object({identifier:z.string().trim().min(1).max(254).optional(),email:z.email().optional(),password:z.string(),remember:z.boolean().optional()}).refine(value=>Boolean(value.identifier||value.email));
 export async function POST(request:NextRequest) {
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
@@ -21,5 +24,11 @@ export async function POST(request:NextRequest) {
   await sql.query('UPDATE admin_users SET failed_attempts=0,locked_until=NULL,last_login_at=now() WHERE id=$1',[user.id]);
   await issueSession(String(user.id),Boolean(parsed.data.remember),request.headers.get('user-agent')||'');
   await audit(String(user.id),'login','admin_user',String(user.id));
+  if(process.env.GOOGLE_SERVICE_ACCOUNT_JSON&&process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL){
+    after(async()=>{
+      try{await enqueueGsc(14);await runJobs(2,'gsc_day');}
+      catch(error){console.error('Search data sync could not start after login',error);}
+    });
+  }
   return NextResponse.json({ok:true});
 }

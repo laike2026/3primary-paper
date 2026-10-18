@@ -5,6 +5,7 @@ export const local = (value: Localized, locale: Locale) => value[locale];
 
 export type Category = {
   slug: string;
+  updated_at?: string | Date;
   name: Localized;
   summary: Localized;
   image: string;
@@ -49,6 +50,7 @@ export const categories: Category[] = [
 
 export type Product = {
   id: string;
+  updated_at?: string | Date;
   slug: string;
   category: string;
   image: string;

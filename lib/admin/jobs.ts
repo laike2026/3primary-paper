@@ -1,17 +1,22 @@
 import 'server-only';
 import {randomUUID} from 'node:crypto';
 import {db} from './db';
-import {syncSearchConsoleDay} from './search-console';
+import {submitSitemap,syncSearchConsoleDay} from './search-console';
 
-export async function enqueueGsc(days=3){
+export async function enqueueGsc(days=14){
   const sql=db();let added=0;
   for(let offset=2;offset<days+2;offset++){
     const date=new Date();date.setUTCDate(date.getUTCDate()-offset);const day=date.toISOString().slice(0,10);
     const rows=await sql.query(`INSERT INTO sync_jobs(id,job_type,payload) SELECT $1,'gsc_day',$2::jsonb WHERE NOT EXISTS (
-      SELECT 1 FROM sync_jobs WHERE job_type='gsc_day' AND payload->>'day'=$3 AND created_at>now()-interval '6 hours' AND status IN ('pending','running','succeeded')) RETURNING id`,[randomUUID(),JSON.stringify({day}),day]);
+      SELECT 1 FROM sync_jobs WHERE job_type='gsc_day' AND payload->>'day'=$3 AND (status IN ('pending','running') OR (status='succeeded' AND created_at>now()-interval '10 minutes'))) RETURNING id`,[randomUUID(),JSON.stringify({day}),day]);
     added+=rows.length;
   }
   return added;
+}
+export async function enqueueSitemapSubmission(){
+  const rows=await db().query(`INSERT INTO sync_jobs(id,job_type,payload) SELECT $1,'sitemap_submit','{}'::jsonb WHERE NOT EXISTS (
+    SELECT 1 FROM sync_jobs WHERE job_type='sitemap_submit' AND (status IN ('pending','running') OR (status='succeeded' AND created_at>now()-interval '1 hour'))) RETURNING id`,[randomUUID()]);
+  return rows.length;
 }
 async function notifyInquiry(id:string){
   const sql=db();const rows=await sql.query('SELECT * FROM inquiries WHERE id=$1 AND notification_status<>\'sent\' LIMIT 1',[id]);if(!rows.length)return;
@@ -29,18 +34,20 @@ export async function enqueueNotifications(){
     SELECT 1 FROM sync_jobs WHERE job_type='notify_inquiry' AND payload->>'id'=$3 AND (status IN ('pending','running') OR (status='failed' AND attempt<max_attempts))) RETURNING id`,[randomUUID(),JSON.stringify({id:row.id}),row.id]);added+=found.length;}
   return added;
 }
-export async function runJobs(limit=6){
+export async function runJobs(limit=6,onlyType:'gsc_day'|'sitemap_submit'|'notify_inquiry'|null=null){
   const sql=db();const results:{id:string;type:string;status:string}[]=[];
   for(let i=0;i<limit;i++){
     const picked=await sql.query(`UPDATE sync_jobs SET status='running',attempt=attempt+1,started_at=now(),locked_until=now()+interval '5 minutes'
-      WHERE id=(SELECT id FROM sync_jobs WHERE (status='pending' OR (status='failed' AND attempt<max_attempts) OR (status='running' AND locked_until<now())) AND available_at<=now() ORDER BY available_at,id FOR UPDATE SKIP LOCKED LIMIT 1)
-      RETURNING id,job_type,payload,attempt`);
+      WHERE id=(SELECT id FROM sync_jobs WHERE ($1::text IS NULL OR job_type=$1) AND (status='pending' OR (status='failed' AND attempt<max_attempts) OR (status='running' AND locked_until<now())) AND available_at<=now() ORDER BY available_at,id FOR UPDATE SKIP LOCKED LIMIT 1)
+      RETURNING id,job_type,payload,attempt`,[onlyType]);
     if(!picked.length)break;const job=picked[0];
     try{
-      if(job.job_type==='gsc_day')await syncSearchConsoleDay(String(job.payload.day));
+      let result:Record<string,unknown>={};
+      if(job.job_type==='gsc_day')result={rowCount:await syncSearchConsoleDay(String(job.payload.day))};
+      else if(job.job_type==='sitemap_submit')result=await submitSitemap();
       else if(job.job_type==='notify_inquiry')await notifyInquiry(String(job.payload.id));
       else throw new Error('Unknown job');
-      await sql.query("UPDATE sync_jobs SET status='succeeded',finished_at=now(),locked_until=NULL,last_error='' WHERE id=$1",[job.id]);
+      await sql.query("UPDATE sync_jobs SET status='succeeded',finished_at=now(),locked_until=NULL,last_error='',payload=payload||jsonb_build_object('result',$2::jsonb) WHERE id=$1",[job.id,JSON.stringify(result)]);
       results.push({id:String(job.id),type:String(job.job_type),status:'succeeded'});
     }catch(error){
       const message=error instanceof Error?error.message:'Unknown error';

@@ -2,7 +2,7 @@ import {NextRequest,NextResponse} from 'next/server';
 import {audit} from '@/lib/admin/auth';
 import {db,pagination} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
-import {enqueueGsc,enqueueNotifications,runJobs} from '@/lib/admin/jobs';
+import {enqueueGsc,enqueueNotifications,enqueueSitemapSubmission,runJobs} from '@/lib/admin/jobs';
 export const runtime='nodejs';
 export const maxDuration=60;
 export async function GET(request:NextRequest){
@@ -15,9 +15,9 @@ export async function POST(request:NextRequest){
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const auth=await guard('sync:run');if(auth.response)return auth.response;
   const kind=(await request.json().catch(()=>({}))).kind;
-  if(kind!=='gsc'&&kind!=='notification')return jsonError('同步类型无效');
-  const added=kind==='gsc'?await enqueueGsc(7):await enqueueNotifications();
-  const jobs=await runJobs(3);
+  if(kind!=='gsc'&&kind!=='notification'&&kind!=='sitemap')return jsonError('同步类型无效');
+  const added=kind==='gsc'?await enqueueGsc(14):kind==='sitemap'?await enqueueSitemapSubmission():await enqueueNotifications();
+  const jobs=await runJobs(kind==='gsc'?2:kind==='sitemap'?1:3,kind==='gsc'?'gsc_day':kind==='sitemap'?'sitemap_submit':'notify_inquiry');
   await audit(auth.user!.id,'manual_sync','sync',kind,{added});
   return NextResponse.json({added,jobs});
 }

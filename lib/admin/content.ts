@@ -42,17 +42,17 @@ export async function publishIssue(kind:string,data:Record<string,unknown>):Prom
 
 export async function publishedCategories():Promise<Category[]> {
   if(!process.env.DATABASE_URL)return initialCategories;
-  const rows=await db().query(`SELECT slug,name,summary,description,image,source,seo,nav_visible FROM content_categories WHERE status='published' AND enabled=true AND deleted_at IS NULL ORDER BY sort_order,slug`);
+  const rows=await db().query(`SELECT slug,name,summary,description,image,source,seo,nav_visible,updated_at FROM content_categories WHERE status='published' AND enabled=true AND deleted_at IS NULL ORDER BY sort_order,slug`);
   return rows as Category[];
 }
 export async function publishedProducts():Promise<Product[]> {
   if(!process.env.DATABASE_URL)return initialProducts.filter(p=>p.status==='published');
-  const rows=await db().query(`SELECT id,slug,category_slug AS category,name,summary,application,details,features,specifications,gallery,documents,video_url,moq,lead_time,price_mode,price_min,price_max,featured,pinned,image,size,source,status,seo FROM content_products
+  const rows=await db().query(`SELECT id,slug,category_slug AS category,name,summary,application,details,features,specifications,gallery,documents,video_url,moq,lead_time,price_mode,price_min,price_max,featured,pinned,image,size,source,status,seo,updated_at FROM content_products
     WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,sort_order,id`);
   return rows as Product[];
 }
 export async function publishedArticles():Promise<Article[]> {
   if(!process.env.DATABASE_URL)return initialArticles;
-  const rows=await db().query(`SELECT slug,title,intro,sections,author,featured,pinned,seo FROM content_articles WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,published_at DESC NULLS LAST,slug`);
+  const rows=await db().query(`SELECT slug,title,intro,sections,author,featured,pinned,seo,updated_at FROM content_articles WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,published_at DESC NULLS LAST,slug`);
   return rows as Article[];
 }
