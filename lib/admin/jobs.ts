@@ -59,13 +59,9 @@ export async function runJobs(limit=6,onlyType:'gsc_day'|'sitemap_submit'|'notif
   }
   return results;
 }
-export async function publishScheduled(){
-  const sql=db();
-  const [products,articles]=await Promise.all([
-    sql.query("UPDATE content_products p SET status='published',published_at=now(),updated_at=now() WHERE p.status='scheduled' AND p.scheduled_at<=now() AND p.deleted_at IS NULL AND coalesce(p.name->>'en','')<>'' AND EXISTS(SELECT 1 FROM content_categories c WHERE c.slug=p.category_slug AND c.status='published' AND c.enabled=true AND c.deleted_at IS NULL) RETURNING p.id"),
-    sql.query("UPDATE content_articles a SET status='published',published_at=now(),updated_at=now() WHERE a.status='scheduled' AND a.scheduled_at<=now() AND a.deleted_at IS NULL AND coalesce(a.title->>'en','')<>'' AND EXISTS(SELECT 1 FROM news_categories c WHERE c.slug=a.category_slug AND c.status='published' AND c.deleted_at IS NULL) RETURNING a.slug")
-  ]);
-  return products.length+articles.length;
+export async function publishScheduledProducts(){
+  const products=await db().query("UPDATE content_products p SET status='published',published_at=now(),updated_at=now() WHERE p.status='scheduled' AND p.scheduled_at<=now() AND p.deleted_at IS NULL AND coalesce(p.name->>'en','')<>'' AND EXISTS(SELECT 1 FROM content_categories c WHERE c.slug=p.category_slug AND c.status='published' AND c.enabled=true AND c.deleted_at IS NULL) RETURNING p.id");
+  return products.length;
 }
 export async function cleanupExpired(){
   const sql=db();

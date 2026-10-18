@@ -26,4 +26,4 @@ The production collage is visibly lower resolution than the new illustrations be
 
 ## Editorial maintenance
 
-Every new product requires an ID, category, localized name, summary, application, image, source URL and publish status in `lib/content.ts`. Every article requires substantive localized sections in `lib/articles.ts`. Keep unverified specifications out of public pages. Update the sitemap automatically by adding records to these data files.
+Every new product requires an ID, category, localized name, summary, application, image, source URL and publish status. Articles are written as drafts in the admin and published individually by an authorized editor. The public blog, homepage article section and sitemap read only published articles from the CMS. Keep unverified specifications out of public pages.

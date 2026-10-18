@@ -27,6 +27,7 @@ export async function POST(request:NextRequest,{params}:Ctx){
   const auth=await guard('content:write');if(auth.response)return auth.response;
   const parsed=c.schema.safeParse(await request.json().catch(()=>null));if(!parsed.success)return jsonError('内容字段无效');
   const data=parsed.data as Record<string,unknown>;
+  if(kind==='articles'&&data.status!=='draft')return jsonError('新建新闻须先保存为草稿');
   if(data.status==='published'&&!can(auth.user!.role,'content:publish'))return jsonError('没有发布权限',403);
   for(const field of ['name','summary','application','title','intro','description','details'])if(data[field])data[field]=cleanLocalized(data[field] as Record<string,string>);
   if(data.status==='published'){const issue=await publishIssue(kind,data);if(issue)return jsonError(issue);}

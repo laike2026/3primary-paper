@@ -10,7 +10,7 @@ Categories also live in `lib/content.ts`. Add a category only when it has a supp
 
 ## Articles, FAQs and languages
 
-Technical articles live in `lib/articles.ts`. Add a substantive section for each of the four locales before publishing. Homepage FAQs and editorial copy live in `lib/copy.ts`; menu and form strings live in `messages/{locale}.json`. Run `pnpm test` to catch missing message keys and visit the Arabic page to check RTL layout. Add the new article slug to route generation and let `app/sitemap.ts` include it from the published data list.
+Write news and blog articles in the admin only. Save each new article as a draft, review its localized text, then use the individual publish button. Articles cannot be scheduled or bulk imported. The homepage, blog, Resources page and sitemap read published CMS records automatically. Homepage FAQs and editorial copy live in `lib/copy.ts`; menu and form strings live in `messages/{locale}.json`. Run `pnpm test` to catch missing message keys and visit the Arabic page to check RTL layout.
 
 ## Brand, company details and media
 

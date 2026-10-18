@@ -78,7 +78,8 @@ export async function POST(request:NextRequest,{params}:Ctx){
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const auth=await guard('content:write');if(auth.response)return auth.response;
   const body=await request.json().catch(()=>null);if(body?.action!=='restore')return jsonError('无效操作');
-  const rows=await db().query(`UPDATE ${c.table} SET deleted_at=NULL,updated_at=now() WHERE ${c.id}=$1 AND deleted_at IS NOT NULL RETURNING ${c.id}`,[id]);
+  const restoredStatus=kind==='articles'?",status='draft'":'';
+  const rows=await db().query(`UPDATE ${c.table} SET deleted_at=NULL${restoredStatus},updated_at=now() WHERE ${c.id}=$1 AND deleted_at IS NOT NULL RETURNING ${c.id}`,[id]);
   if(!rows.length)return jsonError('内容不在回收站',404);
   await audit(auth.user!.id,'restore',kind,id);
   return NextResponse.json({ok:true});

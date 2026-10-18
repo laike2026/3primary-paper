@@ -1,17 +1,18 @@
 import 'server-only';
 import {z} from 'zod';
 import {db} from './db';
-import {articles as initialArticles, type Article} from '@/lib/articles';
+import type {Article} from '@/lib/articles';
 import {categories as initialCategories, productRecords as initialProducts, type Category, type Product} from '@/lib/content';
 
 const localized=z.object({en:z.string().max(10000),ar:z.string().max(10000),ru:z.string().max(10000),es:z.string().max(10000)});
 const slug=z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).max(120);
 const status=z.enum(['draft','review','published','scheduled','unlisted','archived']);
+const articleStatus=z.enum(['draft','review','published','unlisted','archived']);
 const assetUrl=z.string().max(1000).refine(value=>{if(!value)return true;if(value.startsWith('/')&&!value.startsWith('//'))return true;try{return new URL(value).protocol==='https:';}catch{return false;}},'请输入站内路径或 HTTPS 地址');
 const seo=z.object({title:localized.optional(),description:localized.optional(),keywords:z.string().max(500).optional(),canonical:assetUrl.optional(),ogTitle:localized.optional(),ogDescription:localized.optional(),ogImage:assetUrl.optional(),noindex:z.boolean().optional()}).default({});
 export const categoryInput=z.object({slug,name:localized,summary:localized,description:localized.optional().default({en:'',ar:'',ru:'',es:''}),image:assetUrl,icon:assetUrl.optional().default(''),source:z.string().max(1000).optional().default(''),parent_slug:z.string().nullable().optional(),status:z.enum(['draft','published','archived']),sort_order:z.number().int().optional().default(0),nav_visible:z.boolean().optional().default(true),enabled:z.boolean().optional().default(true),seo});
 export const productInput=z.object({id:z.string().regex(/^[A-Za-z0-9-]+$/).max(50),slug,category_slug:z.string().min(1),name:localized,summary:localized,application:localized,details:localized.optional().default({en:'',ar:'',ru:'',es:''}),features:z.array(localized).max(30).optional().default([]),specifications:z.array(z.object({key:localized,value:localized})).max(100).optional().default([]),gallery:z.array(assetUrl).max(20).optional().default([]),documents:z.array(assetUrl).max(20).optional().default([]),video_url:assetUrl.optional().default(''),moq:z.string().max(100).optional().default(''),lead_time:z.string().max(100).optional().default(''),price_mode:z.enum(['none','fixed','range','contact','quote']).optional().default('quote'),price_min:z.coerce.number().nonnegative().nullable().optional(),price_max:z.coerce.number().nonnegative().nullable().optional(),featured:z.boolean().optional().default(false),pinned:z.boolean().optional().default(false),image:assetUrl,size:z.string().max(200).optional().default(''),source:z.string().max(1000).optional().default(''),status,scheduled_at:z.string().datetime().nullable().optional(),sort_order:z.number().int().optional().default(0),seo});
-export const articleInput=z.object({slug,category_slug:z.string().optional().default('resources'),title:localized,intro:localized,sections:z.array(z.object({heading:localized,body:localized})).max(30),author:z.string().max(100).optional().default(''),featured:z.boolean().optional().default(false),pinned:z.boolean().optional().default(false),image:assetUrl.optional().default(''),status,scheduled_at:z.string().datetime().nullable().optional(),seo});
+export const articleInput=z.object({slug,category_slug:z.string().optional().default('resources'),title:localized,intro:localized,sections:z.array(z.object({heading:localized,body:localized})).max(30),author:z.string().max(100).optional().default(''),featured:z.boolean().optional().default(false),pinned:z.boolean().optional().default(false),image:assetUrl.optional().default(''),status:articleStatus,seo});
 export const newsCategoryInput=z.object({slug,name:localized,status:z.enum(['draft','published','archived']),sort_order:z.number().int().optional().default(0)});
 export type ContentKind='categories'|'products'|'articles'|'news-categories';
 export const contentKinds:Record<ContentKind,{table:string;id:string;schema:z.ZodTypeAny;permissionName:string}>={
@@ -52,7 +53,7 @@ export async function publishedProducts():Promise<Product[]> {
   return rows as Product[];
 }
 export async function publishedArticles():Promise<Article[]> {
-  if(!process.env.DATABASE_URL)return initialArticles;
+  if(!process.env.DATABASE_URL)return [];
   const rows=await db().query(`SELECT slug,title,intro,sections,author,featured,pinned,seo,updated_at FROM content_articles WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,published_at DESC NULLS LAST,slug`);
   return rows as Article[];
 }

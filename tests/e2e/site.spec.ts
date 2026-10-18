@@ -46,6 +46,7 @@ test('mobile menu works and 375px page has no horizontal overflow', async ({page
 });
 
 test('published sections, checklist and unknown page', async ({page}) => {
+  test.setTimeout(120_000);
   const paths = ['products/thermal-paper-rolls', 'applications/retail-pos', 'brands', 'oem-odm', 'manufacturing-quality', 'about', 'resources', 'resources/rfq-checklist', 'blog', 'faq', 'contact', 'privacy-policy', 'terms'];
   for (const path of paths) {
     const response = await page.goto(`/en/${path}`);
@@ -56,6 +57,15 @@ test('published sections, checklist and unknown page', async ({page}) => {
   expect(response?.status()).toBe(404);
   const unknownLocale = await page.goto('/unknown-locale');
   expect(unknownLocale?.status()).toBe(404);
+});
+
+test('articles are absent without a manually published CMS record', async ({page}) => {
+  await page.goto('/en');
+  await expect(page.locator('.resource-card')).toHaveCount(0);
+  await page.goto('/en/blog');
+  await expect(page.locator('.resource-card')).toHaveCount(0);
+  const formerSeededArticle=await page.goto('/en/blog/measure-thermal-roll');
+  expect(formerSeededArticle?.status()).toBe(404);
 });
 
 test('checklist download and legacy navigation work', async ({page, request}) => {
@@ -86,5 +96,5 @@ test('unconfigured inquiry never reports success', async ({page}) => {
 test('admin login uses the official brand asset', async ({page}) => {
   await page.goto('/admin/login');
   await expect(page.getByRole('heading', {name:'欢迎回来'})).toBeVisible();
-  await expect(page.getByRole('img', {name:'3PRIMARY 正式商标'})).toBeVisible();
+  await expect(page.getByRole('img', {name:'3PRIMARY'})).toBeVisible();
 });

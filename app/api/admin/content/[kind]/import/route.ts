@@ -13,6 +13,7 @@ export async function POST(request:NextRequest,{params}:Ctx){
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const {kind}=await params;const c=config(kind);if(!c)return jsonError('无效模块',404);
   const auth=await guard('content:write');if(auth.response)return auth.response;
+  if(kind==='articles')return jsonError('新闻只能在后台逐篇撰写和发布',403);
   if(Number(request.headers.get('content-length')||0)>2_000_000)return jsonError('导入文件过大',413);
   let rawInput:unknown;
   if(request.headers.get('content-type')?.includes('multipart/form-data')){
