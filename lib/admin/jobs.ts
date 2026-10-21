@@ -4,12 +4,35 @@ import {db} from './db';
 import {submitSitemap,syncSearchConsoleDay} from './search-console';
 
 export async function enqueueGsc(days=14){
-  const sql=db();let added=0;
-  for(let offset=2;offset<days+2;offset++){
-    const date=new Date();date.setUTCDate(date.getUTCDate()-offset);const day=date.toISOString().slice(0,10);
-    const rows=await sql.query(`INSERT INTO sync_jobs(id,job_type,payload) SELECT $1,'gsc_day',$2::jsonb WHERE NOT EXISTS (
-      SELECT 1 FROM sync_jobs WHERE job_type='gsc_day' AND payload->>'day'=$3 AND (status IN ('pending','running') OR (status='succeeded' AND created_at>now()-interval '10 minutes'))) RETURNING id`,[randomUUID(),JSON.stringify({day}),day]);
-    added+=rows.length;
+  const sql=db();
+  const latest=new Date();latest.setUTCDate(latest.getUTCDate()-2);
+  const latestDay=latest.toISOString().slice(0,10);
+  const earliestAllowed=new Date(latest);earliestAllowed.setUTCDate(earliestAllowed.getUTCDate()-479);
+  const initial=new Date(latest);initial.setUTCDate(initial.getUTCDate()-Math.max(1,days)+1);
+  const first=await sql.query("SELECT min(payload->>'day') AS sync_day FROM sync_jobs WHERE job_type='gsc_day' AND payload->>'day' ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'");
+  const firstDay=String(first[0]?.sync_day||initial.toISOString().slice(0,10));
+  const start=firstDay<earliestAllowed.toISOString().slice(0,10)?earliestAllowed:new Date(`${firstDay}T00:00:00Z`);
+  const existing=await sql.query(`SELECT payload->>'day' AS sync_day,status,max(coalesce(finished_at,created_at)) AS last_at,
+    bool_or(attempt<max_attempts) AS retryable FROM sync_jobs WHERE job_type='gsc_day'
+    AND payload->>'day' BETWEEN $1 AND $2 GROUP BY 1,2`,[start.toISOString().slice(0,10),latestDay]);
+  const totals=await sql.query("SELECT day::text AS sync_day FROM search_console_daily WHERE site_url=$1 AND day BETWEEN $2 AND $3 AND page_url='' AND query='' AND country='' AND device=''",[process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL||'',start.toISOString().slice(0,10),latestDay]);
+  const hasTotal=new Set(totals.map(row=>String(row.sync_day)));
+  const byDay=new Map<string,typeof existing>();
+  for(const row of existing){const day=String(row.sync_day);byDay.set(day,[...(byDay.get(day)||[]),row]);}
+  let added=0;
+  for(let date=new Date(start);date<=latest;date.setUTCDate(date.getUTCDate()+1)){
+    const day=date.toISOString().slice(0,10);
+    const rows=byDay.get(day)||[];
+    if(rows.some(row=>row.status==='pending'||row.status==='running'||(row.status==='failed'&&row.retryable)))continue;
+    const success=rows.find(row=>row.status==='succeeded');
+    const recent=latest.getTime()-date.getTime()<7*86400000;
+    if(success&&hasTotal.has(day)&&(!recent||rows.some(row=>row.status==='succeeded'&&Date.now()-new Date(String(row.last_at)).getTime()<72*3600000)))continue;
+    if(!success&&rows.some(row=>row.status==='failed'&&Date.now()-new Date(String(row.last_at)).getTime()<72*3600000))continue;
+    const created=await sql.query(`INSERT INTO sync_jobs(id,job_type,payload) SELECT $1,'gsc_day',$2::jsonb WHERE NOT EXISTS (
+      SELECT 1 FROM sync_jobs WHERE job_type='gsc_day' AND payload->>'day'=$3 AND
+      (status IN ('pending','running') OR (status='failed' AND attempt<max_attempts))) RETURNING id`,[randomUUID(),JSON.stringify({day}),day]);
+    added+=created.length;
+    if(added>=30)break;
   }
   return added;
 }
@@ -38,7 +61,7 @@ export async function runJobs(limit=6,onlyType:'gsc_day'|'sitemap_submit'|'notif
   const sql=db();const results:{id:string;type:string;status:string}[]=[];
   for(let i=0;i<limit;i++){
     const picked=await sql.query(`UPDATE sync_jobs SET status='running',attempt=attempt+1,started_at=now(),locked_until=now()+interval '5 minutes'
-      WHERE id=(SELECT id FROM sync_jobs WHERE ($1::text IS NULL OR job_type=$1) AND (status='pending' OR (status='failed' AND attempt<max_attempts) OR (status='running' AND locked_until<now())) AND available_at<=now() ORDER BY available_at,id FOR UPDATE SKIP LOCKED LIMIT 1)
+      WHERE id=(SELECT id FROM sync_jobs WHERE ($1::text IS NULL OR job_type=$1) AND (status='pending' OR (status='failed' AND attempt<max_attempts) OR (status='running' AND locked_until<now())) AND available_at<=now() ORDER BY CASE WHEN job_type='notify_inquiry' THEN 0 WHEN job_type='sitemap_submit' THEN 1 ELSE 2 END,available_at,id FOR UPDATE SKIP LOCKED LIMIT 1)
       RETURNING id,job_type,payload,attempt`,[onlyType]);
     if(!picked.length)break;const job=picked[0];
     try{

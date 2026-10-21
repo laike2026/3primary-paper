@@ -3,7 +3,7 @@ import {useEffect,useState} from 'react';
 import {usePathname} from 'next/navigation';
 import type {Locale} from '@/i18n/routing';
 
-type EventName='page_view'|'address_click'|'whatsapp_click'|'form_cta_click'|'form_view'|'form_open'|'form_start'|'form_field_complete'|'form_submit_attempt'|'form_submit_failure';
+type EventName='page_view'|'product_view'|'article_view'|'address_click'|'whatsapp_click'|'form_cta_click'|'form_view'|'form_open'|'form_start'|'form_field_complete'|'form_submit_attempt'|'form_submit_failure';
 const queueKey='primary_analytics_queue';
 let draining=false;
 let fallbackQueue:string[]=[];
@@ -42,7 +42,13 @@ const consentCopy:Record<Locale,{label:string;body:string;decline:string;accept:
 export function AnalyticsTracker({locale}:{locale:Locale}){
   const pathname=usePathname();const [consent,setConsent]=useState<'yes'|'no'|''>('');
   useEffect(()=>{queueMicrotask(()=>setConsent(cookie('analytics_consent') as 'yes'|'no'|''));},[]);
-  useEffect(()=>{if(consent==='yes')trackEvent('page_view');},[pathname,consent]);
+  useEffect(()=>{
+    if(consent!=='yes')return;
+    trackEvent('page_view');
+    const product=pathname.match(/^\/(?:en|ar|ru|es)\/product\/([^/]+)$/);
+    if(product)trackEvent('product_view',{productId:document.querySelector('#product-inquiry')?.getAttribute('data-product-id')||product[1]});
+    if(/^\/(?:en|ar|ru|es)\/blog\/[^/]+$/.test(pathname))trackEvent('article_view');
+  },[pathname,consent]);
   useEffect(()=>{if(consent!=='yes')return;void drainEvents();const timer=setInterval(()=>{if(document.visibilityState==='visible')void drainEvents();},15000);const visible=()=>{if(document.visibilityState==='visible')void drainEvents();else flushBeacons();};const online=()=>void drainEvents();window.addEventListener('online',online);document.addEventListener('visibilitychange',visible);window.addEventListener('pagehide',flushBeacons);return()=>{clearInterval(timer);window.removeEventListener('online',online);document.removeEventListener('visibilitychange',visible);window.removeEventListener('pagehide',flushBeacons);};},[consent]);
   useEffect(()=>{
     function click(event:MouseEvent){const target=event.target as HTMLElement;const anchor=target.closest('a');if(!anchor)return;const href=anchor.getAttribute('href')||'';const placement=anchor.dataset.trackPlacement||(anchor.classList.contains('whatsapp-float')?'floating':anchor.closest('header')?'header':anchor.closest('footer')?'footer':'page');

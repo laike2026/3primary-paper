@@ -33,5 +33,5 @@ export async function GET(request:NextRequest){
     const rows=breakdown.map(row=>({dimension:dimension,label:row.label||'',event_type:row.event_type,count:row.count,unique_sessions:row.unique_sessions,from:period.from,to:period.to}));
     return new NextResponse('\ufeff'+stringify(rows,{header:true,columns:['dimension','label','event_type','count','unique_sessions','from','to']}),{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':`attachment; filename="analytics-${period.from}-${period.to}.csv"`}});
   }
-  return NextResponse.json({period,dimension,events,sessions:sessions[0],breakdown,daily,leadCount:Number(leads[0].total),notice:'行为事件仅统计同意匿名分析的访客；实际询盘数来自服务端入库。'});
+  return NextResponse.json({period,dimension,events,sessions:sessions[0],breakdown,daily,leadCount:Number(leads[0].total),source:'first_party_consent',notice:'行为事件仅统计同意匿名分析的访客；询盘数来自服务端入库。来源维度只记录 UTM 标记，不是 GA4 渠道报告。'});
 }

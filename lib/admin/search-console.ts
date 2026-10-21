@@ -45,10 +45,20 @@ export async function syncSearchConsoleDay(day:string){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(day))throw new Error('Invalid GSC day');
   const site=process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL;if(!site)throw new Error('Search Console property is not configured');
   const token=await accessToken();const sql=db();let startRow=0,total=0;
-  for(let page=0;page<20;page++){
-    const response=await fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`,{method:'POST',headers:{authorization:`Bearer ${token}`,'content-type':'application/json'},body:JSON.stringify({startDate:day,endDate:day,dimensions:['date','page','query','country','device'],rowLimit:25000,startRow,dataState:'final'})});
+  const endpoint=`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`;
+  const query=async(dimensions:string[],offset=0)=>{
+    const response=await fetch(endpoint,{method:'POST',headers:{authorization:`Bearer ${token}`,'content-type':'application/json'},body:JSON.stringify({startDate:day,endDate:day,dimensions,rowLimit:25000,startRow:offset,dataState:'final'})});
     if(!response.ok)throw new Error(`Search Console query ${response.status}: ${(await response.text()).slice(0,200)}`);
-    const body=await response.json() as {rows?:GscRow[]};const rows=body.rows||[];
+    return (await response.json() as {rows?:GscRow[]}).rows||[];
+  };
+  const [summary]=await query(['date']);
+  const started=(await sql.query('SELECT clock_timestamp() AS started'))[0].started;
+  await sql.query(`INSERT INTO search_console_daily(day,site_url,page_url,query,country,device,clicks,impressions,ctr,position,synced_at)
+    VALUES($1,$2,'','','','',$3,$4,$5,$6,now()) ON CONFLICT(day,site_url,page_url,query,country,device)
+    DO UPDATE SET clicks=excluded.clicks,impressions=excluded.impressions,ctr=excluded.ctr,position=excluded.position,synced_at=now()`,
+    [day,site,summary?.clicks||0,summary?.impressions||0,summary?.ctr||0,summary?.position||0]);
+  for(let page=0;page<20;page++){
+    const rows=await query(['date','page','query','country','device'],startRow);
     for(const row of rows){
       const [,pageUrl,query,country,device]=row.keys;
       await sql.query(`INSERT INTO search_console_daily(day,site_url,page_url,query,country,device,clicks,impressions,ctr,position,synced_at)
@@ -56,7 +66,11 @@ export async function syncSearchConsoleDay(day:string){
         DO UPDATE SET clicks=excluded.clicks,impressions=excluded.impressions,ctr=excluded.ctr,position=excluded.position,synced_at=now()`,
         [day,site,pageUrl||'',query||'',country||'',device||'',row.clicks,row.impressions,row.ctr,row.position]);
     }
-    total+=rows.length;if(rows.length<25000)break;startRow+=rows.length;
+    total+=rows.length;
+    if(rows.length<25000)break;
+    if(page===19)throw new Error('Search Console result exceeds the supported page limit');
+    startRow+=rows.length;
   }
+  await sql.query('DELETE FROM search_console_daily WHERE day=$1 AND site_url=$2 AND synced_at<$3',[day,site,started]);
   return total;
 }

@@ -39,10 +39,32 @@ test('mobile menu works and 375px page has no horizontal overflow', async ({page
   const menu = page.getByRole('button', {name: /menu/i});
   await menu.click();
   await expect(page.getByRole('navigation', {name: 'Mobile navigation'})).toBeVisible();
+  await expect(page.locator('body')).toHaveCSS('overflow','hidden');
+  await expect(page.locator('.mobile-nav-backdrop')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('navigation', {name: 'Mobile navigation'})).toHaveCount(0);
+  await expect(page.locator('body')).not.toHaveCSS('overflow','hidden');
+  await menu.click();
   await page.getByRole('navigation', {name: 'Mobile navigation'}).getByRole('link', {name: 'Products'}).click();
   await expect(page).toHaveURL(/\/en\/products$/);
   const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
   expect(noOverflow).toBe(true);
+});
+
+test('consented product visits record both page and product views', async ({page}) => {
+  const types:string[]=[];
+  const productIds:string[]=[];
+  await page.addInitScript(() => {document.cookie='analytics_consent=yes; Path=/; SameSite=Lax';});
+  await page.route('**/api/events', async route => {
+    const body=route.request().postDataJSON() as {type:string;productId?:string};
+    types.push(body.type);
+    if(body.type==='product_view')productIds.push(body.productId||'');
+    await route.fulfill({status:202,body:''});
+  });
+  await page.goto('/en/product/80x80-thermal-paper-roll');
+  await expect.poll(()=>types).toContain('page_view');
+  await expect.poll(()=>types).toContain('product_view');
+  await expect.poll(()=>productIds).toContain('TP-8080');
 });
 
 test('published sections, checklist and unknown page', async ({page}) => {

@@ -1,6 +1,6 @@
 # Search Console data sync setup
 
-The future admin dashboard will read Google Search Console search performance for the verified Domain property `sc-domain:tpc-paper.com`. The Vercel project `laike2026/3primary-paper` has these **Production** environment variables:
+The admin dashboard reads Google Search Console search performance for the verified Domain property `sc-domain:tpc-paper.com`. The Vercel project `laike2026/3primary-paper` has these **Production** environment variables:
 
 | Variable | Type | Value or source |
 | --- | --- | --- |
@@ -13,8 +13,8 @@ The service account is listed as a **Full** user of the Search Console Domain pr
 
 On October 15, 2026, `searchconsole.googleapis.com` was enabled in Google Cloud project `formal-outpost-511601-m4`. A read-only service account test obtained an OAuth token, returned HTTP 200 from `GET https://www.googleapis.com/webmasters/v3/sites`, and listed `sc-domain:tpc-paper.com` with `siteFullUser` permission. A Search Analytics query for October 1–14 returned HTTP 200 with zero rows. The Search Console UI still showed “Processing data”; wait for Google to collect search activity before expecting nonempty reports.
 
-## Admin implementation contract
+## Current synchronization
 
-When the admin backend is built, load `GOOGLE_SERVICE_ACCOUNT_JSON` only in server code, request the `https://www.googleapis.com/auth/webmasters.readonly` OAuth scope, and use `GOOGLE_SEARCH_CONSOLE_SITE_URL` as the `siteUrl` for Search Analytics queries. Fetch daily search metrics with bounded date windows and pagination, then upsert rows and record the last successful sync time. Handle empty responses and Google's data delay without treating them as errors. Protect the admin read and sync endpoints with the future admin authentication and authorization system.
+The server reads `GOOGLE_SERVICE_ACCOUNT_JSON` and `GOOGLE_SEARCH_CONSOLE_SITE_URL` only on protected server routes. Admin login queues missing dates; `/api/cron/sync` runs every 30 minutes and continues the queue even when nobody logs in. Search Console data is requested through two calls per day: a date-only total for the dashboard and paginated page/query/country/device detail for drilldowns. Recent days refresh after 72 hours, while failed jobs use bounded retries. The report displays the latest stored date, queued jobs and exhausted jobs. A successful query with zero clicks still stores a dated zero-total row, so it can be distinguished from an unsynchronized date.
 
-These environment variables prepare access; they do not schedule imports, store reports, or display a dashboard yet. A deployment created before the variables were added does not automatically gain them; redeploy when the consuming backend is added.
+The separate Sunday `/api/cron/sitemap` job submits the current sitemap as the site's weekly update. Search Console may still delay or omit search data, and submitting the sitemap does not guarantee indexing.

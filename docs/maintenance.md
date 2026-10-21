@@ -1,12 +1,12 @@
 # Website maintenance
 
-The current site uses a structured TypeScript and JSON content layer. It does not require a paid CMS. Every content edit should be reviewed in a branch and pass the local checks before a Vercel Preview is promoted.
+The current site uses a Chinese admin CMS backed by Neon for product categories, products, news categories, articles, media, inquiries and contact settings. Static translations, some page copy, FAQ and downloads remain in the repository. Code changes should pass local checks before deployment.
 
 ## Products and categories
 
-Edit `lib/content.ts`. A product record needs a stable `id` and `slug`, one of the existing category slugs, four localized name/summary/application strings, an image in `public/images/products`, and a source URL. Mark it `draft` while information is being prepared; only `published` records flow into catalogs, detail routes and the sitemap. Mark discontinued entries `archived`. Avoid reusing slugs or IDs. Put verified sizes in `size`; leave unsupported technical fields absent.
+Use the admin product editor. A product record needs a stable ID and slug, an existing category, approved localized text, an image and verified specifications. Save as draft while preparing; only published records flow into catalogs, detail routes and the sitemap. Archive discontinued entries and avoid reusing slugs or IDs. The TypeScript content layer is a local fallback when the database is unavailable, not the production editing workflow.
 
-Categories also live in `lib/content.ts`. Add a category only when it has a supported product family and approved localized wording. Applications refer to category slugs, so update those links if a category changes.
+Manage product categories in the admin. Add a category only when it has a supported product family and approved localized wording. Application pages still reference category slugs in code, so check those links if a category changes.
 
 ## Articles, FAQs and languages
 
@@ -14,7 +14,7 @@ Write news and blog articles in the admin only. Save each new article as a draft
 
 ## Brand, company details and media
 
-The official logo path is defined in `lib/site.ts`. Keep the original lettering and color intact. Add other brand artwork only after rights are verified. `lib/site.ts` is also the central place for phone, WhatsApp, email and the confirmed address. Images are stored in `public/images`; update component references and alt text when replacing them. Put downloadable documents in `public/downloads` and link them from the Resources pages in each locale. Do not publish unverified capacity, certification or environmental figures.
+The official logo path is defined in `lib/site.ts`. Keep the original lettering and color intact. The admin website settings control phone, WhatsApp, detailed address and map link; the public email remains in `lib/site.ts`. Images are stored in `public/images` or the admin media library; update alt text when replacing them. Put downloadable documents in `public/downloads` and link them from the Resources pages in each locale. Do not publish unverified capacity, certification or environmental figures.
 
 ## SEO and metadata
 
@@ -26,4 +26,4 @@ Authorized staff can query the dedicated Neon `inquiries` table. It stores the r
 
 ## Release and rollback
 
-Push changes to the selected GitHub repository, verify CI and the Vercel Preview, then promote the approved commit. Check core pages, sitemap and a real inquiry after any backend change. If a release fails, restore the previous Vercel deployment or revert the Git commit, and retest. Update the local `docs/qa-report.md` with the release URL and test evidence.
+Push changes to the connected GitHub deployment branch, verify Vercel build and the production domain, then check core pages, sitemap and protected admin routes. For changes to the inquiry pipeline, test with a clearly marked record and remove it afterward when a safe cleanup path exists. If a release fails, restore the previous Vercel deployment or revert the Git commit, and retest. Add release evidence to the dated audit document.
