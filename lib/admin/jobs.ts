@@ -1,5 +1,6 @@
 import 'server-only';
 import {randomUUID} from 'node:crypto';
+import {site} from '../site';
 import {db} from './db';
 import {submitSitemap,syncSearchConsoleDay} from './search-console';
 
@@ -46,7 +47,7 @@ async function notifyInquiry(id:string){
   const item=rows[0];
   if(!process.env.RESEND_API_KEY||!process.env.INQUIRY_FROM_EMAIL)throw new Error('Email sender is not configured');
   const lines=[`Inquiry ${item.id}`,`Submitted: ${item.created_at}`,`Name: ${item.name}`,`Company: ${item.company}`,`Email: ${item.email}`,`Country: ${item.country}`,`Product: ${item.product_id}`,`Quantity: ${item.quantity}`,`Requirements: ${item.requirements}`,`Source: ${item.source_url}`];
-  const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{authorization:`Bearer ${process.env.RESEND_API_KEY}`,'content-type':'application/json'},body:JSON.stringify({from:process.env.INQUIRY_FROM_EMAIL,to:[process.env.INQUIRY_NOTIFY_EMAIL||'alex.chen@3primary.com'],subject:`New 3PRIMARY inquiry ${item.id}`,text:lines.join('\n')})});
+  const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{authorization:`Bearer ${process.env.RESEND_API_KEY}`,'content-type':'application/json'},body:JSON.stringify({from:process.env.INQUIRY_FROM_EMAIL,to:[process.env.INQUIRY_NOTIFY_EMAIL||site.email],subject:`New 3PRIMARY inquiry ${item.id}`,text:lines.join('\n')})});
   if(!response.ok)throw new Error(`Email API ${response.status}`);
   await sql.query("UPDATE inquiries SET notification_status='sent',notified_at=now(),updated_at=now() WHERE id=$1",[id]);
 }

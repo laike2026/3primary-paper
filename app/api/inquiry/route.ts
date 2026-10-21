@@ -4,6 +4,7 @@ import {z} from 'zod';
 import {createHash, randomBytes} from 'node:crypto';
 import {publishedProducts} from '@/lib/admin/content';
 import {db} from '@/lib/admin/db';
+import {site} from '@/lib/site';
 
 export const runtime = 'nodejs';
 const schema = z.object({
@@ -17,7 +18,7 @@ const schema = z.object({
 });
 export async function POST(request:NextRequest){
   if(!process.env.DATABASE_URL||!process.env.INQUIRY_HASH_SECRET){
-    return NextResponse.json({error:'Online inquiry is not configured. Please email alex.chen@3primary.com.'},{status:503});
+    return NextResponse.json({error:`Online inquiry is not configured. Please email ${site.email}.`},{status:503});
   }
   const origin=request.headers.get('origin');
   if(origin&&origin!==request.nextUrl.origin)return NextResponse.json({error:'Invalid origin'},{status:403});

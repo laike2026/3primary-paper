@@ -3,7 +3,7 @@ export const site = {
   phone: '+86 13661927136',
   phoneHref: 'tel:+8613661927136',
   whatsapp: 'https://wa.me/8613661927136',
-  email: 'alex.chen@3primary.com',
+  email: 'info@tpc-paper.com',
   // The supplied address differs from the address on the legacy site; keep it out of public pages until reconciled.
   address: null as string | null,
   logo: '/images/brand/official-logo.jpg',
