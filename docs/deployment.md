@@ -24,7 +24,7 @@ After the one-time acceptance of the Preview, merge/promote the reviewed commit 
 
 The initial admin can activate a username account at `/admin/setup` with the initialization token and a strong password. A verified recovery email may be bound later in account management. The setup API closes after the first user is created. Never commit a password or store its plaintext in application data.
 
-Inquiry storage works with Neon even when mail is unavailable. The public contact and inquiry notification recipient is `info@tpc-paper.com`. To enable notifications and password reset, verify a sending domain and set `RESEND_API_KEY`, `INQUIRY_FROM_EMAIL` and `INQUIRY_NOTIFY_EMAIL=info@tpc-paper.com` in Vercel, then perform one authorized inbox delivery test. Notification jobs retry without discarding stored inquiries. The official English address and HTTPS map link must be confirmed before they can be saved to public contact settings.
+Inquiry storage works with Neon even when mail is unavailable. The public contact and inquiry notification recipient is `alex.chen@3primary.com`. To enable notifications and password reset, verify a sending domain and set `RESEND_API_KEY`, `INQUIRY_FROM_EMAIL` and `INQUIRY_NOTIFY_EMAIL=alex.chen@3primary.com` in Vercel, then perform one authorized inbox delivery test. Notification jobs retry without discarding stored inquiries. The company supplied its English street address on 25 Oct 2026. The public map link searches for that address; verify the map result before treating it as a pinned location.
 
 ## Rollback and recovery
 

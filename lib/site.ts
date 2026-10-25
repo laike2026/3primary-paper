@@ -1,11 +1,13 @@
+const address = 'Room 206, 2nd Floor, Building 4, West of Phoenix Mountain, No. 8, Anji Avenue, Changshuo Subdistrict, Anji County, Huzhou City, Zhejiang Province.';
+
 export const site = {
   company: 'Zhejiang Three Primary Colors Paper Co., Ltd.',
   phone: '+86 13661927136',
   phoneHref: 'tel:+8613661927136',
   whatsapp: 'https://wa.me/8613661927136',
-  email: 'info@tpc-paper.com',
-  // The supplied address differs from the address on the legacy site; keep it out of public pages until reconciled.
-  address: null as string | null,
+  email: 'alex.chen@3primary.com',
+  address,
+  mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`,
   logo: '/images/brand/official-logo.jpg',
   organizationLogo: '/images/brand/organization-logo.png',
   socialImage: '/images/brand/social-preview.jpg',

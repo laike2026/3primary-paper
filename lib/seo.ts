@@ -32,7 +32,8 @@ export function organizationJsonLd() {
     url: site.origin,
     logo: new URL(site.organizationLogo, site.origin).toString(),
     email: site.email,
-    telephone: site.phone
+    telephone: site.phone,
+    address: {'@type': 'PostalAddress', streetAddress: site.address, addressCountry: 'CN'}
   };
 }
 

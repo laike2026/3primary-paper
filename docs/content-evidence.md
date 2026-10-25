@@ -15,7 +15,7 @@ The supplied screenshot is a **visual reference**, not evidence for company figu
 
 | Topic | Current handling | Needed to publish |
 | --- | --- | --- |
-| Street address | Omitted; only Anji County, Huzhou, Zhejiang is stated | Confirm whether Room 206, Building 4, West of Phoenix Mountain or No. 701, Building 1, Two Mountains Dream Industrial Park is current |
+| Street address | Published as supplied by the company on 25 Oct 2026 | Room 206, 2nd Floor, Building 4, West of Phoenix Mountain, No. 8, Anji Avenue, Changshuo Subdistrict, Anji County, Huzhou City, Zhejiang Province |
 | Facility ownership and capacity | No ownership, output or years-of-experience figures claimed | Current facility documents and written wording approval |
 | Additional brand marks | Only the original 3PRIMARY logo appears | Rights and approved artwork for each additional brand |
 | Product dimensions beyond listed catalog formats | Unverified fields remain absent | Current SKU spec sheets |
