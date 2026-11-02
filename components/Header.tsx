@@ -12,8 +12,8 @@ import type {Locale} from '@/i18n/routing';
 
 const nav = [
   ['home', ''], ['products', '/products'], ['applications', '/applications'],
-  ['oem', '/oem-odm'], ['manufacturing', '/manufacturing-quality'],
-  ['about', '/about'], ['resources', '/resources'], ['blog', '/blog'], ['contact', '/contact']
+  ['oem', '/oem-odm'],
+  ['about', '/about'], ['resources', '/resources'], ['contact', '/contact']
 ] as const;
 
 export function Header({locale,categories}: {locale: Locale;categories:Category[]}) {
@@ -21,6 +21,8 @@ export function Header({locale,categories}: {locale: Locale;categories:Category[
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [otherMenu,setOtherMenu]=useState<string|null>(null);
+  const subLinks=(key:string)=>key==='about'?[{label:t('about'),path:'/about'},{label:t('manufacturing'),path:'/manufacturing-quality'}]:[{label:t('resources'),path:'/resources'},{label:locale==='en'?'FAQ':locale==='ar'?'الأسئلة الشائعة':locale==='ru'?'Вопросы и ответы':'Preguntas frecuentes',path:'/faq'},{label:t('blog'),path:'/blog'}];
   const menuButton=useRef<HTMLButtonElement>(null);
   const mobileNav=useRef<HTMLElement>(null);
   const productsLink=useRef<HTMLAnchorElement>(null);
@@ -59,7 +61,7 @@ export function Header({locale,categories}: {locale: Locale;categories:Category[
               <div className="mega-menu-heading">{t('products')} <Link href={`/${locale}/products`}>View all <ArrowUpRight size={15}/></Link></div>
               <div className="mega-grid">{categories.filter(item=>item.nav_visible!==false).map(item => <Link key={item.slug} href={`/${locale}/products/${item.slug}`} onClick={() => setProductsOpen(false)}><strong>{local(item.name, locale)}</strong><small>{local(item.summary, locale)}</small></Link>)}</div>
             </div>}
-          </div> : <Link key={key} href={`/${locale}${href}`} className={`nav-link ${pathname === `/${locale}${href}` ? 'active' : ''}`}>{t(key)}</Link>)}
+          </div> : ['about','resources'].includes(key)?<div className="nav-dropdown" key={key} onMouseEnter={()=>setOtherMenu(key)} onMouseLeave={()=>setOtherMenu(null)} onBlur={event=>{if(!event.currentTarget.contains(event.relatedTarget))setOtherMenu(null);}} onKeyDown={event=>{if(event.key==='Escape'){event.stopPropagation();setOtherMenu(null);}}}><Link href={`/${locale}${href}`} className="nav-link" onFocus={()=>setOtherMenu(key)} aria-expanded={otherMenu===key}>{t(key)} <CaretDown size={12}/></Link>{otherMenu===key&&<div className="material-submenu">{subLinks(key).map(sub=><Link href={`/${locale}${sub.path}`} key={sub.path} onClick={()=>setOtherMenu(null)}>{sub.label}</Link>)}</div>}</div>: <Link key={key} href={`/${locale}${href}`} className={`nav-link ${pathname === `/${locale}${href}` ? 'active' : ''}`}>{t(key)}</Link>)}
       </nav>
       <div className="header-actions">
         <Link href={`/${locale}/products?search=`} aria-label={t('search')} className="icon-link"><MagnifyingGlass size={20}/></Link>
@@ -68,6 +70,6 @@ export function Header({locale,categories}: {locale: Locale;categories:Category[
         <button ref={menuButton} type="button" className="menu-toggle" aria-label={mobileOpen ? (locale==='en'?'Close menu':locale==='ar'?'إغلاق القائمة':locale==='ru'?'Закрыть меню':'Cerrar menú') : t('menu')} aria-expanded={mobileOpen} aria-controls="mobile-navigation" onClick={() => setMobileOpen(!mobileOpen)}>{mobileOpen ? <X size={24}/> : <List size={25}/>}</button>
       </div>
     </div>
-    {mobileOpen && <div className="mobile-nav-layer"><button className="mobile-nav-backdrop" type="button" tabIndex={-1} aria-hidden="true" onClick={()=>setMobileOpen(false)}/><nav ref={mobileNav} id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">{nav.map(([key, href]) => <Link key={key} href={`/${locale}${href}`} onClick={() => setMobileOpen(false)}>{t(key)}</Link>)}</nav></div>}
+    {mobileOpen && <div className="mobile-nav-layer"><button className="mobile-nav-backdrop" type="button" tabIndex={-1} aria-hidden="true" onClick={()=>setMobileOpen(false)}/><nav ref={mobileNav} id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">{nav.map(([key, href]) => <div key={key}><Link href={`/${locale}${href}`} onClick={() => setMobileOpen(false)}>{t(key)}</Link>{['about','resources'].includes(key)&&<div className="mobile-subnav">{subLinks(key).filter(sub=>sub.path!==href).map(sub=><Link key={sub.path} href={`/${locale}${sub.path}`} onClick={()=>setMobileOpen(false)}>{sub.label}</Link>)}</div>}</div>)}</nav></div>}
   </header>;
 }

@@ -23,7 +23,7 @@ export async function DELETE(request:NextRequest,{params}:Ctx){
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const auth=await guard('media:write');if(auth.response)return auth.response;
   const {id}=await params;
-  const used=await db().query('SELECT (SELECT count(*) FROM content_products p JOIN media_assets m ON m.id=$1 WHERE p.deleted_at IS NULL AND (p.image=m.url OR p.gallery ? m.url))+(SELECT count(*) FROM content_articles a JOIN media_assets m ON m.id=$1 WHERE a.deleted_at IS NULL AND a.image=m.url) AS n',[id]);
+  const used=await db().query('SELECT (SELECT count(*) FROM content_products p JOIN media_assets m ON m.id=$1 WHERE p.deleted_at IS NULL AND (p.image=m.url OR p.gallery ? m.url OR p.documents ? m.url))+(SELECT count(*) FROM content_articles a JOIN media_assets m ON m.id=$1 WHERE a.deleted_at IS NULL AND a.image=m.url)+(SELECT count(*) FROM website_content w JOIN media_assets m ON m.id=$1 WHERE w.deleted_at IS NULL AND (w.image=m.url OR w.file_url=m.url)) AS n',[id]);
   if(Number(used[0].n)>0)return jsonError('文件正在被内容使用，请先移除引用',409);
   await db().query('UPDATE media_assets SET deleted_at=now() WHERE id=$1 AND deleted_at IS NULL',[id]);
   await audit(auth.user!.id,'delete','media',id);

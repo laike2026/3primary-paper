@@ -1,0 +1,10 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import {publishedWebsite} from '@/lib/admin/website';
+import {local} from '@/lib/content';
+import type {Locale} from '@/i18n/routing';
+import type {WebsiteContent} from '@/lib/website-types';
+export const wording=(locale:Locale,en:string,ar:string,ru:string,es:string)=>({en,ar,ru,es})[locale];
+export function FaqList({items,locale}:{items:WebsiteContent[];locale:Locale}){return <div className="faq-list">{items.map(item=><details key={item.slug}><summary>{local(item.name,locale)}</summary><p className="preserve-lines">{local(item.body,locale)}</p></details>)}</div>;}
+export async function ProductQuestions({locale,productId}:{locale:Locale;productId:string}){const items=(await publishedWebsite('faq')).filter(r=>r.product_ids.includes(productId)).slice(0,5);if(!items.length)return null;return <section className="section-shell material-soft"><div className="container"><h2 className="section-heading">{wording(locale,'Product questions','أسئلة المنتج','Вопросы о товаре','Preguntas del producto')}</h2><FaqList items={items} locale={locale}/><Link className="text-link" href={`/${locale}/faq`}>{wording(locale,'All questions →','جميع الأسئلة ←','Все вопросы →','Todas las preguntas →')}</Link></div></section>;}
+export function DownloadCards({items,locale}:{items:WebsiteContent[];locale:Locale}){return <div className="material-downloads">{items.map(item=><article className="material-download" key={item.slug}><Image src={item.image} alt={local(item.name,locale)} width={640} height={480} sizes="(max-width:700px) 100vw, 45vw"/><div><span className="eyebrow">E-CATALOG</span><h2 className="section-heading">{local(item.name,locale)}</h2><p>{local(item.summary,locale)}</p><div className="detail-actions"><a href={item.file_url} className="button" target="_blank" rel="noopener noreferrer">{wording(locale,'Preview catalog ↗','معاينة الكتالوج ↗','Посмотреть каталог ↗','Ver catálogo ↗')}</a><a href={item.file_url} className="button button-outline" download>{wording(locale,'Download PDF ↓','تنزيل PDF ↓','Скачать PDF ↓','Descargar PDF ↓')}</a></div></div></article>)}</div>;}

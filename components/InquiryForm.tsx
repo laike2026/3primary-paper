@@ -42,7 +42,7 @@ export function InquiryForm({locale, initialProduct, productOptions}: {locale: L
     <label className="wide">{t('requirements')}<textarea name="requirements" required minLength={10} maxLength={5000}/></label>
     <label className="sr-only">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>
     <label className="consent wide"><input type="checkbox" name="consent" value="true" required/><span>{t('consent')}</span></label>
-    <button className="button" type="submit" disabled={pending}>{pending ? t('sending') : c('submit')}<ArrowRight size={16}/></button>
+    <button className="button" type="submit" disabled={pending}>{pending ? c('sending') : c('submit')}<ArrowRight size={16}/></button>
     {status && <p className={`form-status ${status.kind}`} role="status">{status.message}{status.kind === 'error' && <> <a href={`mailto:${site.email}`}>{site.email}</a></>}</p>}
   </form>;
 }

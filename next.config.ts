@@ -3,6 +3,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const config: NextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: ['127.0.0.1','localhost'],
   images: {formats: ['image/avif', 'image/webp'],remotePatterns:[{protocol:'https',hostname:'**.public.blob.vercel-storage.com'}]},
   async redirects() {
     return [

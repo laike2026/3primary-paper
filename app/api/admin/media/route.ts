@@ -17,7 +17,7 @@ export async function GET(request:NextRequest){
   const sql=db();
   const [items,total]=await Promise.all([
     sql.query(`SELECT m.id,m.url,m.filename,m.mime_type,m.byte_size,m.width,m.height,m.alt,m.caption,m.category,m.thumbnail_url,m.created_at,
-      (SELECT count(*)::int FROM content_products p WHERE p.deleted_at IS NULL AND (p.image=m.url OR p.gallery ? m.url))+(SELECT count(*)::int FROM content_articles a WHERE a.deleted_at IS NULL AND a.image=m.url) AS usage_count
+      (SELECT count(*)::int FROM content_products p WHERE p.deleted_at IS NULL AND (p.image=m.url OR p.gallery ? m.url OR p.documents ? m.url))+(SELECT count(*)::int FROM content_articles a WHERE a.deleted_at IS NULL AND a.image=m.url)+(SELECT count(*)::int FROM website_content w WHERE w.deleted_at IS NULL AND (w.image=m.url OR w.file_url=m.url)) AS usage_count
       FROM media_assets m WHERE m.deleted_at IS NULL AND ($1='' OR m.filename ILIKE '%'||$1||'%' OR m.alt->>'en' ILIKE '%'||$1||'%') AND ($2='' OR m.category=$2) ORDER BY m.created_at DESC LIMIT $3 OFFSET $4`,[q,category,size,offset]),
     sql.query("SELECT count(*)::int AS total FROM media_assets WHERE deleted_at IS NULL AND ($1='' OR filename ILIKE '%'||$1||'%' OR alt->>'en' ILIKE '%'||$1||'%') AND ($2='' OR category=$2)",[q,category])
   ]);

@@ -4,7 +4,7 @@ import {randomBytes,scryptSync,createCipheriv,createDecipheriv,createHash} from 
 import {gzipSync,gunzipSync} from 'node:zlib';
 import {neon} from '@neondatabase/serverless';
 
-const tables=['admin_users','content_categories','news_categories','content_products','content_articles','media_assets','inquiries','admin_sessions','admin_password_resets','admin_audit_log','content_versions','url_redirects','product_categories','product_media','inquiry_notes','analytics_events','analytics_daily','search_console_daily','sync_jobs','site_settings','import_jobs'];
+const tables=['admin_users','content_categories','news_categories','content_products','content_articles','media_assets','inquiries','admin_sessions','admin_password_resets','admin_audit_log','content_versions','url_redirects','product_categories','product_media','inquiry_notes','analytics_events','analytics_daily','search_console_daily','sync_jobs','site_settings','import_jobs','website_content','website_content_versions'];
 const [operation,file]=process.argv.slice(2);
 const passphrase=process.env.BACKUP_PASSPHRASE;
 if(!['create','verify','restore'].includes(operation)||!file)throw Error('Usage: node scripts/backup-data.mjs create|verify|restore <encrypted-file>');
@@ -21,7 +21,11 @@ if(operation==='create'){
   process.stdout.write(`Encrypted backup created: ${target}\n`);
 }else{
   const data=decrypt(await readFile(resolve(file)));
-  if(data.format!==1||!data.source||!data.tables||!tables.every(table=>Array.isArray(data.tables[table])))throw Error('Backup manifest is incomplete');
+  const optionalTables=['website_content','website_content_versions'];
+  if(data.format!==1||!data.source||!data.tables||!tables.filter(table=>!optionalTables.includes(table)).every(table=>Array.isArray(data.tables[table])))throw Error('Backup manifest is incomplete');
+  // Older backups predate the website-content migration and contain no such rows.
+  for(const table of optionalTables)if(!Object.hasOwn(data.tables,table))data.tables[table]=[];
+  if(!tables.every(table=>Array.isArray(data.tables[table])))throw Error('Backup manifest is incomplete');
   const digest=createHash('sha256').update(JSON.stringify(data.tables)).digest('hex').slice(0,16);
   process.stdout.write(`Verified backup ${data.createdAt}, source ${data.source}, fingerprint ${digest}\n`);
   for(const table of tables)process.stdout.write(`${table}: ${data.tables[table].length}\n`);
@@ -32,7 +36,7 @@ if(operation==='create'){
     const sql=neon(url);
     for(const table of tables){const count=await sql.query(`SELECT count(*)::int AS n FROM ${table}`);if(Number(count[0].n)>0)throw Error(`Restore target is not empty: ${table}`);}
     for(const table of tables){for(let i=0;i<data.tables[table].length;i+=100){const batch=data.tables[table].slice(i,i+100);await sql.query(`INSERT INTO ${table} SELECT * FROM jsonb_populate_recordset(NULL::${table},$1::jsonb)`,[JSON.stringify(batch)]);}process.stdout.write(`Restored ${table}: ${data.tables[table].length}\n`);}
-    for(const [sequence,table] of [['admin_audit_log_id_seq','admin_audit_log'],['content_versions_id_seq','content_versions'],['inquiry_notes_id_seq','inquiry_notes']])await sql.query(`SELECT setval('${sequence}',greatest(1,(SELECT coalesce(max(id),0) FROM ${table})),(SELECT count(*)>0 FROM ${table}))`);
+    for(const [sequence,table] of [['admin_audit_log_id_seq','admin_audit_log'],['content_versions_id_seq','content_versions'],['inquiry_notes_id_seq','inquiry_notes'],['website_content_versions_id_seq','website_content_versions']])await sql.query(`SELECT setval('${sequence}',greatest(1,(SELECT coalesce(max(id),0) FROM ${table})),(SELECT count(*)>0 FROM ${table}))`);
     process.stdout.write('Restore completed to a separate empty database. Verify counts and application flows before use.\n');
   }
 }

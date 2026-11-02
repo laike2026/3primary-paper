@@ -5,6 +5,7 @@ const nav:(AdminNavItem&{permission:Permission})[]=[
   {href:'/admin',label:'总览',group:'工作台',icon:'dashboard',permission:'dashboard:read'},
   {href:'/admin/content/categories',label:'产品分类',group:'内容管理',icon:'categories',permission:'content:read'},
   {href:'/admin/content/products',label:'产品管理',group:'内容管理',icon:'products',permission:'content:read'},
+  {href:'/admin/website',label:'网站内容',group:'内容管理',icon:'globe',permission:'content:read'},
   {href:'/admin/content/news-categories',label:'新闻分类',group:'内容管理',icon:'newsCategories',permission:'content:read'},
   {href:'/admin/content/articles',label:'新闻管理',group:'内容管理',icon:'articles',permission:'content:read'},
   {href:'/admin/inquiries',label:'询盘管理',group:'客户与数据',icon:'inquiries',permission:'inquiries:read'},

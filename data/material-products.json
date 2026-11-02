@@ -1,0 +1,786 @@
+[
+  {
+    "id": "TP-8080",
+    "slug": "80x80-thermal-paper-roll",
+    "category_slug": "thermal-paper-rolls",
+    "name": {
+      "en": "POS & Cash Register Thermal Paper Rolls",
+      "ar": "لفائف ورق حراري لنقاط البيع",
+      "ru": "Термобумага для кассовых аппаратов и POS",
+      "es": "Rollos térmicos para cajas y POS"
+    },
+    "summary": {
+      "en": "Retail, supermarkets, restaurants and POS receipts.",
+      "ar": "التجزئة والمتاجر والمطاعم وإيصالات نقاط البيع.",
+      "ru": "Магазины, супермаркеты, рестораны и кассовые чеки.",
+      "es": "Comercios, supermercados, restaurantes y recibos POS."
+    },
+    "application": {
+      "en": "Retail, supermarkets, restaurants and POS receipts",
+      "ar": "التجزئة والمتاجر والمطاعم وإيصالات نقاط البيع",
+      "ru": "Магазины, супермаркеты, рестораны и кассовые чеки",
+      "es": "Comercios, supermercados, restaurantes y recibos POS"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "80 × 80 mm / 80 × 70 mm",
+          "ar": "80 × 80 mm / 80 × 70 mm",
+          "ru": "80 × 80 mm / 80 × 70 mm",
+          "es": "80 × 80 mm / 80 × 70 mm"
+        }
+      },
+      {
+        "key": {
+          "en": "Paper grammage",
+          "ar": "وزن الورق",
+          "ru": "Плотность бумаги",
+          "es": "Gramaje"
+        },
+        "value": {
+          "en": "48 / 55 / 60 / 65 / 70 gsm",
+          "ar": "48 / 55 / 60 / 65 / 70 gsm",
+          "ru": "48 / 55 / 60 / 65 / 70 gsm",
+          "es": "48 / 55 / 60 / 65 / 70 gsm"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Paper or plastic core; size made to order",
+          "ar": "قلب ورقي أو بلاستيكي بمقاس حسب الطلب",
+          "ru": "Бумажная или пластиковая втулка на заказ",
+          "es": "Núcleo de papel o plástico a medida"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-01-1.webp",
+      "/images/materials/product-01-3.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-01-2.webp",
+    "size": "80 × 80 mm / 80 × 70 mm",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 3",
+    "status": "published",
+    "sort_order": 0,
+    "price_mode": "quote",
+    "featured": true,
+    "pinned": false
+  },
+  {
+    "id": "TP-5740",
+    "slug": "57x40-thermal-paper-roll",
+    "category_slug": "thermal-paper-rolls",
+    "name": {
+      "en": "Portable POS & Mobile Thermal Paper Rolls",
+      "ar": "لفائف حرارية للطابعات المحمولة",
+      "ru": "Терморулоны для мобильных POS",
+      "es": "Rollos térmicos para POS portátiles"
+    },
+    "summary": {
+      "en": "Mobile payment devices, portable printers and receipt terminals.",
+      "ar": "أجهزة الدفع المحمولة والطابعات المتنقلة.",
+      "ru": "Мобильные платёжные устройства и портативные принтеры.",
+      "es": "Terminales de pago e impresoras portátiles."
+    },
+    "application": {
+      "en": "Mobile payment devices, portable printers and receipt terminals",
+      "ar": "أجهزة الدفع المحمولة والطابعات المتنقلة",
+      "ru": "Мобильные платёжные устройства и портативные принтеры",
+      "es": "Terminales de pago e impresoras portátiles"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "57 × 50 / 40 / 30 mm",
+          "ar": "57 × 50 / 40 / 30 mm",
+          "ru": "57 × 50 / 40 / 30 mm",
+          "es": "57 × 50 / 40 / 30 mm"
+        }
+      },
+      {
+        "key": {
+          "en": "Paper grammage",
+          "ar": "وزن الورق",
+          "ru": "Плотность бумаги",
+          "es": "Gramaje"
+        },
+        "value": {
+          "en": "48 / 55 / 60 / 65 / 70 gsm",
+          "ar": "48 / 55 / 60 / 65 / 70 gsm",
+          "ru": "48 / 55 / 60 / 65 / 70 gsm",
+          "es": "48 / 55 / 60 / 65 / 70 gsm"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Paper or plastic core; size made to order",
+          "ar": "قلب ورقي أو بلاستيكي بمقاس حسب الطلب",
+          "ru": "Бумажная или пластиковая втулка на заказ",
+          "es": "Núcleo de papel o plástico a medida"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-02-2.webp",
+      "/images/materials/product-02-3.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-02-1.webp",
+    "size": "57 × 50 / 40 / 30 mm",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 4",
+    "status": "published",
+    "sort_order": 1,
+    "price_mode": "quote",
+    "featured": true,
+    "pinned": false
+  },
+  {
+    "id": "PP-ATM",
+    "slug": "printed-atm-receipt-roll",
+    "category_slug": "printed-paper",
+    "name": {
+      "en": "ATM & Banking Kiosk Thermal Paper Rolls",
+      "ar": "لفائف حرارية للصرافات الآلية",
+      "ru": "Термобумага для банкоматов и терминалов",
+      "es": "Rollos térmicos para cajeros y terminales"
+    },
+    "summary": {
+      "en": "ATM, banking kiosks, queue systems and ticket terminals.",
+      "ar": "الصرافات الآلية وأكشاك البنوك وأنظمة التذاكر.",
+      "ru": "Банкоматы, банковские киоски и билетные терминалы.",
+      "es": "Cajeros, quioscos bancarios y terminales de billetes."
+    },
+    "application": {
+      "en": "ATM, banking kiosks, queue systems and ticket terminals",
+      "ar": "الصرافات الآلية وأكشاك البنوك وأنظمة التذاكر",
+      "ru": "Банкоматы, банковские киоски и билетные терминалы",
+      "es": "Cajeros, quioscos bancarios y terminales de billetes"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "80 × 150 mm / 80 × 200 mm / 82 × 180 mm",
+          "ar": "80 × 150 mm / 80 × 200 mm / 82 × 180 mm",
+          "ru": "80 × 150 mm / 80 × 200 mm / 82 × 180 mm",
+          "es": "80 × 150 mm / 80 × 200 mm / 82 × 180 mm"
+        }
+      },
+      {
+        "key": {
+          "en": "Paper grammage",
+          "ar": "وزن الورق",
+          "ru": "Плотность бумаги",
+          "es": "Gramaje"
+        },
+        "value": {
+          "en": "48 / 55 / 60 / 65 / 70 gsm",
+          "ar": "48 / 55 / 60 / 65 / 70 gsm",
+          "ru": "48 / 55 / 60 / 65 / 70 gsm",
+          "es": "48 / 55 / 60 / 65 / 70 gsm"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Paper or plastic core; size made to order",
+          "ar": "قلب ورقي أو بلاستيكي بمقاس حسب الطلب",
+          "ru": "Бумажная или пластиковая втулка на заказ",
+          "es": "Núcleo de papel o plástico a medida"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-03-2.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-03-1.webp",
+    "size": "80 × 150 mm / 80 × 200 mm / 82 × 180 mm",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 5",
+    "status": "published",
+    "sort_order": 2,
+    "price_mode": "quote",
+    "featured": false,
+    "pinned": false
+  },
+  {
+    "id": "TP-PRINTED",
+    "slug": "custom-preprinted-thermal-roll",
+    "category_slug": "printed-paper",
+    "name": {
+      "en": "Custom Pre-printed Thermal Paper Rolls",
+      "ar": "لفائف حرارية مطبوعة حسب الطلب",
+      "ru": "Терморулоны с заказной печатью",
+      "es": "Rollos térmicos preimpresos a medida"
+    },
+    "summary": {
+      "en": "Branded receipts, promotional print and tickets.",
+      "ar": "الإيصالات المخصصة والطباعة الترويجية والتذاكر.",
+      "ru": "Фирменные чеки, рекламная печать и билеты.",
+      "es": "Recibos de marca, impresión promocional y entradas."
+    },
+    "application": {
+      "en": "Branded receipts, promotional print and tickets",
+      "ar": "الإيصالات المخصصة والطباعة الترويجية والتذاكر",
+      "ru": "Фирменные чеки, рекламная печать и билеты",
+      "es": "Recibos de marca, impresión promocional y entradas"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [
+      {
+        "en": "Logo, QR code and promotional print; artwork confirmed before production",
+        "ar": "طباعة الشعارات ورموز QR والإعلانات بعد اعتماد التصميم",
+        "ru": "Логотипы, QR-коды и реклама после согласования макета",
+        "es": "Logotipos, códigos QR y publicidad con diseño aprobado"
+      }
+    ],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "Custom sizes",
+          "ar": "Custom sizes",
+          "ru": "Custom sizes",
+          "es": "Custom sizes"
+        }
+      },
+      {
+        "key": {
+          "en": "Paper grammage",
+          "ar": "وزن الورق",
+          "ru": "Плотность бумаги",
+          "es": "Gramaje"
+        },
+        "value": {
+          "en": "48 / 55 / 60 / 65 / 70 gsm",
+          "ar": "48 / 55 / 60 / 65 / 70 gsm",
+          "ru": "48 / 55 / 60 / 65 / 70 gsm",
+          "es": "48 / 55 / 60 / 65 / 70 gsm"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Paper or plastic core; size made to order",
+          "ar": "قلب ورقي أو بلاستيكي بمقاس حسب الطلب",
+          "ru": "Бумажная или пластиковая втулка на заказ",
+          "es": "Núcleo de papel o plástico a medida"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-04-2.webp",
+      "/images/materials/product-04-3.webp",
+      "/images/materials/product-04-4.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-04-1.webp",
+    "size": "Custom sizes",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 6",
+    "status": "published",
+    "sort_order": 3,
+    "price_mode": "quote",
+    "featured": false,
+    "pinned": false
+  },
+  {
+    "id": "LB-THERMAL",
+    "slug": "thermal-self-adhesive-label",
+    "category_slug": "thermal-labels",
+    "name": {
+      "en": "Direct Thermal Shipping Label Rolls",
+      "ar": "لفائف ملصقات شحن حرارية مباشرة",
+      "ru": "Рулонные термоэтикетки для доставки",
+      "es": "Rollos de etiquetas térmicas de envío"
+    },
+    "summary": {
+      "en": "Parcel shipping, warehouse identification and logistics.",
+      "ar": "شحن الطرود وتعريف المستودعات والخدمات اللوجستية.",
+      "ru": "Доставка посылок, складская маркировка и логистика.",
+      "es": "Envío de paquetes, identificación y logística."
+    },
+    "application": {
+      "en": "Parcel shipping, warehouse identification and logistics",
+      "ar": "شحن الطرود وتعريف المستودعات والخدمات اللوجستية",
+      "ru": "Доставка посылок, складская маркировка и логистика",
+      "es": "Envío de paquetes, identificación y logística"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [
+      {
+        "en": "Choose adhesive, label count, gap and perforation for your application",
+        "ar": "اختر اللاصق وعدد الملصقات والفجوة وخط التمزق حسب الاستخدام",
+        "ru": "Подберите клей, число этикеток, зазор и перфорацию",
+        "es": "Elija adhesivo, cantidad, separación y perforación"
+      }
+    ],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "100 × 150 mm / 100 × 100 mm",
+          "ar": "100 × 150 mm / 100 × 100 mm",
+          "ru": "100 × 150 mm / 100 × 100 mm",
+          "es": "100 × 150 mm / 100 × 100 mm"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Paper or plastic core; size made to order",
+          "ar": "قلب ورقي أو بلاستيكي بمقاس حسب الطلب",
+          "ru": "Бумажная или пластиковая втулка на заказ",
+          "es": "Núcleo de papel o plástico a medida"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-06-1.webp",
+      "/images/materials/product-06-2.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-06-3.webp",
+    "size": "100 × 150 mm / 100 × 100 mm",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 8",
+    "status": "published",
+    "sort_order": 5,
+    "price_mode": "quote",
+    "featured": true,
+    "pinned": false
+  },
+  {
+    "id": "LB-FANFOLD",
+    "slug": "fanfold-shipping-labels",
+    "category_slug": "thermal-labels",
+    "name": {
+      "en": "Fanfold Direct Thermal Shipping Labels",
+      "ar": "ملصقات شحن حرارية مطوية",
+      "ru": "Складные термоэтикетки для доставки",
+      "es": "Etiquetas térmicas de envío plegadas"
+    },
+    "summary": {
+      "en": "Batch shipping-label printing in warehouses and fulfilment centres.",
+      "ar": "طباعة ملصقات الشحن بالجملة في المستودعات.",
+      "ru": "Пакетная печать этикеток на складах.",
+      "es": "Impresión por lotes en almacenes y centros logísticos."
+    },
+    "application": {
+      "en": "Batch shipping-label printing in warehouses and fulfilment centres",
+      "ar": "طباعة ملصقات الشحن بالجملة في المستودعات",
+      "ru": "Пакетная печать этикеток на складах",
+      "es": "Impresión por lotes en almacenes y centros logísticos"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [
+      {
+        "en": "Fanfold packs of 1,000 / 2,000 / 4,000 labels; confirm printer feed",
+        "ar": "عبوات مطوية من 1000 أو 2000 أو 4000 ملصق؛ تأكد من تغذية الطابعة",
+        "ru": "Складные пачки по 1000 / 2000 / 4000 этикеток; согласуйте подачу",
+        "es": "Paquetes plegados de 1000 / 2000 / 4000 etiquetas; confirme la alimentación"
+      }
+    ],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "100 × 150 mm",
+          "ar": "100 × 150 mm",
+          "ru": "100 × 150 mm",
+          "es": "100 × 150 mm"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Fanfold / stack",
+          "ar": "مطوي / مكدس",
+          "ru": "Фальцованная пачка",
+          "es": "Plegado / apilado"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-07-2.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-07-1.webp",
+    "size": "100 × 150 mm",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 9",
+    "status": "published",
+    "sort_order": 6,
+    "price_mode": "quote",
+    "featured": false,
+    "pinned": false
+  },
+  {
+    "id": "LB-TRANSFER",
+    "slug": "thermal-transfer-paper-labels",
+    "category_slug": "thermal-labels",
+    "name": {
+      "en": "Thermal Transfer Coated Paper Labels",
+      "ar": "ملصقات ورق مطلي للنقل الحراري",
+      "ru": "Бумажные этикетки для термотрансферной печати",
+      "es": "Etiquetas de papel para transferencia térmica"
+    },
+    "summary": {
+      "en": "Asset identification, inventory and warehouse labels.",
+      "ar": "تعريف الأصول والمخزون وملصقات المستودعات.",
+      "ru": "Маркировка активов, запасов и складских товаров.",
+      "es": "Identificación de activos, inventario y almacenes."
+    },
+    "application": {
+      "en": "Asset identification, inventory and warehouse labels",
+      "ar": "تعريف الأصول والمخزون وملصقات المستودعات",
+      "ru": "Маркировка активов, запасов и складских товаров",
+      "es": "Identificación de activos, inventario y almacenes"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [
+      {
+        "en": "Requires a compatible wax or wax-resin ribbon",
+        "ar": "يتطلب شريط طباعة شمعي أو شمعي راتنجي مناسب",
+        "ru": "Требуется совместимая восковая или восково-смоляная лента",
+        "es": "Requiere cinta compatible de cera o cera-resina"
+      }
+    ],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "Custom sizes",
+          "ar": "Custom sizes",
+          "ru": "Custom sizes",
+          "es": "Custom sizes"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Paper or plastic core; size made to order",
+          "ar": "قلب ورقي أو بلاستيكي بمقاس حسب الطلب",
+          "ru": "Бумажная или пластиковая втулка на заказ",
+          "es": "Núcleo de papel o plástico a medida"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-08-2.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-08-1.webp",
+    "size": "Custom sizes",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 10",
+    "status": "published",
+    "sort_order": 7,
+    "price_mode": "quote",
+    "featured": false,
+    "pinned": false
+  },
+  {
+    "id": "LB-CUSTOM",
+    "slug": "custom-die-cut-stickers",
+    "category_slug": "printed-paper",
+    "name": {
+      "en": "Custom Printed Die-Cut Stickers",
+      "ar": "ملصقات مطبوعة ومقصوصة حسب الطلب",
+      "ru": "Фигурные наклейки с заказной печатью",
+      "es": "Pegatinas troqueladas e impresas a medida"
+    },
+    "summary": {
+      "en": "Brand packaging, seals and promotional labels.",
+      "ar": "تغليف العلامات التجارية والأختام والملصقات الترويجية.",
+      "ru": "Фирменная упаковка, пломбы и рекламные наклейки.",
+      "es": "Embalaje de marca, precintos y etiquetas promocionales."
+    },
+    "application": {
+      "en": "Brand packaging, seals and promotional labels",
+      "ar": "تغليف العلامات التجارية والأختام والملصقات الترويجية",
+      "ru": "Фирменная упаковка, пломбы и рекламные наклейки",
+      "es": "Embalaje de marca, precintos y etiquetas promocionales"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [
+      {
+        "en": "Paper, kraft, foil, PET or PVC options; confirm finish and adhesive",
+        "ar": "خيارات الورق والكرافت والرقائق وPET وPVC؛ أكد التشطيب واللاصق",
+        "ru": "Бумага, крафт, фольга, PET или PVC; согласуйте отделку и клей",
+        "es": "Opciones de papel, kraft, lámina, PET o PVC; confirme acabado y adhesivo"
+      }
+    ],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "Custom sizes",
+          "ar": "Custom sizes",
+          "ru": "Custom sizes",
+          "es": "Custom sizes"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "Paper or plastic core; size made to order",
+          "ar": "قلب ورقي أو بلاستيكي بمقاس حسب الطلب",
+          "ru": "Бумажная или пластиковая втулка на заказ",
+          "es": "Núcleo de papel o plástico a medida"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-09-2.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-09-1.webp",
+    "size": "Custom sizes",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 11",
+    "status": "published",
+    "sort_order": 8,
+    "price_mode": "quote",
+    "featured": false,
+    "pinned": false
+  },
+  {
+    "id": "TP-JUMBO",
+    "slug": "thermal-jumbo-roll",
+    "category_slug": "thermal-jumbo-rolls",
+    "name": {
+      "en": "Thermal Paper Jumbo Rolls",
+      "ar": "لفائف الورق الحراري الكبيرة",
+      "ru": "Большие рулоны термобумаги",
+      "es": "Bobinas jumbo de papel térmico"
+    },
+    "summary": {
+      "en": "Paper converting, roll slitting and wholesale paper supply.",
+      "ar": "تحويل الورق وتقطيع اللفائف وتوريد الورق بالجملة.",
+      "ru": "Переработка бумаги, резка рулонов и оптовые поставки.",
+      "es": "Conversión, corte de bobinas y suministro mayorista."
+    },
+    "application": {
+      "en": "Paper converting, roll slitting and wholesale paper supply",
+      "ar": "تحويل الورق وتقطيع اللفائف وتوريد الورق بالجملة",
+      "ru": "Переработка бумаги, резка рулонов и оптовые поставки",
+      "es": "Conversión, corte de bobinas y suministro mayorista"
+    },
+    "details": {
+      "en": "Confirm the complete specification before ordering: dimensions, material, core, printing, packing and quantity. Our team will match the product to your printer and application.",
+      "ar": "يرجى تأكيد الأبعاد والخامة والقلب والطباعة والتغليف والكمية قبل الطلب. سيساعدك فريقنا في اختيار المنتج المناسب للطابعة والاستخدام.",
+      "ru": "Перед заказом согласуйте размеры, материал, втулку, печать, упаковку и количество. Наша команда поможет подобрать товар для вашего принтера и задачи.",
+      "es": "Confirme medidas, material, núcleo, impresión, embalaje y cantidad antes de realizar el pedido. Nuestro equipo le ayudará a elegir el producto para su impresora y aplicación."
+    },
+    "features": [
+      {
+        "en": "For converters; agree slit width, winding, core and coating grade",
+        "ar": "للمحولين؛ أكد عرض القطع واللف والقلب ونوع الطلاء",
+        "ru": "Для переработчиков: согласуйте ширину, намотку, втулку и покрытие",
+        "es": "Para convertidores: confirme ancho, bobinado, núcleo y recubrimiento"
+      }
+    ],
+    "specifications": [
+      {
+        "key": {
+          "en": "Common sizes / width",
+          "ar": "المقاسات الشائعة / العرض",
+          "ru": "Размеры / ширина",
+          "es": "Medidas habituales / ancho"
+        },
+        "value": {
+          "en": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
+          "ar": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
+          "ru": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
+          "es": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm"
+        }
+      },
+      {
+        "key": {
+          "en": "Paper grammage",
+          "ar": "وزن الورق",
+          "ru": "Плотность бумаги",
+          "es": "Gramaje"
+        },
+        "value": {
+          "en": "48 / 55 / 60 / 65 / 70 gsm",
+          "ar": "48 / 55 / 60 / 65 / 70 gsm",
+          "ru": "48 / 55 / 60 / 65 / 70 gsm",
+          "es": "48 / 55 / 60 / 65 / 70 gsm"
+        }
+      },
+      {
+        "key": {
+          "en": "Core / construction",
+          "ar": "القلب / الشكل",
+          "ru": "Втулка / форма",
+          "es": "Núcleo / presentación"
+        },
+        "value": {
+          "en": "76 × 100 mm paper core",
+          "ar": "76 × 100 mm paper core",
+          "ru": "76 × 100 mm paper core",
+          "es": "76 × 100 mm paper core"
+        }
+      }
+    ],
+    "gallery": [
+      "/images/materials/product-10-1.webp",
+      "/images/materials/product-10-3.webp"
+    ],
+    "documents": [
+      "/downloads/3primary-product-catalog-2026-11.pdf"
+    ],
+    "image": "/images/materials/product-10-2.webp",
+    "size": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
+    "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 12",
+    "status": "published",
+    "sort_order": 9,
+    "price_mode": "quote",
+    "featured": true,
+    "pinned": false
+  }
+]

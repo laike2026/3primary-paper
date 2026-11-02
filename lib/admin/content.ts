@@ -1,6 +1,8 @@
 import 'server-only';
+import {cache} from 'react';
 import {z} from 'zod';
 import {db} from './db';
+import materialProducts from '@/data/material-products.json';
 import type {Article} from '@/lib/articles';
 import {categories as initialCategories, productRecords as initialProducts, type Category, type Product} from '@/lib/content';
 
@@ -41,19 +43,19 @@ export async function publishIssue(kind:string,data:Record<string,unknown>):Prom
   return null;
 }
 
-export async function publishedCategories():Promise<Category[]> {
+export const publishedCategories=cache(async():Promise<Category[]> => {
   if(!process.env.DATABASE_URL)return initialCategories;
   const rows=await db().query(`SELECT slug,name,summary,description,image,source,seo,nav_visible,updated_at FROM content_categories WHERE status='published' AND enabled=true AND deleted_at IS NULL ORDER BY sort_order,slug`);
   return rows as Category[];
-}
-export async function publishedProducts():Promise<Product[]> {
-  if(!process.env.DATABASE_URL)return initialProducts.filter(p=>p.status==='published');
+});
+export const publishedProducts=cache(async():Promise<Product[]> => {
+  if(!process.env.DATABASE_URL){const merged=new Map(initialProducts.map(p=>[p.id,p]));for(const row of materialProducts)merged.set(row.id,{...row,category:row.category_slug} as Product);return [...merged.values()].filter(p=>p.status==='published');}
   const rows=await db().query(`SELECT id,slug,category_slug AS category,name,summary,application,details,features,specifications,gallery,documents,video_url,moq,lead_time,price_mode,price_min,price_max,featured,pinned,image,size,source,status,seo,updated_at FROM content_products
     WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,sort_order,id`);
   return rows as Product[];
-}
-export async function publishedArticles():Promise<Article[]> {
+});
+export const publishedArticles=cache(async():Promise<Article[]> => {
   if(!process.env.DATABASE_URL)return [];
   const rows=await db().query(`SELECT slug,title,intro,sections,author,featured,pinned,seo,updated_at FROM content_articles WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,published_at DESC NULLS LAST,slug`);
   return rows as Article[];
-}
+});

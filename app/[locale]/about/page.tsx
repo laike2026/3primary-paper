@@ -1,11 +1,14 @@
 import type {Metadata} from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import {ArrowRight} from '@phosphor-icons/react/dist/ssr';
 import {PageHero} from '@/components/PageHero';
+import {wording} from '@/components/WebsiteBlocks';
+import {publishedWebsite} from '@/lib/admin/website';
+import {local} from '@/lib/content';
 import {copy} from '@/lib/copy';
-import {organizationJsonLd, pageMetadata} from '@/lib/seo';
-import {site} from '@/lib/site';
+import {pageMetadata} from '@/lib/seo';
 import type {Locale} from '@/i18n/routing';
+import {organizationJsonLd} from '@/lib/seo';
+import {site} from '@/lib/site';
 export async function generateMetadata({params}:{params:Promise<{locale:Locale}>}):Promise<Metadata>{const {locale}=await params;return pageMetadata(locale,'/about',copy[locale].aboutTitle,copy[locale].aboutIntro);}
-export default async function About({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;const c=copy[locale];const jsonLd=organizationJsonLd();return <><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd).replace(/</g,'\\u003c')}}/><PageHero locale={locale} path="/about" title={c.aboutTitle} intro={c.aboutIntro}/><section className="inner-content"><div className="container two-column"><div className="body-copy"><h2>{site.company}</h2><p>{c.aboutBody}</p><p>{locale==='en'?'Our current product catalog and direct contact details are available across this site. We publish only product information supported by the company’s existing catalog or current documents.':locale==='ar'?'يتوفر كتالوج المنتجات الحالي ومعلومات التواصل المباشر عبر الموقع. ننشر فقط معلومات المنتجات المدعومة بالكتالوج أو الوثائق الحالية.':locale==='ru'?'Актуальный каталог и прямые контакты доступны на сайте. Мы публикуем сведения о товарах только на основе существующего каталога или документов.':'El catálogo actual y los datos de contacto están disponibles en este sitio. Publicamos datos de productos respaldados por el catálogo o documentos actuales.'}</p><Link href={`/${locale}/contact#inquiry`} className="button">{locale==='en'?'Talk to Our Team':locale==='ar'?'تحدث مع فريقنا':locale==='ru'?'Связаться с командой':'Hable con nuestro equipo'}<ArrowRight size={16}/></Link></div><Image src="/images/sections/hero-paper-studio.webp" width={1862} height={845} alt="Illustrative thermal paper product still life"/></div></section></>;}
+export default async function About({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;const items=await publishedWebsite('about');return <><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(organizationJsonLd()).replace(/</g,'\\u003c')}}/><PageHero locale={locale} path="/about" title={copy[locale].aboutTitle} intro={copy[locale].aboutIntro}/>{items.map(item=><section className="inner-content" key={item.slug}><div className="container two-column"><div className="body-copy"><span className="eyebrow">{site.company}</span><h2>{local(item.name,locale)}</h2><p className="preserve-lines">{local(item.body,locale)}</p><div className="detail-actions"><Link href={`/${locale}/manufacturing-quality`} className="button button-outline">{wording(locale,'Explore manufacturing →','استكشف التصنيع ←','Подробнее о производстве →','Conozca la producción →')}</Link><Link href={`/${locale}/contact#inquiry`} className="button">{wording(locale,'Talk to our team →','تحدث مع فريقنا ←','Связаться с командой →','Hable con nuestro equipo →')}</Link></div></div>{item.image&&<Image src={item.image} width={900} height={675} alt={local(item.name,locale)} sizes="(max-width:700px) 100vw, 50vw"/>}</div></section>)}</>;}

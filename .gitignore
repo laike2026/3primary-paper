@@ -8,3 +8,5 @@ output/
 !.env.example
 *.tsbuildinfo
 .DS_Store
+
+.playwright-cli/

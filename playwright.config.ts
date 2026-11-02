@@ -16,7 +16,7 @@ export default defineConfig({
   },
   projects: [{name: 'chromium', use: {...devices['Desktop Chrome']}}],
   webServer: {
-    command: `pnpm dev --port ${port}`,
+    command: process.env.E2E_PRODUCTION==='1'?`pnpm start --port ${port}`:`pnpm dev --port ${port}`,
     url: `http://127.0.0.1:${port}/en`,
     env: {DATABASE_URL:'',DATABASE_URL_UNPOOLED:'',BLOB_READ_WRITE_TOKEN:'',RESEND_API_KEY:''},
     reuseExistingServer: !process.env.CI,

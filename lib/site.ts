@@ -5,7 +5,7 @@ export const site = {
   phone: '+86 13661927136',
   phoneHref: 'tel:+8613661927136',
   whatsapp: 'https://wa.me/8613661927136',
-  email: 'alex.chen@3primary.com',
+  email: 'info@tpc-paper.com',
   address,
   mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`,
   logo: '/images/brand/official-logo.jpg',

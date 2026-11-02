@@ -1,0 +1,1002 @@
+[
+  {
+    "slug": "company-profile",
+    "kind": "about",
+    "name": {
+      "en": "Paper solutions for global business",
+      "ar": "حلول ورقية للأعمال العالمية",
+      "ru": "Бумажные решения для международного бизнеса",
+      "es": "Soluciones de papel para empresas globales"
+    },
+    "body": {
+      "en": "Zhejiang Three Primary Colors Paper Co., Ltd. supplies thermal paper rolls, self-adhesive labels and custom printed paper. We work with buyers to coordinate product specifications, material selection, printing and export packaging. From POS receipts and ATM rolls to shipping labels and jumbo rolls for converters, our team helps you prepare the right supply specification.",
+      "ar": "توفر شركة Zhejiang Three Primary Colors Paper Co., Ltd. لفائف الورق الحراري والملصقات ذاتية اللصق والورق المطبوع حسب الطلب. ننسق مع المشترين مواصفات المنتجات والخامات والطباعة وتغليف التصدير، من إيصالات نقاط البيع والصرافات الآلية إلى ملصقات الشحن واللفائف الكبيرة.",
+      "ru": "Zhejiang Three Primary Colors Paper Co., Ltd. поставляет термобумагу, самоклеящиеся этикетки и бумагу с заказной печатью. Мы согласуем с покупателями характеристики, материал, печать и экспортную упаковку: от кассовых и банкоматных чеков до транспортных этикеток и больших рулонов для переработки.",
+      "es": "Zhejiang Three Primary Colors Paper Co., Ltd. suministra rollos térmicos, etiquetas autoadhesivas y papel impreso a medida. Coordinamos especificaciones, materiales, impresión y embalaje de exportación, desde recibos POS y cajeros hasta etiquetas de envío y bobinas jumbo para convertidores."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "/images/materials/factory-samples.webp",
+    "file_url": "",
+    "topic": "",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 0
+  },
+  {
+    "slug": "factory-converting",
+    "kind": "factory",
+    "name": {
+      "en": "Paper converting",
+      "ar": "تحويل الورق",
+      "ru": "Переработка бумаги",
+      "es": "Conversión de papel"
+    },
+    "body": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "/images/materials/factory-converting.webp",
+    "file_url": "",
+    "topic": "production",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "Company-supplied photographs. Do not infer facility ownership or output from imagery.",
+    "status": "published",
+    "sort_order": 1
+  },
+  {
+    "slug": "factory-equipment",
+    "kind": "factory",
+    "name": {
+      "en": "Converting equipment",
+      "ar": "معدات التحويل",
+      "ru": "Оборудование для переработки",
+      "es": "Equipo de conversión"
+    },
+    "body": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "/images/materials/factory-equipment.webp",
+    "file_url": "",
+    "topic": "production",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "Company-supplied photographs. Do not infer facility ownership or output from imagery.",
+    "status": "published",
+    "sort_order": 2
+  },
+  {
+    "slug": "factory-workshop",
+    "kind": "factory",
+    "name": {
+      "en": "Workshop",
+      "ar": "ورشة الإنتاج",
+      "ru": "Производственный цех",
+      "es": "Taller de producción"
+    },
+    "body": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "/images/materials/factory-workshop.webp",
+    "file_url": "",
+    "topic": "production",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "Company-supplied photographs. Do not infer facility ownership or output from imagery.",
+    "status": "published",
+    "sort_order": 3
+  },
+  {
+    "slug": "factory-storage",
+    "kind": "factory",
+    "name": {
+      "en": "Material storage",
+      "ar": "تخزين المواد",
+      "ru": "Хранение материалов",
+      "es": "Almacén de materiales"
+    },
+    "body": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "/images/materials/factory-storage.webp",
+    "file_url": "",
+    "topic": "production",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "Company-supplied photographs. Do not infer facility ownership or output from imagery.",
+    "status": "published",
+    "sort_order": 4
+  },
+  {
+    "slug": "factory-finished-rolls",
+    "kind": "factory",
+    "name": {
+      "en": "Finished rolls",
+      "ar": "اللفائف الجاهزة",
+      "ru": "Готовые рулоны",
+      "es": "Rollos terminados"
+    },
+    "body": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "/images/materials/factory-finished-rolls.webp",
+    "file_url": "",
+    "topic": "production",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "Company-supplied photographs. Do not infer facility ownership or output from imagery.",
+    "status": "published",
+    "sort_order": 5
+  },
+  {
+    "slug": "factory-samples",
+    "kind": "factory",
+    "name": {
+      "en": "Product sample display",
+      "ar": "عرض عينات المنتجات",
+      "ru": "Образцы продукции",
+      "es": "Exposición de muestras"
+    },
+    "body": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "/images/materials/factory-samples.webp",
+    "file_url": "",
+    "topic": "production",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "Company-supplied photographs. Do not infer facility ownership or output from imagery.",
+    "status": "published",
+    "sort_order": 6
+  },
+  {
+    "slug": "procurement-faq-01",
+    "kind": "faq",
+    "name": {
+      "en": "Which products do you supply?",
+      "ar": "ما المنتجات التي توفرونها؟",
+      "ru": "Какие товары вы поставляете?",
+      "es": "¿Qué productos suministran?"
+    },
+    "body": {
+      "en": "Our range includes thermal receipt rolls, ATM rolls, thermal jumbo rolls, self-adhesive labels and custom printed paper. Choose the product by application and printer type.",
+      "ar": "تشمل مجموعتنا لفائف الإيصالات والصرافات الآلية واللفائف الكبيرة والملصقات ذاتية اللصق والورق المطبوع حسب الطلب. اختر حسب الاستخدام ونوع الطابعة.",
+      "ru": "В ассортимент входят чековые и банкоматные терморулоны, большие рулоны, самоклеящиеся этикетки и бумага с заказной печатью. Выбор зависит от задачи и типа принтера.",
+      "es": "La gama incluye rollos para recibos y cajeros, bobinas jumbo, etiquetas autoadhesivas y papel impreso a medida. Elija según el uso y la impresora."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "products",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 7
+  },
+  {
+    "slug": "procurement-faq-02",
+    "kind": "faq",
+    "name": {
+      "en": "What information is needed for a quotation?",
+      "ar": "ما المعلومات المطلوبة لعرض السعر؟",
+      "ru": "Что нужно для расчёта цены?",
+      "es": "¿Qué datos necesitan para cotizar?"
+    },
+    "body": {
+      "en": "Send the product type, width, diameter or length, core, gsm or label material, quantity, printing, packing and delivery destination.",
+      "ar": "أرسل نوع المنتج والعرض والقطر أو الطول والقلب ووزن الورق أو خامة الملصق والكمية والطباعة والتغليف والوجهة.",
+      "ru": "Укажите вид товара, ширину, диаметр или длину, втулку, плотность или материал этикетки, количество, печать, упаковку и пункт доставки.",
+      "es": "Envíe tipo de producto, ancho, diámetro o longitud, núcleo, gramaje o material, cantidad, impresión, embalaje y destino."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "ordering",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 8
+  },
+  {
+    "slug": "procurement-faq-03",
+    "kind": "faq",
+    "name": {
+      "en": "Can you customize sizes and cores?",
+      "ar": "هل يمكن تخصيص المقاسات والقلب؟",
+      "ru": "Можно ли заказать свои размеры и втулки?",
+      "es": "¿Pueden personalizar medidas y núcleos?"
+    },
+    "body": {
+      "en": "Yes. Width, roll length, diameter, paper or plastic cores and packing can be discussed for your order. Confirm the complete specification before production.",
+      "ar": "نعم. يمكن مناقشة العرض والطول والقطر والقلب الورقي أو البلاستيكي والتغليف حسب طلبك. أكد المواصفات الكاملة قبل الإنتاج.",
+      "ru": "Да. Можно согласовать ширину, длину, диаметр, бумажную или пластиковую втулку и упаковку. Полная спецификация утверждается до производства.",
+      "es": "Sí. Podemos acordar ancho, longitud, diámetro, núcleos de papel o plástico y embalaje. Confirme la especificación completa antes de producir."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "customization",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 9
+  },
+  {
+    "slug": "procurement-faq-04",
+    "kind": "faq",
+    "name": {
+      "en": "Can you print our logo or artwork?",
+      "ar": "هل يمكن طباعة شعارنا أو تصميمنا؟",
+      "ru": "Можно ли напечатать наш логотип?",
+      "es": "¿Pueden imprimir nuestro logotipo o diseño?"
+    },
+    "body": {
+      "en": "Custom logos, QR codes, back print and carton marks are available by agreement. Send the artwork and confirm a proof before production.",
+      "ar": "تتوفر الشعارات ورموز QR والطباعة الخلفية وعلامات الكرتون بالاتفاق. أرسل التصميم واعتمد النسخة التجريبية قبل الإنتاج.",
+      "ru": "Логотипы, QR-коды, оборотную печать и маркировку коробок согласуют при заказе. Пришлите макет и утвердите пробу до производства.",
+      "es": "Podemos acordar logotipos, códigos QR, impresión al dorso y marcas de cartón. Envíe el diseño y apruebe una prueba antes de producir."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "customization",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 10
+  },
+  {
+    "slug": "procurement-faq-05",
+    "kind": "faq",
+    "name": {
+      "en": "How do I request samples?",
+      "ar": "كيف أطلب عينات؟",
+      "ru": "Как запросить образцы?",
+      "es": "¿Cómo solicito muestras?"
+    },
+    "body": {
+      "en": "Tell us the material, size, core, gsm and quantity you want to evaluate, plus your delivery address. We will confirm availability, sample cost and courier charges.",
+      "ar": "حدد الخامة والمقاس والقلب ووزن الورق والكمية وعنوان التسليم. سنؤكد التوفر وتكلفة العينة والشحن.",
+      "ru": "Укажите материал, размеры, втулку, плотность, количество и адрес доставки. Мы подтвердим наличие, стоимость образцов и пересылки.",
+      "es": "Indique material, medidas, núcleo, gramaje, cantidad y dirección de entrega. Confirmaremos disponibilidad, coste de muestras y transporte."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "samples",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 11
+  },
+  {
+    "slug": "procurement-faq-06",
+    "kind": "faq",
+    "name": {
+      "en": "Can I use my own courier account?",
+      "ar": "هل يمكن استخدام حساب الشحن الخاص بي؟",
+      "ru": "Можно использовать свой курьерский счёт?",
+      "es": "¿Puedo usar mi cuenta de mensajería?"
+    },
+    "body": {
+      "en": "You may provide your DHL, FedEx or UPS account for sample delivery. Confirm the service and collection arrangement with our team.",
+      "ar": "يمكنك تقديم حساب DHL أو FedEx أو UPS لشحن العينات. أكد الخدمة وترتيبات الاستلام مع فريقنا.",
+      "ru": "Для отправки образцов можно предоставить счёт DHL, FedEx или UPS. Согласуйте службу и забор груза с нашей командой.",
+      "es": "Puede facilitar su cuenta DHL, FedEx o UPS para las muestras. Confirme el servicio y la recogida con nuestro equipo."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "samples",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 12
+  },
+  {
+    "slug": "procurement-faq-07",
+    "kind": "faq",
+    "name": {
+      "en": "Can I compare different paper grades?",
+      "ar": "هل يمكن مقارنة درجات ورق مختلفة؟",
+      "ru": "Можно сравнить разные сорта бумаги?",
+      "es": "¿Puedo comparar diferentes gramajes?"
+    },
+    "body": {
+      "en": "Request labelled samples of the gsm and material options you need. Compare them on your own printer under the intended conditions.",
+      "ar": "اطلب عينات محددة بوزن الورق والخامة المطلوبة وقارنها على طابعتك في ظروف الاستخدام المقصودة.",
+      "ru": "Запросите подписанные образцы нужной плотности и материала. Сравните их на своём принтере в рабочих условиях.",
+      "es": "Solicite muestras identificadas por gramaje y material. Compárelas en su impresora bajo las condiciones previstas."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "samples",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 13
+  },
+  {
+    "slug": "procurement-faq-08",
+    "kind": "faq",
+    "name": {
+      "en": "What is the difference between direct thermal and thermal transfer labels?",
+      "ar": "ما الفرق بين الملصقات الحرارية المباشرة والنقل الحراري؟",
+      "ru": "Чем отличаются термоэтикетки от термотрансферных?",
+      "es": "¿Qué diferencia hay entre etiquetas térmicas y de transferencia?"
+    },
+    "body": {
+      "en": "Direct thermal labels print without a ribbon. Thermal transfer labels require a compatible ribbon. Select the construction for your printer, application and durability needs.",
+      "ar": "تطبع الملصقات الحرارية المباشرة دون شريط، بينما تحتاج ملصقات النقل الحراري إلى شريط متوافق. اختر حسب الطابعة والاستخدام والمتانة المطلوبة.",
+      "ru": "Термоэтикетки печатаются без ленты, а термотрансферным нужна совместимая лента. Выбор зависит от принтера, задачи и требуемой стойкости.",
+      "es": "Las etiquetas térmicas directas no necesitan cinta; las de transferencia sí. Elija según impresora, uso y durabilidad requerida."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "products",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 14
+  },
+  {
+    "slug": "procurement-faq-09",
+    "kind": "faq",
+    "name": {
+      "en": "How do I check printer compatibility?",
+      "ar": "كيف أتحقق من توافق الطابعة؟",
+      "ru": "Как проверить совместимость с принтером?",
+      "es": "¿Cómo verifico la compatibilidad con mi impresora?"
+    },
+    "body": {
+      "en": "Provide the printer model, maximum roll dimensions, core and label sensing requirements. A sample test is recommended before a bulk order.",
+      "ar": "أرسل طراز الطابعة وأقصى أبعاد اللفة والقلب ومتطلبات استشعار الملصقات. ننصح بتجربة عينة قبل الطلب بالجملة.",
+      "ru": "Сообщите модель принтера, допустимые размеры рулона, втулку и требования датчика. Перед оптовым заказом рекомендуем проверить образец.",
+      "es": "Facilite modelo, medidas máximas del rollo, núcleo y tipo de detección. Recomendamos probar una muestra antes del pedido mayorista."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "products",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 15
+  },
+  {
+    "slug": "procurement-faq-10",
+    "kind": "faq",
+    "name": {
+      "en": "Can you supply waterproof or removable labels?",
+      "ar": "هل تتوفر ملصقات مقاومة للماء أو قابلة للإزالة؟",
+      "ru": "Есть влагостойкие или съёмные этикетки?",
+      "es": "¿Ofrecen etiquetas resistentes al agua o removibles?"
+    },
+    "body": {
+      "en": "Material and adhesive options depend on the application. Tell us the surface, temperature, moisture and removal requirements so we can recommend a suitable construction for testing.",
+      "ar": "تعتمد الخامة واللاصق على الاستخدام. حدد السطح والحرارة والرطوبة ومتطلبات الإزالة لنقترح تركيبة مناسبة للاختبار.",
+      "ru": "Материал и клей подбирают под задачу. Укажите поверхность, температуру, влажность и требования к снятию, чтобы подобрать вариант для проверки.",
+      "es": "El material y adhesivo dependen del uso. Indique superficie, temperatura, humedad y necesidad de retirada para recomendar una opción a probar."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "products",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 16
+  },
+  {
+    "slug": "procurement-faq-11",
+    "kind": "faq",
+    "name": {
+      "en": "Can label counts, gaps and perforations be customized?",
+      "ar": "هل يمكن تخصيص العدد والفجوات وخطوط التمزق؟",
+      "ru": "Можно изменить число этикеток, зазор и перфорацию?",
+      "es": "¿Pueden personalizar cantidad, separación y perforación?"
+    },
+    "body": {
+      "en": "Specify the label size, labels per roll or stack, gap, sensing method and perforation. These details are confirmed with the quotation.",
+      "ar": "حدد مقاس الملصق وعدد الملصقات في اللفة أو الرصة والفجوة وطريقة الاستشعار وخط التمزق. تؤكد التفاصيل مع عرض السعر.",
+      "ru": "Укажите размер, количество в рулоне или пачке, зазор, способ считывания и перфорацию. Эти параметры согласуются в предложении.",
+      "es": "Indique tamaño, etiquetas por rollo o paquete, separación, detección y perforación. Se confirmarán en la cotización."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "customization",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 17
+  },
+  {
+    "slug": "procurement-faq-12",
+    "kind": "faq",
+    "name": {
+      "en": "What determines roll length?",
+      "ar": "ما الذي يحدد طول اللفة؟",
+      "ru": "От чего зависит длина рулона?",
+      "es": "¿Qué determina la longitud del rollo?"
+    },
+    "body": {
+      "en": "Width, outer diameter, core and paper thickness affect the roll construction. Specify the required length separately; gsm is basis weight and is not a direct measurement of thickness.",
+      "ar": "يؤثر العرض والقطر الخارجي والقلب وسماكة الورق على اللفة. حدد الطول المطلوب بصورة منفصلة؛ وزن الورق ليس قياساً مباشراً للسماكة.",
+      "ru": "На рулон влияют ширина, внешний диаметр, втулка и толщина бумаги. Длину указывайте отдельно: плотность в г/м² не является прямым измерением толщины.",
+      "es": "El ancho, diámetro exterior, núcleo y espesor afectan al rollo. Especifique la longitud por separado: el gramaje no mide directamente el espesor."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "products",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 18
+  },
+  {
+    "slug": "procurement-faq-13",
+    "kind": "faq",
+    "name": {
+      "en": "How long will printed information last?",
+      "ar": "كم تدوم المعلومات المطبوعة؟",
+      "ru": "Как долго сохраняется отпечаток?",
+      "es": "¿Cuánto dura la información impresa?"
+    },
+    "body": {
+      "en": "Image life depends on the material grade, heat, light, moisture and chemical contact. Ask for the storage and performance guidance for the specific grade you select.",
+      "ar": "تعتمد مدة الصورة على الخامة والحرارة والضوء والرطوبة والمواد الكيميائية. اطلب إرشادات التخزين والأداء للخامة المحددة.",
+      "ru": "Срок сохранности зависит от сорта, нагрева, света, влаги и контакта с химикатами. Запросите условия хранения для выбранного материала.",
+      "es": "La duración depende del material, calor, luz, humedad y contacto químico. Solicite las indicaciones correspondientes al grado elegido."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "products",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 19
+  },
+  {
+    "slug": "procurement-faq-14",
+    "kind": "faq",
+    "name": {
+      "en": "What is the minimum order quantity?",
+      "ar": "ما الحد الأدنى للطلب؟",
+      "ru": "Каков минимальный объём заказа?",
+      "es": "¿Cuál es el pedido mínimo?"
+    },
+    "body": {
+      "en": "MOQ depends on the specification, print and packing. Send your required quantity so we can confirm a suitable order or trial arrangement.",
+      "ar": "يعتمد الحد الأدنى على المواصفات والطباعة والتغليف. أرسل الكمية المطلوبة لنؤكد ترتيب الطلب أو التجربة المناسب.",
+      "ru": "Минимальный объём зависит от параметров, печати и упаковки. Сообщите нужное количество, чтобы согласовать заказ или пробную партию.",
+      "es": "El mínimo depende de especificación, impresión y embalaje. Envíe la cantidad para confirmar un pedido o lote de prueba adecuado."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "ordering",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 20
+  },
+  {
+    "slug": "procurement-faq-15",
+    "kind": "faq",
+    "name": {
+      "en": "How is the final price confirmed?",
+      "ar": "كيف يؤكد السعر النهائي؟",
+      "ru": "Как подтверждается окончательная цена?",
+      "es": "¿Cómo confirman el precio final?"
+    },
+    "body": {
+      "en": "Prices are quoted for the agreed material, dimensions, quantity, printing, packing and trade terms. Request a current quotation for your specification.",
+      "ar": "تحدد الأسعار حسب الخامة والأبعاد والكمية والطباعة والتغليف وشروط التجارة المتفق عليها. اطلب عرضاً حديثاً لمواصفاتك.",
+      "ru": "Цена рассчитывается по согласованным материалу, размерам, количеству, печати, упаковке и условиям поставки. Запросите актуальное предложение.",
+      "es": "El precio se cotiza según material, medidas, cantidad, impresión, embalaje y condiciones acordadas. Solicite una cotización actual."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "ordering",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 21
+  },
+  {
+    "slug": "procurement-faq-16",
+    "kind": "faq",
+    "name": {
+      "en": "When can my order be delivered?",
+      "ar": "متى يمكن تسليم طلبي؟",
+      "ru": "Когда будет поставлен заказ?",
+      "es": "¿Cuándo pueden entregar el pedido?"
+    },
+    "body": {
+      "en": "Lead time is confirmed after checking the specification, material availability and production schedule. Tell us your required delivery date when enquiring.",
+      "ar": "يؤكد الموعد بعد مراجعة المواصفات وتوفر المواد وجدول الإنتاج. أبلغنا بتاريخ التسليم المطلوب عند الاستفسار.",
+      "ru": "Срок подтверждается после проверки спецификации, наличия материалов и графика производства. Укажите желаемую дату при запросе.",
+      "es": "El plazo se confirma tras revisar especificación, materiales y producción. Indique la fecha requerida al consultar."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "shipping",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 22
+  },
+  {
+    "slug": "procurement-faq-17",
+    "kind": "faq",
+    "name": {
+      "en": "Which packing options are available?",
+      "ar": "ما خيارات التغليف المتاحة؟",
+      "ru": "Какие варианты упаковки доступны?",
+      "es": "¿Qué opciones de embalaje ofrecen?"
+    },
+    "body": {
+      "en": "Shrink wrap and export cartons are common options. Confirm rolls per pack, carton dimensions, weight, pallet requirements and any custom marks with your order.",
+      "ar": "تشمل الخيارات الشائعة التغليف الانكماشي وكراتين التصدير. أكد عدد اللفائف والأبعاد والوزن والمنصات والعلامات المطلوبة.",
+      "ru": "Обычно используют термоусадочную плёнку и экспортные коробки. Согласуйте количество, размеры, вес, паллеты и маркировку.",
+      "es": "Son habituales la película retráctil y las cajas de exportación. Confirme cantidades, medidas, peso, palés y marcas especiales."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "shipping",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 23
+  },
+  {
+    "slug": "procurement-faq-18",
+    "kind": "faq",
+    "name": {
+      "en": "Can I use my own freight forwarder?",
+      "ar": "هل يمكن استخدام وكيل الشحن الخاص بي؟",
+      "ru": "Можно использовать своего экспедитора?",
+      "es": "¿Puedo utilizar mi transitario?"
+    },
+    "body": {
+      "en": "Yes, shipping can be coordinated with your nominated forwarder. Confirm the trade terms, loading arrangements and required documents in advance.",
+      "ar": "نعم، يمكن التنسيق مع وكيلك. أكد شروط التجارة والتحميل والمستندات المطلوبة مسبقاً.",
+      "ru": "Да, отгрузку можно согласовать с вашим экспедитором. Заранее утвердите условия поставки, погрузку и документы.",
+      "es": "Sí, podemos coordinar con su transitario. Confirme previamente condiciones, carga y documentación."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "shipping",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 24
+  },
+  {
+    "slug": "procurement-faq-19",
+    "kind": "faq",
+    "name": {
+      "en": "Can order specifications be changed?",
+      "ar": "هل يمكن تغيير مواصفات الطلب؟",
+      "ru": "Можно изменить спецификацию заказа?",
+      "es": "¿Se pueden cambiar las especificaciones?"
+    },
+    "body": {
+      "en": "Contact our team as early as possible. Changes depend on material purchasing and production progress and must be confirmed in writing before they take effect.",
+      "ar": "تواصل مع فريقنا مبكراً. تعتمد التغييرات على شراء المواد وتقدم الإنتاج ويجب تأكيدها كتابياً قبل تنفيذها.",
+      "ru": "Свяжитесь с нами как можно раньше. Возможность изменений зависит от закупки и этапа производства; они вступают в силу после письменного согласования.",
+      "es": "Contacte cuanto antes. Los cambios dependen de compras y avance de producción y requieren confirmación escrita."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "ordering",
+    "product_ids": [
+      "TP-8080",
+      "TP-5740",
+      "PP-ATM",
+      "TP-PRINTED",
+      "LB-THERMAL",
+      "LB-FANFOLD",
+      "LB-TRANSFER",
+      "LB-CUSTOM",
+      "TP-JUMBO"
+    ],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 25
+  },
+  {
+    "slug": "procurement-faq-20",
+    "kind": "faq",
+    "name": {
+      "en": "How do I report a quality or transit issue?",
+      "ar": "كيف أبلغ عن مشكلة جودة أو نقل؟",
+      "ru": "Как сообщить о проблеме качества или доставки?",
+      "es": "¿Cómo comunico un problema de calidad o transporte?"
+    },
+    "body": {
+      "en": "Keep the packing and order reference, take clear photographs and contact our team promptly. We will review the issue against the agreed specification and shipping terms.",
+      "ar": "احتفظ بالتغليف ورقم الطلب والتقط صوراً واضحة وتواصل معنا سريعاً. سنراجع المشكلة وفق المواصفات وشروط الشحن المتفق عليها.",
+      "ru": "Сохраните упаковку и номер заказа, сделайте чёткие фотографии и оперативно свяжитесь с нами. Мы рассмотрим вопрос по согласованным параметрам и условиям перевозки.",
+      "es": "Conserve embalaje y referencia, tome fotografías claras y contacte pronto. Revisaremos el caso según especificación y transporte acordados."
+    },
+    "summary": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "image": "",
+    "file_url": "",
+    "topic": "support",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 26
+  },
+  {
+    "slug": "product-catalog-2026-11",
+    "kind": "download",
+    "name": {
+      "en": "Paper & Label Product Catalog",
+      "ar": "كتالوج منتجات الورق والملصقات",
+      "ru": "Каталог бумаги и этикеток",
+      "es": "Catálogo de papel y etiquetas"
+    },
+    "body": {
+      "en": "",
+      "ar": "",
+      "ru": "",
+      "es": ""
+    },
+    "summary": {
+      "en": "Product formats, customization and purchasing information. English edition · November 2026.",
+      "ar": "المقاسات والتخصيص ومعلومات الشراء. النسخة الإنجليزية · نوفمبر 2026.",
+      "ru": "Форматы, заказные опции и информация для закупки. Английская версия · ноябрь 2026.",
+      "es": "Formatos, personalización e información de compra. Edición en inglés · noviembre de 2026."
+    },
+    "image": "/images/materials/product-01-2.webp",
+    "file_url": "/downloads/3primary-product-catalog-2026-11.pdf",
+    "topic": "catalog",
+    "product_ids": [],
+    "source": "Company materials supplied 2026-11-02",
+    "notes": "",
+    "status": "published",
+    "sort_order": 27
+  }
+]
