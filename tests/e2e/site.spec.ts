@@ -19,9 +19,9 @@ for (const locale of locales) {
 
 test('product search, filter, detail and locale switch preserve the product URL', async ({page}) => {
   await page.goto('/en/products');
-  await page.getByRole('combobox', {name: 'Category'}).selectOption('thermal-labels');
+  await page.getByRole('group', {name: 'Product families', exact:true}).getByRole('radio', {name:'Thermal Labels',exact:true}).check();
   await expect(page.locator('.page-card-grid').last().locator('.page-card')).toHaveCount(3);
-  await page.getByRole('combobox', {name: 'Category'}).selectOption('all');
+  await page.getByRole('group', {name: 'Product families',exact:true}).getByRole('radio', {name:'All products',exact:true}).check();
   await page.getByRole('searchbox').fill('80x80');
   const results = page.locator('.page-card-grid').last().locator('.page-card');
   await expect(results).toHaveCount(1);

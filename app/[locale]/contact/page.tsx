@@ -1,12 +1,70 @@
-import {publishedProducts} from '@/lib/admin/content';
-import type {Metadata} from 'next';
-import {Envelope, WhatsappLogo} from '@phosphor-icons/react/dist/ssr';
+import {Envelope, Phone, MapPin} from '@phosphor-icons/react/dist/ssr';
 import {PageHero} from '@/components/PageHero';
+import {InnerPage, SupplySteps} from '@/components/Interior';
+import {SocialLinks} from '@/components/SocialLinks';
 import {InquiryForm} from '@/components/InquiryForm';
+import {publishedProducts} from '@/lib/admin/content';
+import {publicContact} from '@/lib/admin/settings';
 import {copy} from '@/lib/copy';
 import {pageMetadata} from '@/lib/seo';
 import {site} from '@/lib/site';
-import {publicContact} from '@/lib/admin/settings';
+import {ui, tr} from '@/lib/interior-copy';
 import type {Locale} from '@/i18n/routing';
-export async function generateMetadata({params}:{params:Promise<{locale:Locale}>}):Promise<Metadata>{const {locale}=await params;return pageMetadata(locale,'/contact',locale==='en'?'Contact Us':locale==='ar'?'اتصل بنا':locale==='ru'?'Контакты':'Contacto',copy[locale].contactIntro);}
-export default async function Contact({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;const [productOptions,contact]=await Promise.all([publishedProducts(),publicContact()]);return <><PageHero locale={locale} path="/contact" title={locale==='en'?'Let’s Talk Paper':locale==='ar'?'لنتحدث عن الورق':locale==='ru'?'Обсудим бумагу':'Hablemos de papel'} intro={copy[locale].contactIntro}/><section className="inner-content"><div className="container inquiry-layout"><div><h2 className="section-heading">{locale==='en'?'Contact Our Team':locale==='ar'?'تواصل مع فريقنا':locale==='ru'?'Связаться с нами':'Contacte a nuestro equipo'}</h2><p className="section-intro">{copy[locale].contactIntro}</p><div className="contact-options"><a href={`mailto:${site.email}`}><Envelope size={23}/><span>{site.email}</span></a><a href={contact.whatsapp} target="_blank" rel="noopener noreferrer"><WhatsappLogo size={23}/><span>{contact.phone}</span></a>{contact.address&&contact.mapUrl&&<a href={contact.mapUrl} data-track-event="address_click" data-track-placement="contact" target="_blank" rel="noopener noreferrer"><span>{contact.address}</span></a>}</div></div><InquiryForm locale={locale} productOptions={productOptions}/></div></section></>;}
+export async function generateMetadata({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  return pageMetadata(locale, '/contact', ui(locale, 'contact'), copy[locale].contactIntro);
+}
+export default async function Contact({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  const [products, contact] = await Promise.all([publishedProducts(), publicContact()]);
+  return (
+    <InnerPage>
+      <PageHero
+        locale={locale}
+        path="/contact"
+        title={tr(locale, 'Let’s talk paper.', 'لنتحدث عن الورق.', 'Обсудим бумагу.', 'Hablemos de papel.')}
+        intro={copy[locale].contactIntro}
+        image="/images/materials/product-04-1.webp"
+      />
+      <section className="inner-content">
+        <div className="container">
+          <div className="contact-layout">
+            <div className="contact-information">
+              <h2 dir="ltr">{site.company}</h2>
+              <p>{copy[locale].aboutIntro}</p>
+              <div className="contact-options">
+                <a href={site.phoneHref}>
+                  <Phone size={27} weight="light" />
+                  <span dir="ltr">{contact.phone}</span>
+                </a>
+                <a href={'mailto:' + site.email}>
+                  <Envelope size={27} weight="light" />
+                  <span>{site.email}</span>
+                </a>
+                {contact.address && (
+                  <a
+                    href={contact.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-track-event="address_click"
+                    data-track-placement="contact"
+                  >
+                    <MapPin size={27} weight="light" />
+                    <span dir="ltr">{contact.address}</span>
+                  </a>
+                )}
+              </div>
+              <SocialLinks whatsapp={contact.whatsapp} />
+            </div>
+            <div className="form-panel">
+              <h2>{ui(locale, 'requirements')}</h2>
+              <InquiryForm locale={locale} productOptions={products} />
+            </div>
+          </div>
+          <h2 style={{marginTop: 65}}>{ui(locale, 'next')}</h2>
+          <SupplySteps locale={locale} />
+        </div>
+      </section>
+    </InnerPage>
+  );
+}

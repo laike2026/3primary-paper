@@ -1,39 +1,28 @@
-# Admin design verification — 15 October 2026
+# Public inner-page design verification
 
-Source visual truth: `output/admin-style-c.png` (the third displayed design, selected by the owner).
-Implementation: `output/admin-dark/tracking-production-build.png`, rendered from the production build at `/admin/tracking`.
+The 17 owner-approved references are in `../design-previews/images/01-products.png` through `17-terms.png`. They range from 787 to 973 px wide and 1616 to 1998 px tall. These are full-page design images without a declared browser viewport. The rendered desktop comparison uses Chromium at 1440 × 1000 CSS px and device scale 1. Tablet and mobile checks use 840 × 1100 and 390 × 1000 CSS px. Localized mobile checks also use 390 × 844.
 
-Both desktop images are 1487 × 1058 px. Browser CSS viewport: 1487 × 1058, screenshot density 1. The source and final implementation were opened together in the same comparison input. Additional captures cover the product list, mobile tracking, mobile settings and mobile product editor. A separate region crop was unnecessary because the same full frame clearly shows the navigation, headline, three contact metrics, funnel, trend area and source tables.
+The side-by-side evidence in `output/qa` scales both columns to the same width. `comparison-01-products.jpg`, `comparison-02-product-category.jpg`, `comparison-03-product-detail.jpg` and `comparison-13-article-detail.jpg` show full pages. `comparison-inner-1.jpg` through `comparison-inner-4.jpg` compare the remaining layouts in focused first-screen crops. The screenshots and source images have different content lengths because the implementation uses published product data, live navigation and the existing legal copy. The QA baseline used the default catalog and FAQ states. It also covered the gallery and inquiry success states separately.
 
 ## Findings and fixes
 
-- P2: The first source tables inherited the global 680 px table minimum and clipped columns inside the two-column layout. Contact tables now have a fixed, fitting layout; direct SEO tables also fit their panels. Post-fix browser checks reported document width equal to viewport width.
-- P2: Initial titles, navigation and section labels were too small for the selected design. The final hierarchy uses a 36 px desktop page title, 18 px section headings, 15 px navigation and 14 px metric labels, with dedicated mobile sizes.
-- P2: Funnel arrows initially aligned with labels instead of icon centers. Their alignment now follows the three step icons.
-- P2: Mobile navigation links needed to leave the focus order when closed. The closed mobile sidebar is now inert; the open drawer supports dismissal and locks background scrolling.
+- P2. Catalog introduction, category icon scale and title weight initially fell short of the approved desktop hierarchy. The title and introduction now form two columns, with larger icons and bold serif headings. See the updated `comparison-01-products.jpg`.
+- P2. The tablet catalog split the final letter of “Products” at 840 px. The title now scales with the viewport. `catalog-tablet-final.jpg` shows the complete word and the adjacent intro.
+- P2. Russian product and contact forms exceeded 390 px because long select options widened a grid track. The form columns now shrink within the viewport. English, Spanish, Arabic and Russian responsive checks completed without document overflow. The Arabic footer and contact block use left-to-right direction for the English address, company name and international phone number.
+- P2. The mobile contact page hid the persistent WhatsApp control. The shared layout now keeps it on the right at the viewport midpoint on desktop and mobile. The browser checks confirmed visibility and centering on each inner-page screenshot and verified that reduced motion stops the pulse.
+- P2. The first manufacturing hero used a split image, and a later overlay inherited a narrow grid track. The final hero spans the full container under the offset headline panel. See `manufacturing-final.jpg`. Brand, resource and guide heroes and FAQ and legal icons are visible in the revised comparison sheets.
+- P2. The category page omitted the comparison region shown in the source. It now uses published items, listed sizes and applications. Narrow screens scroll the table inside its own container. See the updated `comparison-02-product-category.jpg`.
 
-The final screenshot above is the post-fix evidence. No actionable P0/P1/P2 visual findings remain.
+## Fidelity and interactions
 
-## Fidelity review
-
-- Typography: system Chinese sans-serif fallback, readable product type sizes, clear numeric hierarchy, no clipped headings. This is a production adaptation of the selected visual direction rather than a reproduction of generated example text.
-- Spacing/layout: 230 px desktop sidebar, 82 px header, restrained six-pixel panel corners, three contact metrics and paired reporting panels. Navigation groups follow the approved all-module gallery.
-- Colors: graphite/navy surfaces, pale text, green selected state, restrained amber and blue chart series. No decorative generated interface imagery is used as a substitute for working controls.
-- Assets: the supplied official logo is preserved on its original white field. All UI icons are real generated SVG assets from the installed Phosphor icon family; 51 assets parsed successfully, and every literal icon reference resolved. Their MIT license is included.
-- Copy: internal database/retry explanations and raw role/status identifiers were replaced with concise Chinese labels. Useful statistical scope remains in a collapsed disclosure.
-- Data: the source uses illustrative numbers; the connected application currently has no contact event records. Zero metrics and empty charts are intentional. Populated chart rendering was verified using a temporary local fixture importing the actual chart component; that route was removed before the final build, and no sample records were inserted into the database.
-
-## Verification
-
-- All 14 protected navigation destinations rendered at desktop width. All 14 were checked at 390 px without document overflow. Wide content tables scroll within their own container.
-- Username login succeeded; protected pages and real product content loaded.
-- Product search for `TP-8080` returned one record. The edit dialog opened, switched to Russian, fitted within a 390 px viewport and closed with Escape. No content was saved during these checks.
-- Tracking date/dimension controls, CSV links, current navigation state, mobile drawer and populated/empty chart rendering were inspected.
-- Browser console: no application errors in the final production-build tracking view.
-- ESLint: passed. Content tests: 2 passed. Production build and its TypeScript gate: passed; the temporary chart fixture is absent from the route manifest.
+- Typography and rhythm use serif display headings, sans-serif body copy, thin dividers and wider spacing at large viewports. Focused mobile contact and tablet catalog captures show the form labels, headline wraps and control sizes. Layouts stack at mobile widths.
+- The ivory base and forest green controls follow the reference palette. Native form controls and keyboard focus retain visible borders. FAQ and catalog controls expose their selected states. Arabic uses right-to-left layout with isolated left-to-right contact details.
+- Real product and factory imagery uses the existing content library. Six generated WebP images supply the new editorial scenes and diagrams. The product, resource and application comparisons show their use at the intended sizes. Social marks are the original WhatsApp and Facebook artwork. See `docs/interior-assets.md`.
+- The copy and product tables use the current CMS records and localized text. The desktop article detail comparison used a temporary local article because the local CMS contains no published articles. The fixture was removed and the production build was rebuilt with the existing publish gate. The Facebook mark awaits the verified company URL before it becomes a link.
+- The final Playwright visual run passed 50 checks with zero page errors. Catalog category filtering returned three items and the `80x80` search returned one. The FAQ filter and accordion, gallery thumbnails, inquiry anchor and a mocked form success passed. The prior article fixture run passed both desktop and mobile article renders. Evidence is in `output/qa/results.json` and the screenshot files above.
 
 ## Follow-up polish
 
-The design image contains a notification bell without a corresponding existing notification workflow. The production header uses working site navigation and account identity. Future notification functionality can be designed separately if requested.
+Approved designs use illustrative product counts, individual names and brand-packaging compositions. The production version uses its existing catalog, product galleries and approved company photographs. The differences in copy length, card count and hero crop are expected.
 
 final result: passed

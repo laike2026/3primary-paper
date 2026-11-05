@@ -1,7 +1,7 @@
 import {defineConfig, devices} from '@playwright/test';
 import {existsSync} from 'node:fs';
 
-const localChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const localChrome = process.platform==='win32'?'C:/Program Files/Google/Chrome/Application/chrome.exe':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const port = Number(process.env.E2E_PORT || 3103);
 
 export default defineConfig({

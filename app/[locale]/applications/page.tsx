@@ -1,11 +1,65 @@
-import type {Metadata} from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
-import {ArrowRight, Receipt, Bank, Truck, Storefront, Files} from '@phosphor-icons/react/dist/ssr';
+import {Receipt, Bank, Truck, Storefront, Files, ArrowRight} from '@phosphor-icons/react/dist/ssr';
+import {InnerPage, CtaStrip} from '@/components/Interior';
 import {PageHero} from '@/components/PageHero';
 import {applications, local} from '@/lib/content';
 import {copy} from '@/lib/copy';
 import {pageMetadata} from '@/lib/seo';
+import {ui, tr} from '@/lib/interior-copy';
 import type {Locale} from '@/i18n/routing';
-const icons=[Receipt,Bank,Truck,Storefront,Files];
-export async function generateMetadata({params}:{params:Promise<{locale:Locale}>}):Promise<Metadata>{const {locale}=await params;return pageMetadata(locale,'/applications',copy[locale].applicationsTitle,copy[locale].applicationIntro);}
-export default async function Applications({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;return <><PageHero locale={locale} path="/applications" title={copy[locale].applicationsTitle} intro={copy[locale].applicationIntro}/><section className="inner-content"><div className="container simple-grid">{applications.map((item,index)=>{const Icon=icons[index];return <article key={item.slug} className="simple-tile"><Icon size={36} weight="thin"/><h3>{local(item.name,locale)}</h3><p>{local(item.summary,locale)}</p><Link className="text-link" href={`/${locale}/applications/${item.slug}`}>{locale==='en'?'Explore':locale==='ar'?'استكشف':locale==='ru'?'Подробнее':'Explorar'}<ArrowRight size={15}/></Link></article>;})}</div></section></>;}
+const icons = [Receipt, Bank, Truck, Storefront, Files],
+  images = [
+    '/images/editorial/retail-pos.webp',
+    '/images/editorial/banking-atm.webp',
+    '/images/editorial/logistics.webp',
+    '/images/editorial/retail-pos.webp',
+    '/images/products/carbonless-2.webp',
+  ];
+export async function generateMetadata({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  return pageMetadata(locale, '/applications', copy[locale].applicationsTitle, copy[locale].applicationIntro);
+}
+export default async function Applications({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  return (
+    <InnerPage>
+      <PageHero
+        locale={locale}
+        path="/applications"
+        title={tr(
+          locale,
+          'Paper for everyday business',
+          'ورق لأعمالك اليومية',
+          'Бумага для ежедневных задач бизнеса',
+          'Papel para el trabajo diario',
+        )}
+        intro={copy[locale].applicationIntro}
+      />
+      <section className="inner-content">
+        <div className="container">
+          {applications.map((a, i) => {
+            const Icon = icons[i];
+            return (
+              <article className="story-row" key={a.slug}>
+                <Link className="story-photo" href={'/' + locale + '/applications/' + a.slug}>
+                  <Image src={images[i]} alt={local(a.name, locale)} width={1000} height={650} />
+                </Link>
+                <div className="story-copy">
+                  <Icon size={44} weight="light" />
+                  <h2>{local(a.name, locale)}</h2>
+                  <p>{local(a.summary, locale)}</p>
+                  <Link className="text-link" href={'/' + locale + '/applications/' + a.slug}>
+                    {ui(locale, 'view')}
+                    <ArrowRight size={18} />
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
+          <CtaStrip locale={locale} />
+        </div>
+      </section>
+    </InnerPage>
+  );
+}

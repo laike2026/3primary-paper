@@ -1,12 +1,88 @@
-import type {Metadata} from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
+import {FileText, Question, ArrowRight} from '@phosphor-icons/react/dist/ssr';
 import {PageHero} from '@/components/PageHero';
-import {wording,FaqList,DownloadCards} from '@/components/WebsiteBlocks';
+import {InnerPage, CtaStrip, ArticleCards} from '@/components/Interior';
+import {DownloadCards, FaqList} from '@/components/WebsiteBlocks';
 import {publishedWebsite} from '@/lib/admin/website';
-import {local} from '@/lib/content';
+import {publishedArticles} from '@/lib/admin/content';
 import {copy} from '@/lib/copy';
 import {pageMetadata} from '@/lib/seo';
+import {ui, tr} from '@/lib/interior-copy';
 import type {Locale} from '@/i18n/routing';
-import {publishedArticles} from '@/lib/admin/content';
-export async function generateMetadata({params}:{params:Promise<{locale:Locale}>}):Promise<Metadata>{const {locale}=await params;return pageMetadata(locale,'/resources',copy[locale].resourcesTitle,copy[locale].resourcesIntro);}
-export default async function Resources({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;const [downloads,faqs,articles]=await Promise.all([publishedWebsite('download'),publishedWebsite('faq'),publishedArticles()]);return <><PageHero locale={locale} path="/resources" title={copy[locale].resourcesTitle} intro={copy[locale].resourcesIntro}/><section className="inner-content"><div className="container"><DownloadCards items={downloads} locale={locale}/><div className="simple-grid material-resource-links"><article className="simple-tile"><h2>{wording(locale,'Paper RFQ Checklist','قائمة طلب عرض سعر الورق','Список для запроса цены','Lista para cotizar papel')}</h2><p>{copy[locale].oemIntro}</p><Link className="text-link" href={`/${locale}/resources/rfq-checklist`}>{wording(locale,'Open checklist →','افتح القائمة ←','Открыть список →','Abrir lista →')}</Link></article><article className="simple-tile"><h2>{copy[locale].faqTitle}</h2><p>{wording(locale,'Find answers about specifications, samples, customization, packing and orders.','اعثر على إجابات عن المواصفات والعينات والتخصيص والتغليف والطلبات.','Ответы о характеристиках, образцах, заказных опциях, упаковке и заказах.','Respuestas sobre especificaciones, muestras, personalización, embalaje y pedidos.')}</p><Link className="text-link" href={`/${locale}/faq`}>{wording(locale,'Browse questions →','تصفح الأسئلة ←','Смотреть вопросы →','Ver preguntas →')}</Link></article></div></div></section><section className="section-shell material-soft"><div className="container"><h2 className="section-heading">{copy[locale].faqTitle}</h2><FaqList items={faqs.slice(0,5)} locale={locale}/></div></section>{articles.length>0&&<section className="section-shell"><div className="container"><h2 className="section-heading">{wording(locale,'News & guides','الأخبار والأدلة','Новости и материалы','Noticias y guías')}</h2><div className="resource-grid">{articles.map(item=><article className="resource-card" key={item.slug}><h3>{local(item.title,locale)}</h3><p>{local(item.intro,locale)}</p><Link className="text-link" href={`/${locale}/blog/${item.slug}`}>{wording(locale,'Read more →','اقرأ المزيد ←','Читать далее →','Leer más →')}</Link></article>)}</div></div></section>}</>;}
+export async function generateMetadata({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  return pageMetadata(locale, '/resources', copy[locale].resourcesTitle, copy[locale].resourcesIntro);
+}
+export default async function Resources({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  const [downloads, faqs, articles] = await Promise.all([
+    publishedWebsite('download'),
+    publishedWebsite('faq'),
+    publishedArticles(),
+  ]);
+  return (
+    <InnerPage>
+      <PageHero
+        locale={locale}
+        path="/resources"
+        title={tr(
+          locale,
+          'Resources for better paper sourcing',
+          'موارد لاختيار وتوريد الورق',
+          'Материалы для закупки бумаги',
+          'Recursos para comprar mejor papel',
+        )}
+        intro={copy[locale].resourcesIntro}
+        image="/images/editorial/rfq-checklist.webp"
+      />
+      <section className="inner-content">
+        <div className="container">
+          <div className="featured-guide">
+            <Image
+              src="/images/editorial/rfq-checklist.webp"
+              alt={ui(locale, 'rfq')}
+              width={1000}
+              height={700}
+            />
+            <div>
+              <span className="eyebrow">{ui(locale, 'resources')}</span>
+              <h2>{ui(locale, 'rfq')}</h2>
+              <p>{copy[locale].oemIntro}</p>
+              <Link className="button" href={'/' + locale + '/resources/rfq-checklist'}>
+                {ui(locale, 'view')}
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </div>
+          <DownloadCards items={downloads} locale={locale} />
+          <div className="resource-links">
+            <Link href={'/' + locale + '/blog'}>
+              <FileText size={32} weight="light" />
+              <span>{ui(locale, 'guides')}</span>
+              <ArrowRight size={20} />
+            </Link>
+            <Link href={'/' + locale + '/faq'}>
+              <Question size={32} weight="light" />
+              <span>{copy[locale].faqTitle}</span>
+              <ArrowRight size={20} />
+            </Link>
+          </div>
+          {articles.length > 0 && (
+            <>
+              <h2>{ui(locale, 'guides')}</h2>
+              <ArticleCards articles={articles.slice(0, 3)} locale={locale} />
+            </>
+          )}
+          {faqs.length > 0 && (
+            <section style={{paddingTop: 60}}>
+              <h2>{copy[locale].faqTitle}</h2>
+              <FaqList items={faqs.slice(0, 4)} locale={locale} />
+            </section>
+          )}
+          <CtaStrip locale={locale} />
+        </div>
+      </section>
+    </InnerPage>
+  );
+}

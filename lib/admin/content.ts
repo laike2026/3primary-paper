@@ -56,6 +56,6 @@ export const publishedProducts=cache(async():Promise<Product[]> => {
 });
 export const publishedArticles=cache(async():Promise<Article[]> => {
   if(!process.env.DATABASE_URL)return [];
-  const rows=await db().query(`SELECT slug,title,intro,sections,author,featured,pinned,seo,updated_at FROM content_articles WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,published_at DESC NULLS LAST,slug`);
+  const rows=await db().query(`SELECT slug,title,intro,sections,author,featured,pinned,image,category_slug,seo,updated_at FROM content_articles WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,published_at DESC NULLS LAST,slug`);
   return rows as Article[];
 });

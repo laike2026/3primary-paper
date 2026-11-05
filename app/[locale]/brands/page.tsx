@@ -1,9 +1,73 @@
-import type {Metadata} from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import {PageHero} from '@/components/PageHero';
+import {InnerPage, CtaStrip, CustomOptions} from '@/components/Interior';
+import {CategoryCard} from '@/components/CategoryCard';
+import {publishedCategories} from '@/lib/admin/content';
 import {site} from '@/lib/site';
 import {pageMetadata} from '@/lib/seo';
+import {ui, tr} from '@/lib/interior-copy';
 import type {Locale} from '@/i18n/routing';
-const text={en:['Company Identity','Our official 3PRIMARY identity is shown here. Additional product brand marks will be added only after ownership and use rights are verified.'],ar:['هوية الشركة','نعرض هنا هوية 3PRIMARY الرسمية. ستضاف علامات المنتجات الأخرى بعد التحقق من الملكية وحقوق الاستخدام.'],ru:['Фирменный стиль','Здесь показан официальный знак 3PRIMARY. Другие товарные знаки появятся после проверки прав.'],es:['Identidad corporativa','Aquí mostramos la identidad oficial 3PRIMARY. Otras marcas se añadirán tras verificar titularidad y derechos de uso.']} as const;
-export async function generateMetadata({params}:{params:Promise<{locale:Locale}>}):Promise<Metadata>{const {locale}=await params;return pageMetadata(locale,'/brands',text[locale][0],text[locale][1]);}
-export default async function Brands({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;return <><PageHero locale={locale} path="/brands" title={text[locale][0]} intro={text[locale][1]}/><section className="inner-content"><div className="container two-column"><div style={{background:'#faf8f5',padding:35,display:'grid',placeItems:'center',minHeight:250}}><Image src={site.logo} alt="Official 3PRIMARY logo" width={332} height={100}/></div><div className="body-copy"><h2>{site.company}</h2><p>{text[locale][1]}</p></div></div></section></>;}
+export async function generateMetadata({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  return pageMetadata(locale, '/brands', '3PRIMARY', site.company);
+}
+export default async function Brands({params}: {params: Promise<{locale: Locale}>}) {
+  const {locale} = await params;
+  const categories = await publishedCategories();
+  return (
+    <InnerPage className="brand-page">
+      <PageHero
+        locale={locale}
+        path="/brands"
+        title={tr(
+          locale,
+          'Paper, with a clear identity.',
+          'ورق بهوية واضحة.',
+          'Бумага с собственным характером.',
+          'Papel con identidad propia.',
+        )}
+        intro={site.company}
+        image={site.logo}
+        imageAlt="3PRIMARY"
+      />
+      <section className="inner-content">
+        <div className="container">
+          <Image
+            className="brand-product-photo"
+            src="/images/materials/product-04-1.webp"
+            alt={ui(locale, 'products')}
+            width={1400}
+            height={700}
+          />
+          <div className="company-story">
+            <h2>3PRIMARY</h2>
+            <div>
+              <p>{ui(locale, 'aboutTitle')}</p>
+              <Link className="text-link" href={'/' + locale + '/about'}>
+                {ui(locale, 'view')}
+              </Link>
+            </div>
+          </div>
+          <h2 style={{marginTop: 60}}>{ui(locale, 'families')}</h2>
+          <div className="page-card-grid">
+            {categories.slice(0, 3).map((c) => (
+              <CategoryCard category={c} locale={locale} label={ui(locale, 'view')} key={c.slug} />
+            ))}
+          </div>
+          <h2 style={{marginTop: 60}}>
+            {tr(
+              locale,
+              'Your brand, your specification',
+              'علامتك ومواصفاتك',
+              'Ваш бренд и ваши требования',
+              'Su marca, sus especificaciones',
+            )}
+          </h2>
+          <CustomOptions locale={locale} />
+          <CtaStrip locale={locale} href={'/' + locale + '/oem-odm'} title={ui(locale, 'customization')} />
+        </div>
+      </section>
+    </InnerPage>
+  );
+}

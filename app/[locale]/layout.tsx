@@ -10,6 +10,7 @@ import {site} from '@/lib/site';
 import {publishedCategories} from '@/lib/admin/content';
 import {AnalyticsTracker} from '@/components/AnalyticsTracker';
 import '../globals.css';
+import '../interior.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.origin),
