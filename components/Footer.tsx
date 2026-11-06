@@ -1,17 +1,18 @@
-import {SocialLinks, WhatsAppMark} from '@/components/SocialLinks';
+import {SocialLinks} from '@/components/SocialLinks';
 import Image from 'next/image';
 import Link from 'next/link';
 import {getTranslations} from 'next-intl/server';
-import {Envelope, ArrowUpRight} from '@phosphor-icons/react/dist/ssr';
+import {Envelope, ArrowUpRight, Phone} from '@phosphor-icons/react/dist/ssr';
 import {local} from '@/lib/content';
 import {publishedCategories} from '@/lib/admin/content';
 import {publicContact} from '@/lib/admin/settings';
 import {site} from '@/lib/site';
+import {PrivacySettingsButton} from './AnalyticsTracker';
 import type {Locale} from '@/i18n/routing';
 
 export async function Footer({locale}: {locale: Locale}) {
-  const nav = await getTranslations('nav');
-  const common = await getTranslations('common');
+  const nav = await getTranslations({locale, namespace: 'nav'});
+  const common = await getTranslations({locale, namespace: 'common'});
   const categories = await publishedCategories();
   const contact = await publicContact();
   return (
@@ -61,8 +62,8 @@ export async function Footer({locale}: {locale: Locale}) {
         </div>
         <div className="footer-contact">
           <h3>{nav('contact')}</h3>
-          <a href={contact.whatsapp} target="_blank" rel="noopener noreferrer">
-            <WhatsAppMark size={19} />
+          <a href={contact.phoneHref}>
+            <Phone size={19} aria-hidden="true" />
             <span dir="ltr">{contact.phone}</span>
           </a>
           <a href={`mailto:${site.email}`}>
@@ -92,6 +93,7 @@ export async function Footer({locale}: {locale: Locale}) {
         </span>
         <div>
           <Link href={`/${locale}/privacy-policy`}>{common('privacy')}</Link>
+          <PrivacySettingsButton locale={locale} />
           <Link href={`/${locale}/terms`}>{common('terms')}</Link>
           <Link href="/sitemap.xml">
             {locale === 'en'

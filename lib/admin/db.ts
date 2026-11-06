@@ -7,7 +7,8 @@ export function db() {
 }
 
 export function pagination(input: URLSearchParams) {
-  const page = Math.max(1, Math.min(100000, Number(input.get('page')) || 1));
+  const requested = Number(input.get('page'));
+  const page = Number.isSafeInteger(requested) ? Math.max(1, Math.min(100000, requested)) : 1;
   const size = [10,20,50,100].includes(Number(input.get('size'))) ? Number(input.get('size')) : 20;
   return {page, size, offset:(page-1)*size};
 }

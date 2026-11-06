@@ -20,7 +20,9 @@ export async function generateMetadata({params}: {params: Promise<{locale: Local
   return pageMetadata(
     locale,
     '/products/' + slug,
-    local(c.name, locale),
+    locale === 'ru' && slug === 'thermal-jumbo-rolls'
+      ? 'Термобумага в рулонах для переработки'
+      : local(c.name, locale),
     local(c.summary, locale),
     c.image,
     c.seo,

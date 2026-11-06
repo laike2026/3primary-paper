@@ -13,7 +13,7 @@ for (const locale of locales) {
     await expect(page.locator('link[hreflang="ar"]')).toHaveCount(1);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
     await expect(page.getByRole('link', {name: /products|المنتجات|продукция|productos/i}).first()).toBeVisible();
-    await expect(page.getByRole('dialog')).toContainText(({en:'Allow analytics',ar:'السماح بالتحليلات',ru:'Разрешить аналитику',es:'Permitir análisis'} as Record<string,string>)[locale]);
+    await expect(page.locator('.analytics-consent')).toContainText(({en:'Allow analytics',ar:'السماح بالتحليلات',ru:'Разрешить аналитику',es:'Permitir análisis'} as Record<string,string>)[locale]);
   });
 }
 
@@ -22,9 +22,11 @@ test('product search, filter, detail and locale switch preserve the product URL'
   await page.getByRole('group', {name: 'Product families', exact:true}).getByRole('radio', {name:'Thermal Labels',exact:true}).check();
   await expect(page.locator('.page-card-grid').last().locator('.page-card')).toHaveCount(3);
   await page.getByRole('group', {name: 'Product families',exact:true}).getByRole('radio', {name:'All products',exact:true}).check();
-  await page.getByRole('searchbox').fill('80x80');
   const results = page.locator('.page-card-grid').last().locator('.page-card');
-  await expect(results).toHaveCount(1);
+  for (const query of ['80x80', '80×80', '80 x 80', '80 × 80 mm', '٨٠ × ٨٠']) {
+    await page.getByRole('searchbox').fill(query);
+    await expect(results).toHaveCount(1);
+  }
   await results.first().getByRole('link').first().click();
   await expect(page).toHaveURL(/\/en\/product\/80x80-thermal-paper-roll$/);
   await expect(page.locator('main h1')).toHaveCount(1);
@@ -49,6 +51,54 @@ test('mobile menu works and 375px page has no horizontal overflow', async ({page
   await expect(page).toHaveURL(/\/en\/products$/);
   const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
   expect(noOverflow).toBe(true);
+});
+
+test('mobile search and quote actions reach usable controls', async ({page}) => {
+  await page.setViewportSize({width: 390, height: 844});
+  await page.goto('/en');
+  await page.getByRole('button', {name:'Decline analytics'}).click();
+  await page.locator('header .icon-link').click();
+  await expect(page.getByRole('searchbox')).toBeFocused();
+  const search = await page.getByRole('searchbox').boundingBox();
+  expect(search?.y).toBeLessThan(420);
+  await page.goto('/en/product/80x80-thermal-paper-roll');
+  const heading = await page.locator('main h1').boundingBox();
+  const gallery = await page.locator('.material-product-gallery').boundingBox();
+  expect(heading!.y).toBeLessThan(gallery!.y);
+  await page.locator('.detail-actions a[href="#inquiry"]').click();
+  await expect(page).toHaveURL(/#inquiry$/);
+  await expect(page.locator('.whatsapp-float')).toBeVisible();
+  await expect.poll(async () => {
+    const heading=await page.locator('.product-quote h2').first().boundingBox();
+    const header=await page.locator('.site-header').boundingBox();
+    return Boolean(heading&&header&&heading.y>=header.y+header.height);
+  }).toBe(true);
+  await expect(page.locator('[name="productId"]')).toHaveValue('TP-8080');
+  await expect.poll(() => page.evaluate(() => {
+    const select = document.querySelector<HTMLSelectElement>('#inquiry select')!;
+    const rect = select.getBoundingClientRect();
+    const top = Math.max(0,rect.top);
+    const bottom = Math.min(innerHeight,rect.bottom);
+    return bottom > top && document.elementFromPoint(rect.right - 20,(top + bottom) / 2) === select;
+  })).toBe(true);
+});
+
+test('privacy settings withdraw consent and clear visitor storage', async ({page}) => {
+  await page.route('**/api/events',route=>route.fulfill({status:202,body:''}));
+  await page.goto('/en?private=ignore');
+  await page.getByRole('button',{name:'Allow analytics'}).click();
+  await expect.poll(()=>page.evaluate(()=>sessionStorage.getItem('primary_session'))).not.toBeNull();
+  await page.getByRole('button',{name:'Privacy settings'}).click();
+  const preferences=page.getByRole('dialog',{name:'Privacy settings'});
+  await expect(preferences).toBeVisible();
+  await preferences.getByRole('button',{name:'Decline analytics'}).click();
+  await expect(preferences).not.toBeVisible();
+  expect(await page.evaluate(()=>({
+    consent:document.cookie.includes('analytics_consent=no'),
+    visitor:document.cookie.includes('primary_visitor='),
+    session:sessionStorage.getItem('primary_session'),
+    queue:localStorage.getItem('primary_analytics_queue'),
+  }))).toEqual({consent:true,visitor:false,session:null,queue:null});
 });
 
 test('consented product visits record both page and product views', async ({page}) => {
@@ -111,8 +161,8 @@ test('unconfigured inquiry never reports success', async ({page}) => {
   await page.locator('[name="requirements"]').fill('Please quote this product for our retail business.');
   await page.locator('[name="consent"]').check();
   await page.locator('form#inquiry button[type="submit"]').click();
-  await expect(page.getByRole('status')).toContainText(/unavailable|email/i);
-  await expect(page.getByRole('status')).not.toContainText('TP-');
+  await expect(page.locator('#inquiry [role="alert"]')).toContainText(/unavailable|email/i);
+  await expect(page.locator('#inquiry [role="alert"]')).not.toContainText('TP-');
 });
 
 test('admin login uses the official brand asset', async ({page}) => {

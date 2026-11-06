@@ -1,5 +1,5 @@
 import 'server-only';
-import {cache} from 'react';
+import {publicCache} from './public-cache';
 import {z} from 'zod';
 import {db} from './db';
 import seed from '@/data/website-content.json';
@@ -18,7 +18,7 @@ export const websiteSchema=z.object({slug:z.string().regex(/^[a-z0-9]+(?:-[a-z0-
     if(v.kind==='download'&&(!v.file_url||!v.image))ctx.addIssue({code:'custom',message:'请添加下载文件和封面'});
   }
 });
-export const publishedWebsite=cache(async(kind?:WebsiteKind):Promise<WebsiteContent[]>=>{
+export const publishedWebsite=publicCache('website','list',async(kind?:WebsiteKind):Promise<WebsiteContent[]>=>{
   if(!process.env.DATABASE_URL)return (seed as WebsiteContent[]).filter(r=>!kind||r.kind===kind);
   return await db().query(`SELECT slug,kind,name,summary,body,image,file_url,topic,product_ids,status,sort_order,updated_at FROM website_content WHERE status='published' AND deleted_at IS NULL AND ($1='' OR kind=$1) ORDER BY sort_order,slug`,[kind||'']) as WebsiteContent[];
 });

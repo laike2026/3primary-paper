@@ -64,7 +64,13 @@ export function Header({locale,categories}: {locale: Locale;categories:Category[
           </div> : ['about','resources'].includes(key)?<div className="nav-dropdown" key={key} onMouseEnter={()=>setOtherMenu(key)} onMouseLeave={()=>setOtherMenu(null)} onBlur={event=>{if(!event.currentTarget.contains(event.relatedTarget))setOtherMenu(null);}} onKeyDown={event=>{if(event.key==='Escape'){event.stopPropagation();setOtherMenu(null);}}}><Link href={`/${locale}${href}`} className="nav-link" onFocus={()=>setOtherMenu(key)} aria-expanded={otherMenu===key}>{t(key)} <CaretDown size={12}/></Link>{otherMenu===key&&<div className="material-submenu">{subLinks(key).map(sub=><Link href={`/${locale}${sub.path}`} key={sub.path} onClick={()=>setOtherMenu(null)}>{sub.label}</Link>)}</div>}</div>: <Link key={key} href={`/${locale}${href}`} className={`nav-link ${pathname === `/${locale}${href}` ? 'active' : ''}`}>{t(key)}</Link>)}
       </nav>
       <div className="header-actions">
-        <Link href={`/${locale}/products?search=`} aria-label={t('search')} className="icon-link"><MagnifyingGlass size={20}/></Link>
+        <Link href={`/${locale}/products#catalog-search`} aria-label={t('search')} className="icon-link" onClick={() => {
+          if (pathname === `/${locale}/products`) {
+            const search = document.getElementById('catalog-search');
+            search?.scrollIntoView({block: 'start'});
+            search?.focus({preventScroll: true});
+          }
+        }}><MagnifyingGlass size={20}/></Link>
         <label className="language-select"><span className="sr-only">{locale==='en'?'Language':locale==='ar'?'اللغة':locale==='ru'?'Язык':'Idioma'}</span><select value={locale} onChange={event => {window.location.assign(switchPath(event.target.value as Locale));}} aria-label={locale==='en'?'Language':locale==='ar'?'اللغة':locale==='ru'?'Язык':'Idioma'}><option value="en">EN</option><option value="ar">AR</option><option value="ru">RU</option><option value="es">ES</option></select></label>
         <Link href={`/${locale}/contact#inquiry`} className="header-quote">{t('quote')}</Link>
         <button ref={menuButton} type="button" className="menu-toggle" aria-label={mobileOpen ? (locale==='en'?'Close menu':locale==='ar'?'إغلاق القائمة':locale==='ru'?'Закрыть меню':'Cerrar menú') : t('menu')} aria-expanded={mobileOpen} aria-controls="mobile-navigation" onClick={() => setMobileOpen(!mobileOpen)}>{mobileOpen ? <X size={24}/> : <List size={25}/>}</button>

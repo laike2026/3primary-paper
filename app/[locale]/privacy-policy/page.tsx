@@ -21,7 +21,7 @@ const legal = {
       ],
       [
         'Your choices',
-        'You may request access, correction or deletion by emailing us. Essential server logs may be retained for security. Optional analytics is off until you consent. If enabled, we record page views, address and WhatsApp clicks, and form progress by field name only; we do not record unsent field contents. Event records are removed after 13 months. You can withdraw consent by deleting the analytics_consent cookie.',
+        'You may request access, correction or deletion by emailing us. Essential server logs may be retained for security. Optional analytics is off until you consent. If enabled, we record page views, address and WhatsApp clicks, and form progress by field name only. We do not record unsent field contents. Event records are removed after 13 months. You can withdraw consent in Privacy settings in the footer.',
       ],
     ],
   },
@@ -43,7 +43,7 @@ const legal = {
       ],
       [
         'حقوقك',
-        'يمكنك طلب الوصول أو التصحيح أو الحذف عبر البريد. قد تحفظ سجلات أساسية للأمان. لا يبدأ التحليل الاختياري إلا بعد موافقتك. نسجل مشاهدات الصفحات ونقرات العنوان وواتساب وتقدم النموذج بأسماء الحقول فقط، دون محتوى الحقول غير المرسلة. تحذف سجلات الأحداث بعد 13 شهراً. يمكنك سحب الموافقة بحذف ملف analytics_consent.',
+        'يمكنك طلب الوصول أو التصحيح أو الحذف عبر البريد. قد تحفظ سجلات أساسية للأمان. لا يبدأ التحليل الاختياري إلا بعد موافقتك. نسجل مشاهدات الصفحات ونقرات العنوان وواتساب وتقدم النموذج بأسماء الحقول فقط، دون محتوى الحقول غير المرسلة. تحذف سجلات الأحداث بعد 13 شهراً. يمكنك سحب الموافقة من إعدادات الخصوصية أسفل الصفحة.',
       ],
     ],
   },
@@ -65,7 +65,7 @@ const legal = {
       ],
       [
         'Ваш выбор',
-        'Запросите доступ, исправление или удаление по почте. Для безопасности могут храниться системные журналы. Необязательная аналитика включается только с вашего согласия. Мы учитываем просмотры страниц, нажатия на адрес и WhatsApp, а также этапы заполнения формы по названиям полей, без текста неотправленных полей. Записи событий удаляются через 13 месяцев. Отозвать согласие можно удалив cookie analytics_consent.',
+        'Запросите доступ, исправление или удаление по почте. Для безопасности могут храниться системные журналы. Необязательная аналитика включается только с вашего согласия. Мы учитываем просмотры страниц, нажатия на адрес и WhatsApp, а также этапы заполнения формы по названиям полей, без текста неотправленных полей. Записи событий удаляются через 13 месяцев. Согласие можно отозвать в настройках конфиденциальности внизу страницы.',
       ],
     ],
   },
@@ -87,7 +87,7 @@ const legal = {
       ],
       [
         'Sus opciones',
-        'Puede solicitar acceso, corrección o eliminación por correo. Pueden conservarse registros esenciales de seguridad. La analítica opcional solo se activa con su consentimiento. Registramos vistas de páginas, clics en dirección y WhatsApp y avance del formulario por nombre de campo, sin guardar el contenido no enviado. Los eventos se eliminan después de 13 meses. Puede retirar el consentimiento eliminando la cookie analytics_consent.',
+        'Puede solicitar acceso, corrección o eliminación por correo. Pueden conservarse registros esenciales de seguridad. La analítica opcional solo se activa con su consentimiento. Registramos vistas de páginas, clics en dirección y WhatsApp y avance del formulario por nombre de campo, sin guardar el contenido no enviado. Los eventos se eliminan después de 13 meses. Puede retirar el consentimiento desde Configuración de privacidad en el pie de página.',
       ],
     ],
   },

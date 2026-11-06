@@ -3,6 +3,7 @@ import {audit,can} from '@/lib/admin/auth';
 import {config,cleanLocalized,publishIssue} from '@/lib/admin/content';
 import {db} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
+import {refreshPublicContent} from '@/lib/admin/public-cache';
 
 export const runtime='nodejs';
 type Ctx={params:Promise<{kind:string;id:string}>};
@@ -46,14 +47,28 @@ export async function PATCH(request:NextRequest,{params}:Ctx){
   const values=keys.map(key=>jsonFields.has(key)?JSON.stringify(data[key]):data[key]);
   sets.push('updated_at=now()');
   if(kind==='products'||kind==='articles')sets.push('version=version+1');
-  if(data.status==='published'&&old[0].status!=='published'&&(kind==='products'||kind==='articles'))sets.push('published_at=now()');
+  if(data.status==='published'&&old[0].status!=='published'&&(kind==='products'||kind==='articles'))sets.push('published_at=coalesce(published_at,now())');
   try{
-    await sql.query('INSERT INTO content_versions(entity_type,entity_id,version,snapshot,actor_id) VALUES($1,$2,$3,$4::jsonb,$5)',[versionType(kind),id,version,JSON.stringify(old[0]),auth.user!.id]);
-    await sql.query(`UPDATE ${c.table} SET ${sets.join(',')} WHERE ${c.id}=$${values.length+1}`,[...values,id]);
+    const changes = [
+      sql.query('INSERT INTO content_versions(entity_type,entity_id,version,snapshot,actor_id) VALUES($1,$2,$3,$4::jsonb,$5)',[versionType(kind),id,version,JSON.stringify(old[0]),auth.user!.id]),
+      sql.query(`UPDATE ${c.table} SET ${sets.join(',')} WHERE ${c.id}=$${values.length+1}`,[...values,id]),
+    ];
     if(kind==='products'&&old[0].slug!==data.slug){
-      for(const locale of ['en','ar','ru','es'])await sql.query('INSERT INTO url_redirects(source_path,destination_path) VALUES($1,$2) ON CONFLICT(source_path) DO UPDATE SET destination_path=excluded.destination_path',[`/${locale}/product/${old[0].slug}`,`/${locale}/product/${data.slug}`]);
+      for (const locale of ['en','ar','ru','es']) {
+        const previous = `/${locale}/product/${old[0].slug}`;
+        const current = `/${locale}/product/${data.slug}`;
+        changes.push(
+          sql.query('DELETE FROM url_redirects WHERE source_path=$1 AND destination_path=$2',[current,previous]),
+          sql.query('INSERT INTO url_redirects(source_path,destination_path) VALUES($1,$2) ON CONFLICT(source_path) DO UPDATE SET destination_path=excluded.destination_path',[previous,current]),
+        );
+      }
     }
-    await audit(auth.user!.id,'update',kind,id,{status:data.status,version});
+    changes.push(sql.query(
+      "INSERT INTO admin_audit_log(actor_id,action,entity_type,entity_id,details) VALUES($1,'update',$2,$3,$4::jsonb)",
+      [auth.user!.id,kind,id,JSON.stringify({status:data.status,version})],
+    ));
+    await sql.transaction(changes);
+    if (data.status === 'published' || old[0].status === 'published') refreshPublicContent(kind);
     return NextResponse.json({ok:true,version});
   }catch(error){console.error('Content update failed',error);return jsonError('保存失败，请检查分类和别名',409);}
 }
@@ -70,6 +85,7 @@ export async function DELETE(request:NextRequest,{params}:Ctx){
     if(Number(dependents[0].n)>0)return jsonError('新闻分类下仍有文章，请先迁移或删除关联内容',409);
   }
   await db().query(`UPDATE ${c.table} SET deleted_at=now(),updated_at=now() WHERE ${c.id}=$1 AND deleted_at IS NULL`,[id]);
+  refreshPublicContent(kind);
   await audit(auth.user!.id,'delete',kind,id);
   return NextResponse.json({ok:true});
 }
@@ -78,9 +94,10 @@ export async function POST(request:NextRequest,{params}:Ctx){
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const auth=await guard('content:write');if(auth.response)return auth.response;
   const body=await request.json().catch(()=>null);if(body?.action!=='restore')return jsonError('无效操作');
-  const restoredStatus=kind==='articles'?",status='draft'":'';
+  const restoredStatus=kind==='articles'||!can(auth.user!.role,'content:publish')?",status='draft'":'';
   const rows=await db().query(`UPDATE ${c.table} SET deleted_at=NULL${restoredStatus},updated_at=now() WHERE ${c.id}=$1 AND deleted_at IS NOT NULL RETURNING ${c.id}`,[id]);
   if(!rows.length)return jsonError('内容不在回收站',404);
+  refreshPublicContent(kind);
   await audit(auth.user!.id,'restore',kind,id);
   return NextResponse.json({ok:true});
 }

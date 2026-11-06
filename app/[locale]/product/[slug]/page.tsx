@@ -46,6 +46,19 @@ export default async function Product({params}: {params: Promise<{locale: Locale
   if (!c) notFound();
   const related = items.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 3);
   const thermal = p.category.includes('thermal');
+  const receiptRoll = ['80x80-thermal-paper-roll', '57x40-thermal-paper-roll', 'printed-atm-receipt-roll'].includes(slug);
+  const sizeLabel = receiptRoll
+    ? tr(locale, 'Width × outer diameter', 'العرض × القطر الخارجي', 'Ширина × внешний диаметр', 'Ancho × diámetro exterior')
+    : ui(locale, 'size');
+  const firstMetricSize = receiptRoll && p.size?.match(/^(\d+) × (\d+)(?: mm| \/)/);
+  const inches = firstMetricSize && locale === 'en'
+    ? `First size shown is approximately ${(Number(firstMetricSize[1]) / 25.4).toFixed(2)} × ${(Number(firstMetricSize[2]) / 25.4).toFixed(2)} in.`
+    : null;
+  const properties = (p.specifications || []).map((spec) => ({
+    name: local(spec.key, locale),
+    value: local(spec.value, locale),
+  })).filter(({name, value}) => name && value);
+  if (p.size) properties.push({name: sizeLabel, value: p.size});
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -54,6 +67,8 @@ export default async function Product({params}: {params: Promise<{locale: Locale
     image: new URL(productVisual(p.image), site.origin).toString(),
     sku: p.id,
     brand: {'@type': 'Organization', name: site.company},
+    category: local(c.name, locale),
+    additionalProperty: properties.map((property) => ({'@type': 'PropertyValue', ...property})),
   };
   return (
     <InnerPage className="product-detail-page">
@@ -70,11 +85,6 @@ export default async function Product({params}: {params: Promise<{locale: Locale
             parent={{label: local(c.name, locale), href: '/products/' + c.slug}}
           />
           <div className="detail-grid">
-            <ProductGallery
-              key={p.id}
-              images={[...new Set([productVisual(p.image), ...(p.gallery || [])])]}
-              name={local(p.name, locale)}
-            />
             <div className="detail-copy">
               <span className="eyebrow">
                 {local(c.name, locale)} / {p.id}
@@ -107,8 +117,8 @@ export default async function Product({params}: {params: Promise<{locale: Locale
                   </tr>
                   {p.size && (
                     <tr>
-                      <th>{ui(locale, 'size')}</th>
-                      <td dir="ltr">{p.size}</td>
+                      <th>{sizeLabel}</th>
+                      <td><bdi>{p.size}</bdi>{inches && <small className="product-unit-note">{inches}</small>}</td>
                     </tr>
                   )}
                   <tr>
@@ -118,7 +128,7 @@ export default async function Product({params}: {params: Promise<{locale: Locale
                 </tbody>
               </table>
               <div className="detail-actions">
-                <a className="button" href="#product-inquiry">
+                <a className="button" href="#inquiry">
                   {ui(locale, 'quote')}
                   <ArrowRight size={18} />
                 </a>
@@ -127,11 +137,16 @@ export default async function Product({params}: {params: Promise<{locale: Locale
                 </a>
               </div>
             </div>
+            <ProductGallery
+              key={p.id}
+              images={[...new Set([productVisual(p.image), ...(p.gallery || [])])]}
+              name={local(p.name, locale)}
+            />
           </div>
-          <nav className="product-anchors">
+          <nav className="product-anchors" aria-label={local(p.name, locale)}>
             {(['overview', 'specifications', 'applications', 'customization', 'inquiry'] as const).map(
               (k) => (
-                <a key={k} href={'#' + (k === 'inquiry' ? 'product-inquiry' : k)}>
+                <a key={k} href={'#' + k}>
                   {ui(locale, k)}
                 </a>
               ),
@@ -165,7 +180,7 @@ export default async function Product({params}: {params: Promise<{locale: Locale
                   ))}
                   {p.size && (
                     <tr>
-                      <th>{ui(locale, 'size')}</th>
+                      <th>{sizeLabel}</th>
                       <td>{p.size}</td>
                     </tr>
                   )}
@@ -237,13 +252,13 @@ export default async function Product({params}: {params: Promise<{locale: Locale
           <CustomOptions locale={locale} />
         </div>
       </section>
-      <section id="product-inquiry" data-product-id={p.id} className="section-shell">
+      <section id="product-inquiry" data-product-id={p.id} className="section-shell product-quote">
         <div className="container design-form-layout">
-          <SourcingChecklist locale={locale} />
           <div>
             <h2>{ui(locale, 'quote')}</h2>
             <InquiryForm locale={locale} initialProduct={p.id} productOptions={items} />
           </div>
+          <SourcingChecklist locale={locale} />
         </div>
       </section>
       <ProductQuestions locale={locale} productId={p.id} />

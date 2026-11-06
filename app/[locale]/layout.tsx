@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest'
 };
 export const dynamicParams = true;
-// CMS edits must appear on the public site without a new deployment.
-export const dynamic = 'force-dynamic';
+// Published CMS data invalidates these public pages as soon as an edit is saved.
+export const revalidate = 300;
 export function generateStaticParams() {return locales.map(locale => ({locale}));}
 
 export default async function LocaleLayout({children, params}: {children: React.ReactNode; params: Promise<{locale: string}>}) {
@@ -40,7 +40,7 @@ export default async function LocaleLayout({children, params}: {children: React.
           <Header locale={locale} categories={categories}/>
           <main id="main-content">{children}</main>
           <Footer locale={locale} />
-          <WhatsAppFloat />
+          <WhatsAppFloat locale={locale} />
           <AnalyticsTracker locale={locale}/>
         </NextIntlClientProvider>
       </body>

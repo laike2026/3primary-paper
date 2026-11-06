@@ -14,7 +14,12 @@ export function generateStaticParams() {
 export async function generateMetadata({params}: {params: Promise<{locale: Locale; slug: string}>}) {
   const {locale, slug} = await params;
   if (slug !== 'rfq-checklist') notFound();
-  return pageMetadata(locale, '/resources/rfq-checklist', ui(locale, 'rfq'), copy[locale].oemIntro);
+  return pageMetadata(locale, '/resources/rfq-checklist', ui(locale, 'rfq'), tr(locale,
+    'Prepare a comparable paper RFQ with a checklist for dimensions, stock, print artwork, quantity, packing and shipping destination.',
+    'جهّز طلب عرض سعر للورق يتضمن المقاسات والخامة والتصميم والكمية والتعبئة ووجهة الشحن.',
+    'Подготовьте запрос цены на бумагу по списку: размеры, материал, макет печати, объём, упаковка и место доставки.',
+    'Prepare una solicitud de cotización de papel con medidas, material, arte de impresión, cantidad, embalaje y destino.',
+  ));
 }
 export default async function Checklist({params}: {params: Promise<{locale: Locale; slug: string}>}) {
   const {locale, slug} = await params;

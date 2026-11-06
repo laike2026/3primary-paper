@@ -1,7 +1,7 @@
 import type {Locale} from '@/i18n/routing';
 
 export type Localized = Record<Locale, string>;
-export const local = (value: Localized, locale: Locale) => value[locale];
+export const local = (value: Localized, locale: Locale) => value[locale]?.trim() || value.en?.trim() || '';
 
 export type Category = {
   slug: string;

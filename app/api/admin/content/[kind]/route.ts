@@ -3,6 +3,7 @@ import {audit,can} from '@/lib/admin/auth';
 import {config,cleanLocalized,publishIssue} from '@/lib/admin/content';
 import {db,pagination} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
+import {refreshPublicContent} from '@/lib/admin/public-cache';
 
 export const runtime='nodejs';
 type Ctx={params:Promise<{kind:string}>};
@@ -50,6 +51,7 @@ export async function POST(request:NextRequest,{params}:Ctx){
   try {
     const hasPublishedAt=kind==='products'||kind==='articles';
     await sql.query(`INSERT INTO ${c.table}(${fields.join(',')}${hasPublishedAt?',published_at':''}) VALUES(${paramsSql}${hasPublishedAt?`,${data.status==='published'?'now()':'NULL'}`:''})`,values);
+    if (data.status === 'published') refreshPublicContent(kind);
     await audit(auth.user!.id,'create',kind,String(data[c.id]));
     return NextResponse.json({ok:true,id:data[c.id]},{status:201});
   }catch(error){console.error('Content create failed',error);return jsonError('保存失败，编号或别名可能已存在',409);}

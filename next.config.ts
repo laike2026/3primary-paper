@@ -13,15 +13,23 @@ const config: NextConfig = {
     ];
   },
   async headers() {
+    const privateHeaders = [
+      {key: 'Cache-Control', value: 'private, no-store, max-age=0'},
+      {key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive'},
+    ];
+    const indexing = process.env.VERCEL_ENV === 'production' && process.env.INDEXING_ENABLED === 'true';
     return [{
       source: '/(.*)',
       headers: [
         {key: 'X-Content-Type-Options', value: 'nosniff'},
         {key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin'},
         {key: 'X-Frame-Options', value: 'SAMEORIGIN'},
-        {key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()'}
+        {key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()'},
+        {key: 'Content-Security-Policy', value: "base-uri 'self'; frame-ancestors 'self'; object-src 'none'; form-action 'self'"},
+        ...(!indexing ? [{key: 'X-Robots-Tag', value: 'noindex, nofollow'}] : []),
       ]
-    }];
+    }, {source: '/admin/:path*', headers: privateHeaders},
+    {source: '/api/admin/:path*', headers: privateHeaders}];
   }
 };
 

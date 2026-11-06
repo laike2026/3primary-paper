@@ -4,7 +4,7 @@ import {publishedCategories,publishedProducts,publishedArticles} from '@/lib/adm
 import {locales} from '@/i18n/routing';
 import {site, isIndexingEnabled} from '@/lib/site';
 
-export const dynamic='force-dynamic';
+export const revalidate=300;
 
 export default async function sitemap():Promise<MetadataRoute.Sitemap> {
   if(!isIndexingEnabled)return [];

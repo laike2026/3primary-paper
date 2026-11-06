@@ -21,7 +21,12 @@ const topics: Record<string, [string, string, string, string]> = {
 };
 export async function generateMetadata({params}: {params: Promise<{locale: Locale}>}) {
   const {locale} = await params;
-  return pageMetadata(locale, '/faq', copy[locale].faqTitle, copy[locale].oemIntro);
+  return pageMetadata(locale, '/faq', copy[locale].faqTitle, tr(locale,
+    'Answers to common questions about roll sizes, samples, custom printing, packaging and shipping for wholesale paper orders.',
+    'إجابات عن مقاسات اللفائف والعينات والطباعة المخصصة والتعبئة والشحن لطلبات الورق بالجملة.',
+    'Ответы на вопросы о размерах рулонов, образцах, печати, упаковке и доставке при оптовых закупках бумаги.',
+    'Respuestas sobre tamaños de rollo, muestras, impresión personalizada, embalaje y envío para pedidos de papel al por mayor.',
+  ));
 }
 export default async function Faq({params}: {params: Promise<{locale: Locale}>}) {
   const {locale} = await params;

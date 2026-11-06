@@ -2,6 +2,7 @@ import Image from 'next/image';
 import {PageHero} from '@/components/PageHero';
 import {InnerPage, CtaStrip, ServicePrinciples} from '@/components/Interior';
 import {publishedWebsite} from '@/lib/admin/website';
+import {publicContact} from '@/lib/admin/settings';
 import {local} from '@/lib/content';
 import {copy} from '@/lib/copy';
 import {pageMetadata, organizationJsonLd} from '@/lib/seo';
@@ -14,12 +15,12 @@ export async function generateMetadata({params}: {params: Promise<{locale: Local
 }
 export default async function About({params}: {params: Promise<{locale: Locale}>}) {
   const {locale} = await params;
-  const [items, photos] = await Promise.all([publishedWebsite('about'), publishedWebsite('factory')]);
+  const [items, photos, contact] = await Promise.all([publishedWebsite('about'), publishedWebsite('factory'), publicContact()]);
   return (
     <InnerPage>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{__html: JSON.stringify(organizationJsonLd()).replace(/</g, '\\u003c')}}
+        dangerouslySetInnerHTML={{__html: JSON.stringify(organizationJsonLd(contact)).replace(/</g, '\\u003c')}}
       />
       <PageHero
         locale={locale}

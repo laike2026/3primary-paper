@@ -4,6 +4,7 @@ import {audit,can} from '@/lib/admin/auth';
 import {config,publishIssue} from '@/lib/admin/content';
 import {db} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
+import {refreshPublicContent} from '@/lib/admin/public-cache';
 export const runtime='nodejs';
 type Ctx={params:Promise<{kind:string}>};
 const schema=z.object({ids:z.array(z.string().min(1).max(120)).min(1).max(50),action:z.enum(['publish','archive','draft','unlist','delete','restore'])});
@@ -27,13 +28,15 @@ export async function POST(request:NextRequest,{params}:Ctx){
       }
       if(action==='delete'&&kind==='categories'){const n=await sql.query('SELECT (SELECT count(*) FROM content_products WHERE category_slug=$1 AND deleted_at IS NULL)+(SELECT count(*) FROM content_categories WHERE parent_slug=$1 AND deleted_at IS NULL) AS n',[id]);if(Number(n[0].n)>0)throw Error('仍有产品或子分类');}
       if(action==='delete'&&kind==='news-categories'){const n=await sql.query('SELECT count(*)::int AS n FROM content_articles WHERE category_slug=$1 AND deleted_at IS NULL',[id]);if(Number(n[0].n)>0)throw Error('仍有文章');}
-      const update=action==='delete'?'deleted_at=now()':action==='restore'?kind==='articles'?"deleted_at=NULL,status='draft'":'deleted_at=NULL':`status='${action==='publish'?'published':action==='archive'?'archived':action==='unlist'?'unlisted':'draft'}'`;
+      const restoreAsDraft=kind==='articles'||!can(auth.user!.role,'content:publish');
+      const update=action==='delete'?'deleted_at=now()':action==='restore'?restoreAsDraft?"deleted_at=NULL,status='draft'":'deleted_at=NULL':`status='${action==='publish'?'published':action==='archive'?'archived':action==='unlist'?'unlisted':'draft'}'`;
       const publishedAt=action==='publish'&&['products','articles'].includes(kind)?',published_at=coalesce(published_at,now())':'';
       const rows=await sql.query(`UPDATE ${c.table} SET ${update}${publishedAt},updated_at=now() WHERE ${c.id}=$1 ${action==='restore'?'AND deleted_at IS NOT NULL':'AND deleted_at IS NULL'} RETURNING ${c.id}`,[id]);
       if(!rows.length)throw Error('内容不存在或状态未变化');
       results.push({id,ok:true});
     }catch(error){results.push({id,ok:false,error:error instanceof Error?error.message:'操作失败'});}
   }
+  if (results.some(row => row.ok)) refreshPublicContent(kind);
   await audit(auth.user!.id,'bulk_'+action,kind,'',{success:results.filter(x=>x.ok).length,failed:results.filter(x=>!x.ok).length});
   return NextResponse.json({results});
 }

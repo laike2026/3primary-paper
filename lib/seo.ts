@@ -24,7 +24,7 @@ export function pageMetadata(locale: Locale, path: string, title: string, descri
   };
 }
 
-export function organizationJsonLd() {
+export function organizationJsonLd(contact: {phone: string; address: string}) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -32,8 +32,8 @@ export function organizationJsonLd() {
     url: site.origin,
     logo: new URL(site.organizationLogo, site.origin).toString(),
     email: site.email,
-    telephone: site.phone,
-    address: {'@type': 'PostalAddress', streetAddress: site.address, addressCountry: 'CN'}
+    telephone: contact.phone,
+    address: {'@type': 'PostalAddress', streetAddress: contact.address, addressCountry: 'CN'}
   };
 }
 

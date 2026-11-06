@@ -3,6 +3,7 @@ import {audit,can} from '@/lib/admin/auth';
 import {db} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
 import {websiteSchema} from '@/lib/admin/website';
+import {refreshPublicData} from '@/lib/admin/public-cache';
 
 export const runtime='nodejs';
 export async function GET(){
@@ -27,6 +28,7 @@ export async function POST(request:NextRequest){
       sql.query('INSERT INTO website_content_versions(slug,snapshot,actor_id) SELECT slug,to_jsonb(w),$2 FROM website_content w WHERE slug=$1',[data.slug,auth.user!.id]),
       sql.query(`INSERT INTO website_content(${fields.join(',')}) VALUES(${fields.map((k,i)=>`$${i+1}${json.has(k)?'::jsonb':''}`).join(',')}) ON CONFLICT(slug) DO UPDATE SET ${fields.filter(k=>k!=='slug').map(k=>`${k}=excluded.${k}`).join(',')},updated_at=now(),deleted_at=NULL`,values)
     ]);
+    refreshPublicData('website');
     await audit(auth.user!.id,'save','website_content',data.slug,{kind:data.kind,status:data.status});
     return NextResponse.json({ok:true});
   }catch(error){console.error('Website content save failed',error);return jsonError('保存失败，请稍后重试',500);}

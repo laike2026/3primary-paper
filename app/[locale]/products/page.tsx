@@ -12,13 +12,10 @@ export async function generateMetadata({params}: {params: Promise<{locale: Local
 }
 export default async function Products({
   params,
-  searchParams,
 }: {
   params: Promise<{locale: Locale}>;
-  searchParams: Promise<{search?: string}>;
 }) {
   const {locale} = await params;
-  const {search = ''} = await searchParams;
   const [categories, products] = await Promise.all([publishedCategories(), publishedProducts()]);
   return (
     <InnerPage className="catalog-page">
@@ -29,16 +26,15 @@ export default async function Products({
         intro={copy[locale].productsIntro}
       />
       <div className="container">
-        <CategoryNav categories={categories} locale={locale} />
         <ProductCatalog
           locale={locale}
-          initialSearch={search}
           label={ui(locale, 'view')}
           all={ui(locale, 'all')}
           empty={ui(locale, 'noResults')}
           categories={categories}
           products={products}
         />
+        <CategoryNav categories={categories} locale={locale} />
         <CtaStrip locale={locale} />
       </div>
     </InnerPage>

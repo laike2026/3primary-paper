@@ -10,6 +10,7 @@ export type Article = {
   author?: string;
   featured?: boolean;
   pinned?: boolean;
+  published_at?: string | Date;
   updated_at?: string | Date;
   seo?: {
     title?: Localized;

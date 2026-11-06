@@ -1,10 +1,11 @@
 'use client';
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {MagnifyingGlass} from '@phosphor-icons/react';
 import {local, type Category, type Product} from '@/lib/content';
 import type {Locale} from '@/i18n/routing';
 import {ui, tr} from '@/lib/interior-copy';
 import {ProductCard} from './ProductCard';
+import {normalizeCatalogQuery} from '@/lib/catalog-search';
 const formatOf = (p: Product) =>
   p.category === 'color-paper' ? 'sheet' : p.slug.includes('continuous') ? 'continuous' : 'roll';
 const applicationOf = (p: Product) =>
@@ -17,7 +18,6 @@ const applicationOf = (p: Product) =>
         : 'receipts';
 export function ProductCatalog({
   locale,
-  initialSearch = '',
   label,
   empty,
   all,
@@ -25,19 +25,32 @@ export function ProductCatalog({
   products,
 }: {
   locale: Locale;
-  initialSearch?: string;
   label: string;
   empty: string;
   all: string;
   categories: Category[];
   products: Product[];
 }) {
-  const [query, setQuery] = useState(initialSearch),
+  const searchField = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState(''),
     [category, setCategory] = useState('all'),
     [sort, setSort] = useState('name'),
     [usage, setUsage] = useState('all'),
     [format, setFormat] = useState('all'),
     [page, setPage] = useState(1);
+  useEffect(() => {
+    const legacyQuery = new URLSearchParams(window.location.search).get('search');
+    if (legacyQuery) queueMicrotask(() => setQuery(legacyQuery.slice(0, 160)));
+    const focusSearch = () => {
+      if (window.location.hash === '#catalog-search' || legacyQuery !== null) {
+        searchField.current?.focus({preventScroll: true});
+        searchField.current?.scrollIntoView({block: 'start'});
+      }
+    };
+    focusSearch();
+    window.addEventListener('hashchange', focusSearch);
+    return () => window.removeEventListener('hashchange', focusSearch);
+  }, []);
   const uses = [
     ['all', all],
     ['receipts', tr(locale, 'Receipts & POS', 'الإيصالات ونقاط البيع', 'Чеки и POS', 'Recibos y POS')],
@@ -60,12 +73,9 @@ export function ProductCatalog({
     ['sheet', tr(locale, 'Sheet', 'ورقة', 'Лист', 'Hoja')],
     ['continuous', tr(locale, 'Continuous', 'متصل', 'Непрерывная форма', 'Continuo')],
   ];
-  const filtered = useMemo(
-    () =>
-      products
-        .filter((p) => {
-          const c = categories.find((c) => c.slug === p.category);
-          const text = [
+  const searchable = useMemo(() => products.map((p) => {
+    const c = categories.find((c) => c.slug === p.category);
+    return {p, text: normalizeCatalogQuery([
             p.id,
             p.slug,
             p.size,
@@ -73,24 +83,26 @@ export function ProductCatalog({
             local(p.summary, locale),
             local(p.application, locale),
             c && local(c.name, locale),
-          ]
-            .join(' ')
-            .toLowerCase();
-          return (
+            ...((p.specifications || []).map((spec) => local(spec.value, locale))),
+    ].join(' '))};
+  }), [products, categories, locale]);
+  const filtered = useMemo(() => {
+    const search = normalizeCatalogQuery(query);
+    return searchable
+        .filter(({p, text}) =>
             (category === 'all' || p.category === category) &&
             (usage === 'all' || applicationOf(p) === usage) &&
             (format === 'all' || formatOf(p) === format) &&
-            text.includes(query.trim().toLowerCase())
-          );
-        })
+            text.includes(search)
+        )
+        .map(({p}) => p)
         .sort((a, b) =>
           sort === 'category'
             ? a.category.localeCompare(b.category) ||
               local(a.name, locale).localeCompare(local(b.name, locale))
             : local(a.name, locale).localeCompare(local(b.name, locale)),
-        ),
-    [query, category, sort, usage, format, locale, categories, products],
-  );
+        );
+  }, [query, category, sort, usage, format, locale, searchable]);
   const pageSize = 9,
     shown = filtered.slice((page - 1) * pageSize, page * pageSize),
     categoryLabel = tr(locale, 'Category', 'الفئة', 'Категория', 'Categoría'),
@@ -156,7 +168,10 @@ export function ProductCatalog({
           <label className="search-field">
             <MagnifyingGlass size={21} />
             <input
+              id="catalog-search"
+              ref={searchField}
               type="search"
+              maxLength={160}
               aria-label={tr(
                 locale,
                 'Search products',
@@ -166,10 +181,10 @@ export function ProductCatalog({
               )}
               placeholder={tr(
                 locale,
-                'Search product, SKU or use…',
-                'ابحث عن منتج أو رمز أو استخدام…',
-                'Поиск по товару, коду или применению…',
-                'Buscar producto, código o uso…',
+                'Search size, product or SKU…',
+                'ابحث عن مقاس أو منتج أو رمز…',
+                'Поиск по размеру, товару или коду…',
+                'Buscar tamaño, producto o código…',
               )}
               value={query}
               onChange={(e) => {
@@ -230,7 +245,7 @@ export function ProductCatalog({
               'Ordenar productos',
             )}
             value={sort}
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => {setSort(e.target.value); setPage(1);}}
           >
             <option value="name">{tr(locale, 'Name', 'الاسم', 'Название', 'Nombre')}</option>
             <option value="category">{categoryLabel}</option>
@@ -238,6 +253,18 @@ export function ProductCatalog({
           <span className="catalog-count" role="status">
             {filtered.length} {tr(locale, 'products', 'منتجات', 'товаров', 'productos')}
           </span>
+          {(query || category !== 'all' || usage !== 'all' || format !== 'all') && (
+            <button className="catalog-reset" type="button" onClick={() => {
+              setQuery('');
+              setCategory('all');
+              setUsage('all');
+              setFormat('all');
+              setPage(1);
+              searchField.current?.focus();
+            }}>
+              {tr(locale, 'Clear filters', 'مسح المرشحات', 'Сбросить фильтры', 'Limpiar filtros')}
+            </button>
+          )}
         </div>
         {shown.length ? (
           <div className="page-card-grid">
@@ -266,7 +293,7 @@ export function ProductCatalog({
                 aria-current={page === i + 1 ? 'page' : undefined}
                 onClick={() => {
                   setPage(i + 1);
-                  document.querySelector('.catalog-layout')?.scrollIntoView({behavior: 'smooth'});
+                  searchField.current?.scrollIntoView({block: 'start'});
                 }}
               >
                 {i + 1}

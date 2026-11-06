@@ -5,6 +5,7 @@ import {parseContentCsv} from '@/lib/admin/bulk';
 import {config,cleanLocalized,publishIssue} from '@/lib/admin/content';
 import {db} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
+import {refreshPublicContent} from '@/lib/admin/public-cache';
 export const runtime='nodejs';
 type Ctx={params:Promise<{kind:string}>};
 const requestSchema=z.object({items:z.array(z.unknown()).min(1).max(200),dryRun:z.boolean()});
@@ -42,6 +43,7 @@ export async function POST(request:NextRequest,{params}:Ctx){
   }
   let jobId:string|undefined;
   if(!input.data.dryRun){
+    if (results.some(row => row.ok)) refreshPublicContent(kind);
     jobId=newId();
     await db().query('INSERT INTO import_jobs(id,kind,actor_id,total,succeeded,failed,result) VALUES($1,$2,$3,$4,$5,$6,$7::jsonb)',[jobId,kind,auth.user!.id,results.length,results.filter(x=>x.ok).length,results.filter(x=>!x.ok).length,JSON.stringify(results)]);
     await audit(auth.user!.id,'bulk_import',kind,jobId,{success:results.filter(x=>x.ok).length,failed:results.filter(x=>!x.ok).length});

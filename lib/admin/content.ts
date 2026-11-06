@@ -1,5 +1,5 @@
 import 'server-only';
-import {cache} from 'react';
+import {publicCache} from './public-cache';
 import {z} from 'zod';
 import {db} from './db';
 import materialProducts from '@/data/material-products.json';
@@ -43,19 +43,24 @@ export async function publishIssue(kind:string,data:Record<string,unknown>):Prom
   return null;
 }
 
-export const publishedCategories=cache(async():Promise<Category[]> => {
+export const publishedCategories=publicCache('catalog','categories',async():Promise<Category[]> => {
   if(!process.env.DATABASE_URL)return initialCategories;
   const rows=await db().query(`SELECT slug,name,summary,description,image,source,seo,nav_visible,updated_at FROM content_categories WHERE status='published' AND enabled=true AND deleted_at IS NULL ORDER BY sort_order,slug`);
   return rows as Category[];
 });
-export const publishedProducts=cache(async():Promise<Product[]> => {
+export const publishedProducts=publicCache('catalog','products',async():Promise<Product[]> => {
   if(!process.env.DATABASE_URL){const merged=new Map(initialProducts.map(p=>[p.id,p]));for(const row of materialProducts)merged.set(row.id,{...row,category:row.category_slug} as Product);return [...merged.values()].filter(p=>p.status==='published');}
-  const rows=await db().query(`SELECT id,slug,category_slug AS category,name,summary,application,details,features,specifications,gallery,documents,video_url,moq,lead_time,price_mode,price_min,price_max,featured,pinned,image,size,source,status,seo,updated_at FROM content_products
-    WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,sort_order,id`);
+  const rows=await db().query(`SELECT p.id,p.slug,p.category_slug AS category,p.name,p.summary,p.application,p.details,p.features,p.specifications,p.gallery,p.documents,p.video_url,p.moq,p.lead_time,p.price_mode,p.price_min,p.price_max,p.featured,p.pinned,p.image,p.size,p.source,p.status,p.seo,p.updated_at
+    FROM content_products p JOIN content_categories c ON c.slug=p.category_slug
+    WHERE p.status='published' AND p.deleted_at IS NULL AND c.status='published' AND c.enabled=true AND c.deleted_at IS NULL ORDER BY p.pinned DESC,p.sort_order,p.id`);
   return rows as Product[];
 });
-export const publishedArticles=cache(async():Promise<Article[]> => {
+export const publishedArticles=publicCache('articles','list',async():Promise<Article[]> => {
   if(!process.env.DATABASE_URL)return [];
-  const rows=await db().query(`SELECT slug,title,intro,sections,author,featured,pinned,image,category_slug,seo,updated_at FROM content_articles WHERE status='published' AND deleted_at IS NULL ORDER BY pinned DESC,published_at DESC NULLS LAST,slug`);
+  const rows=await db().query(`SELECT a.slug,a.title,a.intro,a.sections,a.author,a.featured,a.pinned,a.image,a.category_slug,a.seo,a.published_at,a.updated_at
+    FROM content_articles a LEFT JOIN news_categories c ON c.slug=a.category_slug
+    WHERE a.status='published' AND a.deleted_at IS NULL
+      AND (a.category_slug IS NULL OR (c.status='published' AND c.deleted_at IS NULL))
+    ORDER BY a.pinned DESC,a.published_at DESC NULLS LAST,a.slug`);
   return rows as Article[];
 });

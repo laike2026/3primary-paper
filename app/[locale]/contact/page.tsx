@@ -33,7 +33,7 @@ export default async function Contact({params}: {params: Promise<{locale: Locale
               <h2 dir="ltr">{site.company}</h2>
               <p>{copy[locale].aboutIntro}</p>
               <div className="contact-options">
-                <a href={site.phoneHref}>
+                <a href={contact.phoneHref}>
                   <Phone size={27} weight="light" />
                   <span dir="ltr">{contact.phone}</span>
                 </a>
