@@ -2,5 +2,11 @@ import {defineRouting} from 'next-intl/routing';
 
 export const locales = ['en', 'ar', 'ru', 'es'] as const;
 export type Locale = (typeof locales)[number];
-export const routing = defineRouting({locales, defaultLocale: 'en', localePrefix: 'always'});
+export const routing = defineRouting({
+  locales,
+  defaultLocale: 'en',
+  localePrefix: 'always',
+  // Metadata and the sitemap provide matching hreflang URLs, including x-default.
+  alternateLinks: false
+});
 export const isLocale = (value: string): value is Locale => locales.includes(value as Locale);
