@@ -26,6 +26,8 @@ The current catalog is `/downloads/3primary-product-catalog-2026-11-10.pdf`. The
 
 The standard build invokes `scripts/apply-content-update-20261110.mjs`. It does nothing unless the project-specific production flag `TPC_CONTENT_RELEASE_20261110=1` is enabled. It also checks the production environment, intended site origin and Vercel project ID when supplied. Preview and local builds keep this flag inactive.
 
+The review branch enables `TPC_CONTENT_PREVIEW=1` only in its Preview environment. This selects the checked-in reviewed content and disables database access for that isolated preview. Production always reads its real CMS, even if a preview variable is accidentally inherited. Other preview branches retain their existing behavior unless explicitly enabled.
+
 With the flag enabled, the script uses the project's existing environment-bound database and Blob clients. It never exports their credentials. The script validates local checksums, uploads only the six versioned release assets, then applies product, category and download-reference updates in one database transaction. It preserves unrelated fields and records full prior rows in content history and a release snapshot. Optimistic guards abort the transaction if an editor changes a selected row after the read.
 
 - Marker: `site_settings.key = approved-content-2026-11-10`.
