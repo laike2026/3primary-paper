@@ -8,8 +8,8 @@ export const site = {
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || '',
   address,
   mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`,
-  logo: '/images/brand/official-logo.jpg',
-  organizationLogo: '/images/brand/organization-logo.png',
+  logo: '/images/brand/official-logo-hd-20261110.png',
+  organizationLogo: '/images/brand/organization-logo-20261110.png',
   socialImage: '/images/brand/social-preview.jpg',
   origin: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 };

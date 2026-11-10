@@ -15,6 +15,7 @@ import {products, local} from '@/lib/content';
 import {copy} from '@/lib/copy';
 import {site} from '@/lib/site';
 import {pageMetadata} from '@/lib/seo';
+import {productSize} from '@/lib/product-size';
 import {ui, tr} from '@/lib/interior-copy';
 import type {Locale} from '@/i18n/routing';
 export function generateStaticParams() {
@@ -44,6 +45,7 @@ export default async function Product({params}: {params: Promise<{locale: Locale
   if (!p) notFound();
   const c = categories.find((c) => c.slug === p.category);
   if (!c) notFound();
+  const size = productSize(p, locale);
   const related = items.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 3);
   const thermal = p.category.includes('thermal');
   const receiptRoll = ['80x80-thermal-paper-roll', '57x40-thermal-paper-roll', 'printed-atm-receipt-roll'].includes(slug);
@@ -58,7 +60,7 @@ export default async function Product({params}: {params: Promise<{locale: Locale
     name: local(spec.key, locale),
     value: local(spec.value, locale),
   })).filter(({name, value}) => name && value);
-  if (p.size) properties.push({name: sizeLabel, value: p.size});
+  if (size) properties.push({name: sizeLabel, value: size});
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -118,7 +120,7 @@ export default async function Product({params}: {params: Promise<{locale: Locale
                   {p.size && (
                     <tr>
                       <th>{sizeLabel}</th>
-                      <td><bdi>{p.size}</bdi>{inches && <small className="product-unit-note">{inches}</small>}</td>
+                      <td><bdi dir="ltr">{size}</bdi>{inches && <small className="product-unit-note">{inches}</small>}</td>
                     </tr>
                   )}
                   <tr>
@@ -175,13 +177,13 @@ export default async function Product({params}: {params: Promise<{locale: Locale
                   {p.specifications?.map((s, i) => (
                     <tr key={i}>
                       <th>{local(s.key, locale)}</th>
-                      <td>{local(s.value, locale)}</td>
+                      <td><bdi dir={/^\d/.test(local(s.value, locale)) ? 'ltr' : undefined}>{local(s.value, locale)}</bdi></td>
                     </tr>
                   ))}
                   {p.size && (
                     <tr>
                       <th>{sizeLabel}</th>
-                      <td>{p.size}</td>
+                      <td><bdi dir="ltr">{size}</bdi></td>
                     </tr>
                   )}
                   {p.moq && (

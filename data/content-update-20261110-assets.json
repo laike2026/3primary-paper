@@ -1,0 +1,89 @@
+{
+  "releaseId": "approved-content-2026-11-10",
+  "assets": [
+    {
+      "localPath": "/images/materials/product-01-2-20261110.webp",
+      "mimeType": "image/webp",
+      "alt": {
+        "en": "PRIMARY PAPER ROLLS carton and thermal receipt rolls",
+        "ar": "علبة PRIMARY PAPER ROLLS ولفائف ورق حراري",
+        "ru": "Коробка PRIMARY PAPER ROLLS и терморулоны",
+        "es": "Caja PRIMARY PAPER ROLLS y rollos térmicos"
+      },
+      "byteSize": 48922,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "87bbb2c314ae10e9aa442888390d55fd0e2afeb174a0424afac58a8700a9d12c"
+    },
+    {
+      "localPath": "/images/materials/catalog-cover-20261110.webp",
+      "mimeType": "image/webp",
+      "alt": {
+        "en": "Thermal paper, labels, carbonless paper and jumbo roll catalog",
+        "ar": "كتالوج الورق الحراري والملصقات وورق النسخ واللفائف الكبيرة",
+        "ru": "Каталог термобумаги, этикеток, самокопирующейся бумаги и больших рулонов",
+        "es": "Catálogo de papel térmico, etiquetas, papel autocopiativo y bobinas jumbo"
+      },
+      "byteSize": 44962,
+      "width": 1200,
+      "height": 780,
+      "sha256": "23e75742ab4441db508c57a3b1472a187d88541340c8be7c4b6c44c10288ec2c"
+    },
+    {
+      "localPath": "/downloads/3primary-product-catalog-2026-11-10.pdf",
+      "mimeType": "application/pdf",
+      "alt": {
+        "en": "3PRIMARY product catalog revised 10 November 2026",
+        "ar": "كتالوج منتجات 3PRIMARY - نوفمبر 2026",
+        "ru": "Каталог продукции 3PRIMARY - ноябрь 2026",
+        "es": "Catálogo de productos 3PRIMARY - noviembre de 2026"
+      },
+      "byteSize": 981812,
+      "width": null,
+      "height": null,
+      "sha256": "d7950885a551f46855cfdfbc1b9c6afe67558d773963bcca25b1d1bd3978a9a8"
+    },
+    {
+      "localPath": "/images/brand/primary-wordmark-20261110.svg",
+      "mimeType": "image/svg+xml",
+      "alt": {
+        "en": "Primary Three Primary Colors Paper logo",
+        "ar": "شعار شركة 3PRIMARY للورق",
+        "ru": "Логотип компании 3PRIMARY",
+        "es": "Logotipo de 3PRIMARY"
+      },
+      "byteSize": 16607,
+      "width": 166,
+      "height": 50,
+      "sha256": "5f4e88549ae4177b7cd5fc730264c15f72aca9c23ab2f4bfff7ac2488dc86e5c"
+    },
+    {
+      "localPath": "/images/brand/official-logo-hd-20261110.png",
+      "mimeType": "image/png",
+      "alt": {
+        "en": "Primary Three Primary Colors Paper logo",
+        "ar": "شعار شركة 3PRIMARY للورق",
+        "ru": "Логотип компании 3PRIMARY",
+        "es": "Logotipo de 3PRIMARY"
+      },
+      "byteSize": 72243,
+      "width": 1328,
+      "height": 400,
+      "sha256": "9938afabad210b771f9b9b318b386cb322ee03a0cbb6ec656613a3473fc6f7a7"
+    },
+    {
+      "localPath": "/images/brand/organization-logo-20261110.png",
+      "mimeType": "image/png",
+      "alt": {
+        "en": "Primary Three Primary Colors Paper logo",
+        "ar": "شعار شركة 3PRIMARY للورق",
+        "ru": "Логотип компании 3PRIMARY",
+        "es": "Logotipo de 3PRIMARY"
+      },
+      "byteSize": 25330,
+      "width": 600,
+      "height": 200,
+      "sha256": "276df0856099b917ba54d1705de4d7d26c3513ce6630a16db5383b0242d3d77d"
+    }
+  ]
+}

@@ -9,7 +9,8 @@ const config: NextConfig = {
     return [
       {source:'/en/products.html', destination:'/en/products', permanent:true},
       {source:'/en/contactus.html', destination:'/en/contact', permanent:true},
-      {source:'/en/aboutus.html', destination:'/en/about', permanent:true}
+      {source:'/en/aboutus.html', destination:'/en/about', permanent:true},
+      {source:'/downloads/3primary-product-catalog-2026-11.pdf', destination:'/downloads/3primary-product-catalog-2026-11-10.pdf', permanent:true}
     ];
   },
   async headers() {

@@ -6,6 +6,7 @@ import type {Locale} from '@/i18n/routing';
 import {ui, tr} from '@/lib/interior-copy';
 import {ProductCard} from './ProductCard';
 import {normalizeCatalogQuery} from '@/lib/catalog-search';
+import {productSize} from '@/lib/product-size';
 const formatOf = (p: Product) =>
   p.category === 'color-paper' ? 'sheet' : p.slug.includes('continuous') ? 'continuous' : 'roll';
 const applicationOf = (p: Product) =>
@@ -79,6 +80,7 @@ export function ProductCatalog({
             p.id,
             p.slug,
             p.size,
+            productSize(p, locale),
             local(p.name, locale),
             local(p.summary, locale),
             local(p.application, locale),

@@ -6,6 +6,7 @@ import sharp from 'sharp';
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const brand = resolve(root, 'public/images/brand');
 const logo = await readFile(resolve(brand, 'official-logo.jpg'));
+const vectorLogo = await readFile(resolve(brand, 'primary-wordmark-20261110.svg'));
 
 // The source supplied by the company's legacy site is 166 x 50 px. This crop
 // contains only its original blue globe/paper glyph, without the adjacent r.
@@ -54,11 +55,13 @@ frames.forEach(({size, data}, index) => {
 });
 await writeFile(resolve(root, 'public/favicon.ico'), Buffer.concat([header, ...frames.map(frame => frame.data)]));
 
-const fullLogo = await sharp(logo).resize(500, 151, {kernel: 'lanczos3'}).png().toBuffer();
+const fullLogo = await sharp(vectorLogo, {density: 576}).resize(500, 151).png().toBuffer();
 await sharp({create: {width: 600, height: 200, channels: 4, background: '#ffffff'}})
   .composite([{input: fullLogo, left: 50, top: 24}])
   .png({compressionLevel: 9})
   .toFile(resolve(brand, 'organization-logo.png'));
+await sharp(vectorLogo, {density: 576}).resize(1328, 400).png().toFile(resolve(brand, 'official-logo-hd-20261110.png'));
+await sharp(vectorLogo, {density: 576}).resize(500, 151).extend({top:25,bottom:24,left:50,right:50,background:'#fff'}).png().toFile(resolve(brand, 'organization-logo-20261110.png'));
 
 const overlay = Buffer.from(`<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
   <defs><linearGradient id="wash"><stop offset="0" stop-color="#f8f5f0" stop-opacity=".98"/><stop offset=".43" stop-color="#f8f5f0" stop-opacity=".94"/><stop offset=".67" stop-color="#f8f5f0" stop-opacity="0"/></linearGradient></defs>
@@ -74,7 +77,7 @@ const overlay = Buffer.from(`<svg width="1200" height="630" xmlns="http://www.w3
 const hero = resolve(root, 'public/images/sections/hero-paper-studio.webp');
 await sharp(hero)
   .resize(1200, 630, {fit: 'cover', position: 'centre'})
-  .composite([{input: overlay, left: 0, top: 0}, {input: logo, left: 70, top: 50}])
+  .composite([{input: overlay, left: 0, top: 0}, {input: await sharp(vectorLogo, {density: 288}).resize(166,50).png().toBuffer(), left: 70, top: 50}])
   .jpeg({quality: 88, mozjpeg: true})
   .toFile(resolve(brand, 'social-preview.jpg'));
 

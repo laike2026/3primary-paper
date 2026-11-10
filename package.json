@@ -8,11 +8,11 @@
     "assets:brand": "node scripts/generate-brand-assets.mjs",
     "assets:admin": "node scripts/generate-admin-icons.mjs",
     "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "build": "node scripts/apply-content-update-20261110.mjs && next build --webpack",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node tests/content.test.mjs",
+    "test": "node --test tests/*.test.mjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {

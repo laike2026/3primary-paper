@@ -10,7 +10,7 @@ export function publicCache<Args extends unknown[], Result>(
   name: string,
   read: (...args: Args) => Promise<Result>,
 ) {
-  const cached = unstable_cache((_source: string, ...args: Args) => read(...args), [tag(area), name],
+  const cached = unstable_cache((_source: string, ...args: Args) => read(...args), [tag(area), name, 'content-2026-11-10'],
     {revalidate: 300, tags: [tag(area)]});
   return cache((...args: Args) => {
     if (!process.env.DATABASE_URL) return read(...args);

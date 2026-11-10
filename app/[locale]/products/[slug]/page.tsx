@@ -8,6 +8,7 @@ import {publishedCategories, publishedProducts} from '@/lib/admin/content';
 import {categories, local} from '@/lib/content';
 import {copy} from '@/lib/copy';
 import {pageMetadata} from '@/lib/seo';
+import {productSize} from '@/lib/product-size';
 import {ui, tr} from '@/lib/interior-copy';
 import type {Locale} from '@/i18n/routing';
 export function generateStaticParams() {
@@ -93,7 +94,7 @@ export default async function Category({params}: {params: Promise<{locale: Local
                         <th scope="row">
                           <Link href={'/' + locale + '/product/' + p.slug}>{local(p.name, locale)}</Link>
                         </th>
-                        <td>{p.size || ui(locale, 'onRequest')}</td>
+                        <td><bdi dir="ltr">{productSize(p, locale) || ui(locale, 'onRequest')}</bdi></td>
                         <td>{local(p.application, locale)}</td>
                       </tr>
                     ))}

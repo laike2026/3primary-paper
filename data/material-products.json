@@ -37,10 +37,10 @@
           "es": "Medidas habituales / ancho"
         },
         "value": {
-          "en": "80 × 80 mm / 80 × 70 mm",
-          "ar": "80 × 80 mm / 80 × 70 mm",
-          "ru": "80 × 80 mm / 80 × 70 mm",
-          "es": "80 × 80 mm / 80 × 70 mm"
+          "en": "80 × 80 mm / 80 × 70 mm / Custom sizes available",
+          "ar": "80 × 80 mm / 80 × 70 mm / مقاسات مخصصة متاحة",
+          "ru": "80 × 80 mm / 80 × 70 mm / Доступны размеры на заказ",
+          "es": "80 × 80 mm / 80 × 70 mm / Medidas personalizadas disponibles"
         }
       },
       {
@@ -51,10 +51,10 @@
           "es": "Gramaje"
         },
         "value": {
-          "en": "48 / 55 / 60 / 65 / 70 gsm",
-          "ar": "48 / 55 / 60 / 65 / 70 gsm",
-          "ru": "48 / 55 / 60 / 65 / 70 gsm",
-          "es": "48 / 55 / 60 / 65 / 70 gsm"
+          "en": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ar": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ru": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "es": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm"
         }
       },
       {
@@ -77,10 +77,10 @@
       "/images/materials/product-01-3.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
-    "image": "/images/materials/product-01-2.webp",
-    "size": "80 × 80 mm / 80 × 70 mm",
+    "image": "/images/materials/product-01-2-20261110.webp",
+    "size": "80 × 80 mm / 80 × 70 mm / Custom sizes available",
     "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 3",
     "status": "published",
     "sort_order": 0,
@@ -126,10 +126,10 @@
           "es": "Medidas habituales / ancho"
         },
         "value": {
-          "en": "57 × 50 / 40 / 30 mm",
-          "ar": "57 × 50 / 40 / 30 mm",
-          "ru": "57 × 50 / 40 / 30 mm",
-          "es": "57 × 50 / 40 / 30 mm"
+          "en": "57 × 50 mm / 57 × 40 mm / 57 × 30 mm / Custom sizes available",
+          "ar": "57 × 50 mm / 57 × 40 mm / 57 × 30 mm / مقاسات مخصصة متاحة",
+          "ru": "57 × 50 mm / 57 × 40 mm / 57 × 30 mm / Доступны размеры на заказ",
+          "es": "57 × 50 mm / 57 × 40 mm / 57 × 30 mm / Medidas personalizadas disponibles"
         }
       },
       {
@@ -140,10 +140,10 @@
           "es": "Gramaje"
         },
         "value": {
-          "en": "48 / 55 / 60 / 65 / 70 gsm",
-          "ar": "48 / 55 / 60 / 65 / 70 gsm",
-          "ru": "48 / 55 / 60 / 65 / 70 gsm",
-          "es": "48 / 55 / 60 / 65 / 70 gsm"
+          "en": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ar": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ru": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "es": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm"
         }
       },
       {
@@ -166,10 +166,10 @@
       "/images/materials/product-02-3.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-02-1.webp",
-    "size": "57 × 50 / 40 / 30 mm",
+    "size": "57 × 50 mm / 57 × 40 mm / 57 × 30 mm / Custom sizes available",
     "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 4",
     "status": "published",
     "sort_order": 1,
@@ -229,10 +229,10 @@
           "es": "Gramaje"
         },
         "value": {
-          "en": "48 / 55 / 60 / 65 / 70 gsm",
-          "ar": "48 / 55 / 60 / 65 / 70 gsm",
-          "ru": "48 / 55 / 60 / 65 / 70 gsm",
-          "es": "48 / 55 / 60 / 65 / 70 gsm"
+          "en": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ar": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ru": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "es": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm"
         }
       },
       {
@@ -254,7 +254,7 @@
       "/images/materials/product-03-2.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-03-1.webp",
     "size": "80 × 150 mm / 80 × 200 mm / 82 × 180 mm",
@@ -324,10 +324,10 @@
           "es": "Gramaje"
         },
         "value": {
-          "en": "48 / 55 / 60 / 65 / 70 gsm",
-          "ar": "48 / 55 / 60 / 65 / 70 gsm",
-          "ru": "48 / 55 / 60 / 65 / 70 gsm",
-          "es": "48 / 55 / 60 / 65 / 70 gsm"
+          "en": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ar": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ru": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "es": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm"
         }
       },
       {
@@ -351,7 +351,7 @@
       "/images/materials/product-04-4.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-04-1.webp",
     "size": "Custom sizes",
@@ -433,7 +433,7 @@
       "/images/materials/product-06-2.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-06-3.webp",
     "size": "100 × 150 mm / 100 × 100 mm",
@@ -514,7 +514,7 @@
       "/images/materials/product-07-2.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-07-1.webp",
     "size": "100 × 150 mm",
@@ -595,7 +595,7 @@
       "/images/materials/product-08-2.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-08-1.webp",
     "size": "Custom sizes",
@@ -676,7 +676,7 @@
       "/images/materials/product-09-2.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-09-1.webp",
     "size": "Custom sizes",
@@ -732,10 +732,10 @@
           "es": "Medidas habituales / ancho"
         },
         "value": {
-          "en": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
-          "ar": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
-          "ru": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
-          "es": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm"
+          "en": "405 / 565 / 636 / 790 / 795 mm",
+          "ar": "405 / 565 / 636 / 790 / 795 mm",
+          "ru": "405 / 565 / 636 / 790 / 795 mm",
+          "es": "405 / 565 / 636 / 790 / 795 mm"
         }
       },
       {
@@ -746,10 +746,10 @@
           "es": "Gramaje"
         },
         "value": {
-          "en": "48 / 55 / 60 / 65 / 70 gsm",
-          "ar": "48 / 55 / 60 / 65 / 70 gsm",
-          "ru": "48 / 55 / 60 / 65 / 70 gsm",
-          "es": "48 / 55 / 60 / 65 / 70 gsm"
+          "en": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ar": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "ru": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm",
+          "es": "35 / 40 / 45 / 48 / 55 / 60 / 65 / 70 / 75 / 80 gsm"
         }
       },
       {
@@ -772,10 +772,10 @@
       "/images/materials/product-10-3.webp"
     ],
     "documents": [
-      "/downloads/3primary-product-catalog-2026-11.pdf"
+      "/downloads/3primary-product-catalog-2026-11-10.pdf"
     ],
     "image": "/images/materials/product-10-2.webp",
-    "size": "405 / 565 / 640 / 795 / 800 / 840 / 900 / 1080 mm",
+    "size": "405 / 565 / 636 / 790 / 795 mm",
     "source": "Company materials 2026-11-02 / 产品详细信息表.xlsx / row 12",
     "status": "published",
     "sort_order": 9,
