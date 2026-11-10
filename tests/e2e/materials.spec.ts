@@ -12,7 +12,7 @@ test('product gallery, procurement questions and current catalog are connected',
   await page.goto('/en/resources');
   const catalog=page.getByRole('link',{name:'Preview catalog ↗'});
   const url=await catalog.getAttribute('href');
-  expect(url).toContain('3primary-product-catalog-2026-11.pdf');
+  expect(url).toContain('3primary-product-catalog-2026-11-10.pdf');
   const response=await request.get(url!);
   expect(response.status()).toBe(200);
   expect((await response.body()).subarray(0,5).toString()).toBe('%PDF-');
