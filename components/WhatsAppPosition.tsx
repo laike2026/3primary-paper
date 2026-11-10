@@ -14,7 +14,7 @@ const protectedControls = [
   '.catalog-toolbar button',
   '.analytics-consent',
   '.spec-table',
-  '.material-download .detail-actions a',
+  '.detail-actions a',
 ].join(',');
 
 export function WhatsAppPosition({href, label, children}: {
