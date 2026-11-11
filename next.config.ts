@@ -24,6 +24,7 @@ const config: NextConfig = {
     return [{
       source: '/(.*)',
       headers: [
+        {key:'Server',value:'3PRIMARY'},
         {key: 'X-Content-Type-Options', value: 'nosniff'},
         {key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin'},
         {key: 'X-Frame-Options', value: 'SAMEORIGIN'},
