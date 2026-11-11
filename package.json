@@ -8,7 +8,7 @@
     "assets:brand": "node scripts/generate-brand-assets.mjs",
     "assets:admin": "node scripts/generate-admin-icons.mjs",
     "dev": "next dev --webpack",
-    "build": "node scripts/apply-content-update-20261110.mjs && next build --webpack",
+    "build": "node scripts/apply-content-update-20261110.mjs && node scripts/apply-business-cleanup-20261111.mjs && next build --webpack",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
