@@ -4,6 +4,8 @@ import {config,cleanLocalized,publishIssue} from '@/lib/admin/content';
 import {db,pagination} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
 import {refreshPublicContent} from '@/lib/admin/public-cache';
+import {businessAssetReferences} from '@/lib/admin/assets';
+import {cleanBusinessMetadata} from '@/lib/business-assets.mjs';
 
 export const runtime='nodejs';
 type Ctx={params:Promise<{kind:string}>};
@@ -20,14 +22,15 @@ export async function GET(request:NextRequest,{params}:Ctx){
     sql.query(`SELECT * FROM ${c.table} ${filter} ORDER BY updated_at DESC LIMIT $3 OFFSET $4`,[q,state,size,offset]),
     sql.query(`SELECT count(*)::int AS total FROM ${c.table} ${filter}`,[q,state])
   ]);
-  return NextResponse.json({items,total:Number(total[0].total),page,size});
+  return NextResponse.json({items:await businessAssetReferences(items),total:Number(total[0].total),page,size});
 }
 export async function POST(request:NextRequest,{params}:Ctx){
   const {kind}=await params;const c=config(kind);if(!c)return jsonError('无效模块',404);
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const auth=await guard('content:write');if(auth.response)return auth.response;
   const parsed=c.schema.safeParse(await request.json().catch(()=>null));if(!parsed.success)return jsonError('内容字段无效');
-  const data=parsed.data as Record<string,unknown>;
+  const data=await businessAssetReferences(parsed.data) as Record<string,unknown>;
+  if(typeof data.source==='string')data.source=cleanBusinessMetadata(data.source);
   if(kind==='articles'&&data.status!=='draft')return jsonError('新建新闻须先保存为草稿');
   if(data.status==='published'&&!can(auth.user!.role,'content:publish'))return jsonError('没有发布权限',403);
   for(const field of ['name','summary','application','title','intro','description','details'])if(data[field])data[field]=cleanLocalized(data[field] as Record<string,string>);

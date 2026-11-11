@@ -3,6 +3,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const config: NextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
   allowedDevOrigins: ['127.0.0.1','localhost'],
   images: {formats: ['image/avif', 'image/webp'],remotePatterns:[{protocol:'https',hostname:'**.public.blob.vercel-storage.com'}]},
   async redirects() {
@@ -10,7 +11,8 @@ const config: NextConfig = {
       {source:'/en/products.html', destination:'/en/products', permanent:true},
       {source:'/en/contactus.html', destination:'/en/contact', permanent:true},
       {source:'/en/aboutus.html', destination:'/en/about', permanent:true},
-      {source:'/downloads/3primary-product-catalog-2026-11.pdf', destination:'/downloads/3primary-product-catalog-2026-11-10.pdf', permanent:true}
+      {source:'/downloads/3primary-product-catalog-2026-11.pdf', destination:'/downloads/3primary-product-catalog-2026-11-10.pdf', permanent:true},
+      {source:'/images/materials/product-01-2.webp', destination:'/images/materials/product-01-2-20261110.webp', permanent:true}
     ];
   },
   async headers() {

@@ -2,6 +2,7 @@ import {NextRequest,NextResponse} from 'next/server';
 import {stringify} from 'csv-stringify/sync';
 import {db,pagination} from '@/lib/admin/db';
 import {guard} from '@/lib/admin/http';
+import {businessAssetReferences} from '@/lib/admin/assets';
 export const runtime='nodejs';
 export async function GET(request:NextRequest){
   const auth=await guard('audit:read');if(auth.response)return auth.response;
@@ -12,8 +13,9 @@ export async function GET(request:NextRequest){
   const sql=db(),args=[q,action,entity];
   if(params.get('format')==='csv'){
     const rows=await sql.query(`SELECT ${columns} FROM admin_audit_log a LEFT JOIN admin_users u ON u.id=a.actor_id ${where} ORDER BY a.created_at DESC LIMIT 10000`,args);
-    return new NextResponse('\ufeff'+stringify(rows.map(row=>({...row,details:JSON.stringify(row.details)})),{header:true,columns:['id','created_at','actor','actor_email','action','entity_type','entity_id','details']}),{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="admin-audit.csv"'}});
+    const businessRows=await businessAssetReferences(rows);
+    return new NextResponse('\ufeff'+stringify(businessRows.map(row=>({...row,details:JSON.stringify(row.details)})),{header:true,columns:['id','created_at','actor','actor_email','action','entity_type','entity_id','details']}),{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="admin-audit.csv"'}});
   }
   const [items,count]=await Promise.all([sql.query(`SELECT ${columns} FROM admin_audit_log a LEFT JOIN admin_users u ON u.id=a.actor_id ${where} ORDER BY a.created_at DESC LIMIT $4 OFFSET $5`,[...args,size,offset]),sql.query(`SELECT count(*)::int AS total FROM admin_audit_log a LEFT JOIN admin_users u ON u.id=a.actor_id ${where}`,args)]);
-  return NextResponse.json({items,total:Number(count[0].total),page,size});
+  return NextResponse.json({items:await businessAssetReferences(items),total:Number(count[0].total),page,size});
 }

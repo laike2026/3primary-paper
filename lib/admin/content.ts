@@ -3,6 +3,7 @@ import {publicCache} from './public-cache';
 import {z} from 'zod';
 import {db} from './db';
 import {isContentPreview} from './content-preview';
+import {businessAssetReferences} from './assets';
 import materialProducts from '@/data/material-products.json';
 import type {Article} from '@/lib/articles';
 import {categories as initialCategories, productRecords as initialProducts, type Category, type Product} from '@/lib/content';
@@ -47,14 +48,14 @@ export async function publishIssue(kind:string,data:Record<string,unknown>):Prom
 export const publishedCategories=publicCache('catalog','categories',async():Promise<Category[]> => {
   if(!process.env.DATABASE_URL||isContentPreview)return initialCategories;
   const rows=await db().query(`SELECT slug,name,summary,description,image,source,seo,nav_visible,updated_at FROM content_categories WHERE status='published' AND enabled=true AND deleted_at IS NULL ORDER BY sort_order,slug`);
-  return rows as Category[];
+  return await businessAssetReferences(rows) as Category[];
 });
 export const publishedProducts=publicCache('catalog','products',async():Promise<Product[]> => {
   if(!process.env.DATABASE_URL||isContentPreview){const merged=new Map(initialProducts.map(p=>[p.id,p]));for(const row of materialProducts)merged.set(row.id,{...row,category:row.category_slug} as Product);return [...merged.values()].filter(p=>p.status==='published');}
   const rows=await db().query(`SELECT p.id,p.slug,p.category_slug AS category,p.name,p.summary,p.application,p.details,p.features,p.specifications,p.gallery,p.documents,p.video_url,p.moq,p.lead_time,p.price_mode,p.price_min,p.price_max,p.featured,p.pinned,p.image,p.size,p.source,p.status,p.seo,p.updated_at
     FROM content_products p JOIN content_categories c ON c.slug=p.category_slug
     WHERE p.status='published' AND p.deleted_at IS NULL AND c.status='published' AND c.enabled=true AND c.deleted_at IS NULL ORDER BY p.pinned DESC,p.sort_order,p.id`);
-  return rows as Product[];
+  return await businessAssetReferences(rows) as Product[];
 });
 export const publishedArticles=publicCache('articles','list',async():Promise<Article[]> => {
   if(!process.env.DATABASE_URL||isContentPreview)return [];
@@ -63,5 +64,5 @@ export const publishedArticles=publicCache('articles','list',async():Promise<Art
     WHERE a.status='published' AND a.deleted_at IS NULL
       AND (a.category_slug IS NULL OR (c.status='published' AND c.deleted_at IS NULL))
     ORDER BY a.pinned DESC,a.published_at DESC NULLS LAST,a.slug`);
-  return rows as Article[];
+  return await businessAssetReferences(rows) as Article[];
 });

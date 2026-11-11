@@ -8,9 +8,9 @@ const tables = ['admin_users', 'content_categories', 'news_categories', 'content
   'content_articles', 'media_assets', 'inquiries', 'admin_sessions', 'admin_password_resets',
   'admin_audit_log', 'content_versions', 'url_redirects', 'product_categories', 'product_media',
   'inquiry_notes', 'analytics_events', 'analytics_daily', 'search_console_daily', 'sync_jobs',
-  'site_settings', 'import_jobs', 'website_content', 'website_content_versions'];
+  'site_settings', 'import_jobs', 'website_content', 'website_content_versions', 'business_cleanup_archive'];
 const transientTables = new Set(['admin_sessions', 'admin_password_resets']);
-const optionalTables = ['website_content', 'website_content_versions'];
+const optionalTables = ['website_content', 'website_content_versions', 'business_cleanup_archive'];
 const [operation, file, mediaDestination] = process.argv.slice(2);
 const passphrase = process.env.BACKUP_PASSPHRASE;
 const maxMediaFile = 8 * 1024 * 1024;
@@ -61,8 +61,9 @@ function referencedMedia(data) {
   const assets = new Map();
   for (const row of data.tables.media_assets) {
     if (row.deleted_at) continue;
-    assets.set(blobUrl(row.url).href, Number(row.byte_size));
-    if (row.thumbnail_url) assets.set(blobUrl(row.thumbnail_url).href, undefined);
+    const source=row.storage_url||row.url,thumbnail=row.thumbnail_storage_url||row.thumbnail_url;
+    if(!source.startsWith('/'))assets.set(blobUrl(source).href,Number(row.byte_size));
+    if(thumbnail&&!thumbnail.startsWith('/'))assets.set(blobUrl(thumbnail).href,undefined);
   }
   const additional = (value) => {
     if (typeof value === 'string' && /^https:\/\/[a-z0-9-]+\.public\.blob\.vercel-storage\.com\//i.test(value)) {
@@ -75,6 +76,7 @@ function referencedMedia(data) {
   for (const table of ['content_categories', 'content_products', 'content_articles', 'website_content']) {
     for (const row of data.tables[table]) if (!row.deleted_at) additional(row);
   }
+  for(const row of data.tables.business_cleanup_archive||[])additional(row.snapshot);
   return assets;
 }
 

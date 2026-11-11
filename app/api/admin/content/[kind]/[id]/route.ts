@@ -4,6 +4,8 @@ import {config,cleanLocalized,publishIssue} from '@/lib/admin/content';
 import {db} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
 import {refreshPublicContent} from '@/lib/admin/public-cache';
+import {businessAssetReferences} from '@/lib/admin/assets';
+import {cleanBusinessMetadata} from '@/lib/business-assets.mjs';
 
 export const runtime='nodejs';
 type Ctx={params:Promise<{kind:string;id:string}>};
@@ -14,14 +16,15 @@ export async function GET(_request:NextRequest,{params}:Ctx){
   const auth=await guard('content:read');if(auth.response)return auth.response;
   const rows=await db().query(`SELECT * FROM ${c.table} WHERE ${c.id}=$1 LIMIT 1`,[id]);
   if(!rows.length)return jsonError('未找到内容',404);
-  return NextResponse.json({item:rows[0]});
+  return NextResponse.json({item:await businessAssetReferences(rows[0])});
 }
 export async function PATCH(request:NextRequest,{params}:Ctx){
   const {kind,id}=await params;const c=config(kind);if(!c)return jsonError('无效模块',404);
   if(!sameOrigin(request))return jsonError('请求来源无效',403);
   const auth=await guard('content:write');if(auth.response)return auth.response;
   const parsed=c.schema.safeParse(await request.json().catch(()=>null));if(!parsed.success)return jsonError('内容字段无效');
-  const data=parsed.data as Record<string,unknown>;
+  const data=await businessAssetReferences(parsed.data) as Record<string,unknown>;
+  if(typeof data.source==='string')data.source=cleanBusinessMetadata(data.source);
   if(String(data[c.id])!==id)return jsonError('内容编号不能修改。请创建新记录并设置重定向。');
   if(data.status==='published'&&!can(auth.user!.role,'content:publish'))return jsonError('没有发布权限',403);
   for(const field of ['name','summary','application','title','intro','description','details'])if(data[field])data[field]=cleanLocalized(data[field] as Record<string,string>);

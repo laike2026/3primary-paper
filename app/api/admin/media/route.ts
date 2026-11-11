@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {audit,newId} from '@/lib/admin/auth';
 import {db,pagination} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
+import {businessMediaItem,refreshMedia} from '@/lib/admin/assets';
 
 export const runtime='nodejs';
 const MAX_BYTES=4*1024*1024;
@@ -16,12 +17,15 @@ export async function GET(request:NextRequest){
   const q=(request.nextUrl.searchParams.get('q')||'').slice(0,100),category=(request.nextUrl.searchParams.get('category')||'').slice(0,40);
   const sql=db();
   const [items,total]=await Promise.all([
-    sql.query(`SELECT m.id,m.url,m.filename,m.mime_type,m.byte_size,m.width,m.height,m.alt,m.caption,m.category,m.thumbnail_url,m.created_at,
-      (SELECT count(*)::int FROM content_products p WHERE p.deleted_at IS NULL AND (p.image=m.url OR p.gallery ? m.url OR p.documents ? m.url))+(SELECT count(*)::int FROM content_articles a WHERE a.deleted_at IS NULL AND a.image=m.url)+(SELECT count(*)::int FROM website_content w WHERE w.deleted_at IS NULL AND (w.image=m.url OR w.file_url=m.url)) AS usage_count
+    sql.query(`SELECT m.id,m.url,m.storage_key,m.sha256,m.filename,m.mime_type,m.byte_size,m.width,m.height,m.alt,m.caption,m.category,m.thumbnail_url,m.created_at,
+      (SELECT count(*)::int FROM content_products p WHERE p.deleted_at IS NULL AND (p.image IN (m.url,'/files/'||m.id::text,m.storage_key) OR p.gallery ?| ARRAY[m.url,'/files/'||m.id::text,m.storage_key] OR p.documents ?| ARRAY[m.url,'/files/'||m.id::text,m.storage_key]))+
+      (SELECT count(*)::int FROM content_categories c WHERE c.deleted_at IS NULL AND c.image IN (m.url,'/files/'||m.id::text,m.storage_key))+
+      (SELECT count(*)::int FROM content_articles a WHERE a.deleted_at IS NULL AND a.image IN (m.url,'/files/'||m.id::text,m.storage_key))+
+      (SELECT count(*)::int FROM website_content w WHERE w.deleted_at IS NULL AND (w.image IN (m.url,'/files/'||m.id::text,m.storage_key) OR w.file_url IN (m.url,'/files/'||m.id::text,m.storage_key))) AS usage_count
       FROM media_assets m WHERE m.deleted_at IS NULL AND ($1='' OR m.filename ILIKE '%'||$1||'%' OR m.alt->>'en' ILIKE '%'||$1||'%') AND ($2='' OR m.category=$2) ORDER BY m.created_at DESC LIMIT $3 OFFSET $4`,[q,category,size,offset]),
     sql.query("SELECT count(*)::int AS total FROM media_assets WHERE deleted_at IS NULL AND ($1='' OR filename ILIKE '%'||$1||'%' OR alt->>'en' ILIKE '%'||$1||'%') AND ($2='' OR category=$2)",[q,category])
   ]);
-  return NextResponse.json({items,total:Number(total[0].total),page,size});
+  return NextResponse.json({items:items.map(item=>businessMediaItem(item as unknown as Parameters<typeof businessMediaItem>[0])),total:Number(total[0].total),page,size});
 }
 
 export async function POST(request:NextRequest){
@@ -39,8 +43,8 @@ export async function POST(request:NextRequest){
   try{
     const source=Buffer.from(await file.arrayBuffer());
     const hash=createHash('sha256').update(source).digest('hex');
-    const duplicate=await db().query('SELECT id,url,filename FROM media_assets WHERE sha256=$1 AND deleted_at IS NULL LIMIT 1',[hash]);
-    if(duplicate.length)return NextResponse.json({ok:true,duplicate:true,item:duplicate[0]});
+    const duplicate=await db().query('SELECT id,url,filename,storage_key,sha256,thumbnail_url FROM media_assets WHERE sha256=$1 AND deleted_at IS NULL LIMIT 1',[hash]);
+    if(duplicate.length)return NextResponse.json({ok:true,duplicate:true,item:businessMediaItem(duplicate[0] as unknown as Parameters<typeof businessMediaItem>[0])});
     const count=await db().query("SELECT count(*)::int AS n FROM media_assets WHERE uploaded_by=$1 AND created_at>now()-interval '1 minute'",[auth.user!.id]);
     if(Number(count[0].n)>=10)return jsonError('上传过于频繁，请稍后再试',429);
     const isImage=file.type.startsWith('image/');
@@ -62,9 +66,11 @@ export async function POST(request:NextRequest){
     const name=file.name.replace(/[\x00-\x1f<>\\/]/g,'').slice(0,180)||'file';
     const alt={en:String(form?.get('altEn')||'').slice(0,300),ar:'',ru:'',es:''};
     const category=String(form?.get('category')||'general').slice(0,40);
-    try{await db().query('INSERT INTO media_assets(id,storage_key,url,filename,mime_type,byte_size,width,height,alt,uploaded_by,sha256,category,thumbnail_url) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb,$10,$11,$12,$13)',[id,pathname,blob.url,name,mime,body.length,width,height,JSON.stringify(alt),auth.user!.id,hash,category,thumbnailUrl]);}
+    const publicUrl='/files/'+id,publicThumbnail=thumbnailUrl?publicUrl+'?variant=thumbnail':'';
+    try{await db().query('INSERT INTO media_assets(id,storage_key,url,filename,mime_type,byte_size,width,height,alt,uploaded_by,sha256,category,thumbnail_url,storage_url,thumbnail_storage_url) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb,$10,$11,$12,$13,$14,$15)',[id,pathname,publicUrl,name,mime,body.length,width,height,JSON.stringify(alt),auth.user!.id,hash,category,publicThumbnail,blob.url,thumbnailUrl]);}
     catch(error){await del([blob.url,...(thumbnailUrl?[thumbnailUrl]:[])]).catch(()=>{});throw error;}
     await audit(auth.user!.id,'upload','media',id,{filename:name,bytes:body.length});
-    return NextResponse.json({ok:true,item:{id,url:blob.url,filename:name,width,height,alt,category,thumbnail_url:thumbnailUrl}},{status:201});
+    refreshMedia();
+    return NextResponse.json({ok:true,item:{id,url:publicUrl,filename:name,width,height,alt,category,thumbnail_url:publicThumbnail}},{status:201});
   }catch(error){if(thumbnailUrl)await del(thumbnailUrl).catch(()=>{});console.error('Media upload failed',error);return jsonError('上传失败，请稍后重试',500);}
 }

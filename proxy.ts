@@ -52,4 +52,4 @@ export default async function proxy(request:NextRequest){
   }
   return localeMiddleware(request);
 }
-export const config = {matcher: ['/((?!api|admin|_next|_vercel|.*\\..*).*)']};
+export const config = {matcher: ['/((?!api|admin|files|_next|_vercel|.*\\..*).*)']};

@@ -3,7 +3,7 @@ import {revalidateTag, unstable_cache} from 'next/cache';
 import {cache} from 'react';
 import {isContentPreview} from './content-preview';
 
-type PublicData = 'catalog' | 'articles' | 'website' | 'contact';
+type PublicData = 'catalog' | 'articles' | 'website' | 'contact' | 'media';
 const tag = (area: PublicData) => 'public-' + area;
 
 export function publicCache<Args extends unknown[], Result>(
@@ -11,7 +11,7 @@ export function publicCache<Args extends unknown[], Result>(
   name: string,
   read: (...args: Args) => Promise<Result>,
 ) {
-  const cached = unstable_cache((_source: string, ...args: Args) => read(...args), [tag(area), name, 'content-2026-11-10'],
+  const cached = unstable_cache((_source: string, ...args: Args) => read(...args), [tag(area), name, 'business-data-2026-11-11'],
     {revalidate: 300, tags: [tag(area)]});
   return cache((...args: Args) => {
     if (!process.env.DATABASE_URL || isContentPreview) return read(...args);

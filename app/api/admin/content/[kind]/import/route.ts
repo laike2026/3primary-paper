@@ -6,6 +6,8 @@ import {config,cleanLocalized,publishIssue} from '@/lib/admin/content';
 import {db} from '@/lib/admin/db';
 import {guard,jsonError,sameOrigin} from '@/lib/admin/http';
 import {refreshPublicContent} from '@/lib/admin/public-cache';
+import {businessAssetReferences} from '@/lib/admin/assets';
+import {cleanBusinessMetadata} from '@/lib/business-assets.mjs';
 export const runtime='nodejs';
 type Ctx={params:Promise<{kind:string}>};
 const requestSchema=z.object({items:z.array(z.unknown()).min(1).max(200),dryRun:z.boolean()});
@@ -28,7 +30,8 @@ export async function POST(request:NextRequest,{params}:Ctx){
   for(const [index,raw] of input.data.items.entries()){
     const parsed=c.schema.safeParse(raw);
     if(!parsed.success){results.push({index:index+1,id:'',ok:false,error:'字段不完整或格式无效'});continue;}
-    const data=parsed.data as Record<string,unknown>;const id=String(data[c.id]);
+    const data=await businessAssetReferences(parsed.data) as Record<string,unknown>;const id=String(data[c.id]);
+    if(typeof data.source==='string')data.source=cleanBusinessMetadata(data.source);
     if(data.status==='published'&&!can(auth.user!.role,'content:publish')){results.push({index:index+1,id,ok:false,error:'没有发布权限'});continue;}
     for(const field of ['name','summary','application','title','intro','description','details'])if(data[field])data[field]=cleanLocalized(data[field] as Record<string,string>);
     if(data.status==='published'){const issue=await publishIssue(kind,data);if(issue){results.push({index:index+1,id,ok:false,error:issue});continue;}}

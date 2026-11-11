@@ -7,6 +7,8 @@ import {isSearchConsoleConfigured} from '@/lib/admin/search-console';
 import {isMailConfigured} from '@/lib/admin/mail';
 import {isIndexingEnabled} from '@/lib/site';
 import {z} from 'zod';
+import {businessAssetReferences} from '@/lib/admin/assets';
+import {operationalMessage} from '@/lib/business-assets.mjs';
 export const runtime='nodejs';
 export const maxDuration=60;
 export async function GET(request:NextRequest){
@@ -22,7 +24,8 @@ export async function GET(request:NextRequest){
       count(*) FILTER (WHERE status='failed' AND attempt>=max_attempts)::int AS exhausted
       FROM sync_jobs`),
   ]);
-  return NextResponse.json({items,total:Number(total[0].n),page,size,summary:summary[0],
+  const businessItems=await businessAssetReferences(items.map(row=>({...row,last_error:row.last_error?operationalMessage(String(row.last_error),'同步暂时失败，请稍后重试'):''})));
+  return NextResponse.json({items:businessItems,total:Number(total[0].n),page,size,summary:summary[0],
     ready:{gsc:isSearchConsoleConfigured(),mail:isMailConfigured(),submission:isIndexingEnabled}});
 }
 export async function POST(request:NextRequest){

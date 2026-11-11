@@ -5,6 +5,7 @@ import {db} from './db';
 import {isContentPreview} from './content-preview';
 import seed from '@/data/website-content.json';
 import type {WebsiteContent,WebsiteKind} from '@/lib/website-types';
+import {businessAssetReferences} from './assets';
 
 const localized=z.object({en:z.string().max(50000),ar:z.string().max(50000),ru:z.string().max(50000),es:z.string().max(50000)});
 const asset=z.string().max(1000).refine(v=>!v||(/^\/(?!\/)/.test(v)&&!/[\\\x00-\x20]/.test(v))||(/^https:\/\//.test(v)&&!/[\x00-\x20]/.test(v)),'请输入站内路径或 HTTPS 地址');
@@ -20,6 +21,7 @@ export const websiteSchema=z.object({slug:z.string().regex(/^[a-z0-9]+(?:-[a-z0-
   }
 });
 export const publishedWebsite=publicCache('website','list',async(kind?:WebsiteKind):Promise<WebsiteContent[]>=>{
-  if(!process.env.DATABASE_URL||isContentPreview)return (seed as WebsiteContent[]).filter(r=>!kind||r.kind===kind);
-  return await db().query(`SELECT slug,kind,name,summary,body,image,file_url,topic,product_ids,status,sort_order,updated_at FROM website_content WHERE status='published' AND deleted_at IS NULL AND ($1='' OR kind=$1) ORDER BY sort_order,slug`,[kind||'']) as WebsiteContent[];
+  if(!process.env.DATABASE_URL||isContentPreview)return (seed as WebsiteContent[]).filter(r=>r.status==='published'&&(!kind||r.kind===kind));
+  const rows=await db().query(`SELECT slug,kind,name,summary,body,image,file_url,topic,product_ids,status,sort_order,updated_at FROM website_content WHERE status='published' AND deleted_at IS NULL AND ($1='' OR kind=$1) ORDER BY sort_order,slug`,[kind||'']);
+  return await businessAssetReferences(rows) as WebsiteContent[];
 });

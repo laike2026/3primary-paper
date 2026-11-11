@@ -5,6 +5,7 @@ import {db} from './db';
 import {isSearchConsoleConfigured,submitSitemap,syncSearchConsoleDay} from './search-console';
 import {inquiryRecipient,isMailConfigured,sendTransactionalMail} from './mail';
 import {refreshPublicData} from './public-cache';
+import {operationalMessage} from '@/lib/business-assets.mjs';
 
 export async function enqueueGsc(days=14){
   const sql=db();
@@ -116,7 +117,7 @@ export async function runJobs(limit=6,onlyType:'gsc_day'|'sitemap_submit'|'notif
       await sql.query("UPDATE sync_jobs SET status='succeeded',finished_at=now(),locked_until=NULL,last_error='',payload=payload||jsonb_build_object('result',$2::jsonb) WHERE id=$1",[job.id,JSON.stringify(result)]);
       results.push({id:String(job.id),type:String(job.job_type),status:'succeeded'});
     }catch(error){
-      const message=error instanceof Error?error.message:'Unknown error';
+      const message=operationalMessage(error instanceof Error?error.message:'同步服务暂时不可用','同步暂时失败，请稍后重试');
       const delay=Math.min(3600,Math.pow(2,Number(job.attempt))*60);
       await sql.query("UPDATE sync_jobs SET status='failed',last_error=$2,available_at=now()+($3::int*interval '1 second'),locked_until=NULL,finished_at=now() WHERE id=$1",[job.id,message.slice(0,240),delay]);
       if(job.job_type==='notify_inquiry')await sql.query("UPDATE inquiries SET notification_status='failed',notification_attempts=notification_attempts+1,notification_next_at=now()+($2::int*interval '1 second') WHERE id=$1 AND notification_status<>'sent'",[job.payload.id,delay]);
