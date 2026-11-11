@@ -9,11 +9,6 @@ let snapshot = new Map<string, Redirect>();
 let refreshAt = 0;
 let refresh: Promise<void> | undefined;
 
-function businessHeaders(response:NextResponse){
-  for(const key of [...response.headers.keys()])if(/^x-vercel-/i.test(key)||/^(server|x-powered-by)$/i.test(key))response.headers.delete(key);
-  return response;
-}
-
 async function redirects(connection: string) {
   if (Date.now() >= refreshAt && !refresh) {
     refresh = neon(connection, {fetchOptions: {signal: AbortSignal.timeout(1800)}})
@@ -36,7 +31,6 @@ async function redirects(connection: string) {
 
 export default async function proxy(request:NextRequest){
   const path=request.nextUrl.pathname;
-  if(!/^\/(?:en|ar|ru|es)(?:\/|$)/.test(path)&&path!=='/')return businessHeaders(NextResponse.next());
   const connection = process.env.DATABASE_URL;
   if (connection && /^\/(?:en|ar|ru|es)(?:\/|$)/.test(path)) {
     const rules = await redirects(connection);
@@ -51,11 +45,11 @@ export default async function proxy(request:NextRequest){
       if (!seen.has(destination) && destination.startsWith('/') && !destination.startsWith('//') && !/[\s\\]/.test(destination)) {
         const target = new URL(destination, request.url);
         if (target.origin === request.nextUrl.origin && target.pathname !== path) {
-          return businessHeaders(NextResponse.redirect(target, first.status_code === 308 ? 308 : 301));
+          return NextResponse.redirect(target, first.status_code === 308 ? 308 : 301);
         }
       }
     }
   }
-  return businessHeaders(localeMiddleware(request));
+  return localeMiddleware(request);
 }
-export const config = {matcher: ['/:path*']};
+export const config = {matcher: ['/((?!api|admin|files|_next|_vercel|.*\\..*).*)']};
